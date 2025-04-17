@@ -1,0 +1,272 @@
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { CRUD_ACTIONS } from '../../../utils';
+import * as actions from "../../../store/actions";
+import "./ChargerRedux.scss";
+import TableManageCharger from './TableManageCharger';
+class LocationRedux extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            locationArr: [],
+            isOpen: false,
+
+            charger_name: '',
+            model: '',
+            capacity: '',
+            status: '',
+            installation_date: '',
+            last_maintence_date: '',
+            location_id: '',
+            
+            action: '',
+            chargerEditId: '',
+        }
+    }
+
+    async componentDidMount() {
+this.props.getUserStart();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //render => didupdate
+        //hiện tại(this) và quá khứ(previous)
+        //[] [3]
+        //[3] [3]
+        if (prevProps.userRedux !== this.props.userRedux) {
+            let arrUsers = this.props.userRedux;
+            this.setState({
+                userArr: arrUsers,
+                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+            })
+        }
+        
+
+        if (prevProps.listLocations !== this.props.listLocations) {
+            let arrUsers = this.props.userRedux;
+
+            this.setState({
+                location_name: '',
+            city: '',
+            address: '',
+            lastName: '',
+            phoneNumber: '',
+            address: '',
+            district: '',
+            lng: '',
+            lat: '',
+            user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                avatar: '',
+                action: CRUD_ACTIONS.CREATE,
+                previewImgURL: '',
+
+            })
+
+        }
+    }
+
+    
+
+    handlesaveLocation = () => {
+        let isValid = this.checkValidateInput();
+        if (isValid === false) return;
+        let { action } = this.state;
+
+        if (action === CRUD_ACTIONS.CREATE) {
+            //fire redux create location
+            this.props.createNewLocation({
+                location_name: this.state.location_name,
+                user_id: this.state.user_id,
+                city: this.state.city,
+                address: this.state.address,
+                ward: this.state.ward,
+                district: this.state.district,
+                lng: this.state.lng,
+                lat: this.state.lat
+            })
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editALocationRedux({
+                id: this.state.locationEditId,
+                location_name: this.state.location_name,
+                user_id: this.state.user_id,
+                city: this.state.city,
+                address: this.state.address,
+                ward: this.state.ward,
+                district: this.state.district,
+                lng: this.state.lng,
+                lat: this.state.lat
+            })
+        }
+
+
+    }
+
+    checkValidateInput = () => {
+        let isValid = true;
+        let arrCheck = ["location_name", "city", "address",
+            "ward", "district", "lng","lat"]
+        for (let i = 0; i < arrCheck.length; i++) {
+            if (!this.state[arrCheck[i]]) {
+                isValid = false;
+                alert('This input is required: ' + arrCheck[i])
+                break;
+            }
+        }
+        return isValid;
+    }
+
+    onChangeInput = (event, id) => {
+        let copyState = { ...this.state }
+        copyState[id] = event.target.value;
+        this.setState({
+            ...copyState
+        })
+    }
+
+    handleEditLocationFromParent = (location) => {
+        this.setState({
+            location_name: location.location_name,
+            user_id: location.user_id,
+            city: location.city,
+            address: location.address,
+            ward: location.ward,
+            district: location.district,
+            lng: location.lng,
+            lat: location.lat,
+            action: CRUD_ACTIONS.EDIT,
+        })
+    }
+
+    render() {
+
+        let users = this.state.userArr;
+
+        let { location_name, user_id, city, address, ward,
+            district, lng, lat } = this.state;
+        return (
+            <div className='location-redux-container'>
+
+                <div className="title" >Location Redux</div>
+                <div className='location-redux-body'>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-12 my-3'><FormattedMessage id='manage-location.add' /></div>
+
+                            <div className='col-3'>
+                                <label><FormattedMessage id='location_name' /></label>
+                                <input className='form-control' type='location_name'
+                                    value={location_name}
+                                    onChange={(event) => { this.onChangeInput(event, 'location_name') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='city' /></label>
+                                <input className='form-control' type='text'
+                                    value={city}
+                                    onChange={(event) => { this.onChangeInput(event, 'city') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='ward' /></label>
+                                <input className='form-control' type='text'
+                                    value={ward}
+                                    onChange={(event) => { this.onChangeInput(event, 'ward') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='district' /></label>
+                                <input className='form-control' type='text'
+                                    value={district}
+                                    onChange={(event) => { this.onChangeInput(event, 'district') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='lng' /></label>
+                                <input className='form-control' type='text'
+                                    value={lng}
+                                    onChange={(event) => { this.onChangeInput(event, 'lng') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='lat' /></label>
+                                <input className='form-control' type='text'
+                                    value={lat}
+                                    onChange={(event) => { this.onChangeInput(event, 'lat') }}
+                                />
+                            </div>
+                            <div className='col-9'>
+                                <label><FormattedMessage id='Address' /></label>
+                                <input className='form-control' type='text'
+                                    value={address}
+                                    onChange={(event) => { this.onChangeInput(event, 'address') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='user' /></label>
+                                <select className="form-control"
+                                    value={user_id}
+                                    onChange={(event) => { this.onChangeInput(event, 'user_id') }}
+                                >
+                                    {users && users.length > 0 &&
+                                        users.map((item, index) => {
+                                            return (<option key={index} value={item.id}>{item.email}</option>
+                                            )
+                                        })
+                                    }
+
+                                </select>
+                            </div>
+                           
+                            
+                            <div className='col-12 my-3'>
+                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary'}
+                                    onClick={() => this.handlesaveLocation()}
+                                >
+                                    {this.state.action === CRUD_ACTIONS.EDIT ?
+                                        <FormattedMessage id='Edit               ' /> :
+                                        <FormattedMessage id='Save    ' />}
+                                </button>
+                            </div>
+                            <div className='col-12 mb-5'>
+                                <TableManageLocation
+                                    handleEditLocationFromParentKey={this.handleEditLocationFromParent}
+                                    action={this.state.action}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+
+        )
+    }
+
+}
+
+const mapStateToProps = state => {
+    return {
+        userRedux: state.admin.users,
+        listLocations: state.admin.locations
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUserStart: () => dispatch(actions.fetchAllUsersStart()),
+        createNewLocation: (data) => dispatch(actions.createNewLocation(data)),
+        fetchLocationRedux: () => dispatch(actions.fetchAllLocationsStart()),
+        editALocationRedux: (data) => dispatch(actions.editALocation(data))
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LocationRedux);
+

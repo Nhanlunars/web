@@ -33,10 +33,36 @@ const getAllCodeService = (inputType) => {
 }
 
 
+const getAllLocations = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-locations?id=${inputId}`)
+}
+
+const createNewLocationService = (data) => {
+    //console.log('check data from service: ', data)
+    return axios.post('/api/create-location', data)
+}
+
+const deleteLocationService = (locationId) => {
+    //return axios.post('/api/delete-user', { id: userId })
+    return axios.delete('/api/delete-location', {
+        data: {
+            id: locationId
+        }
+    });
+}
+
+const editLocationService = (inputData) => {
+    return axios.put('/api/edit-location', inputData);
+}
+
+
 export {
     handleLogin, getAllUsers,
     createNewUserService, deleteUserService,
     editUserService, getAllCodeService,
+    getAllLocations, createNewLocationService,
+    deleteLocationService, editLocationService
 
 
 }

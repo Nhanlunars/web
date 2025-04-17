@@ -47,7 +47,16 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
-
+            case actionTypes.FETCH_ALL_LOCATIONS_SUCCESS:
+                state.locations = action.locations;
+                return {
+                    ...state
+                }
+            case actionTypes.FETCH_ALL_LOCATIONS_FAILED:
+                state.locations = [];
+                return {
+                    ...state
+                }
 
 
         default:

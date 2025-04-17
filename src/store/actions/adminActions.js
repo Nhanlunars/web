@@ -1,13 +1,11 @@
 import actionTypes from './actionTypes';
 import {
     getAllCodeService, createNewUserService, getAllUsers,
-    deleteUserService, editUserService,
+    deleteUserService, editUserService,getAllLocations, createNewLocationService,
+    deleteLocationService, editLocationService
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 
-// export const fetchGenderStart = () => ({
-//     type: actionTypes.FETCH_GENDER_START
-// })
 
 export const fetchGenderStart = () => {
     return async (dispatch, getstate) => {
@@ -175,4 +173,237 @@ export const editUserFailed = () => ({
     type: actionTypes.EDIT_USER_FAILED
 })
 
+
+
+export const createNewLocation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewLocationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new location success!");
+                dispatch(saveLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                dispatch(saveLocationFailed());
+            }
+        } catch (e) {
+            dispatch(saveLocationFailed());
+            console.log('saveLocationFailed', e)
+        }
+    }
+}
+
+export const saveLocationSuccess = () => ({
+    type: actionTypes.CREATE_LOCATION_SUCCESS
+})
+
+export const saveLocationFailed = () => ({
+    type: actionTypes.CREATE_LOCATION_FAILED
+})
+
+export const fetchAllLocationsStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllLocations("All");
+            if (res && res.errCode === 0) {
+
+                dispatch(fetchAllLocationsSuccess(res.users.reverse()));
+            } else {
+                toast.error("fetch all location error!");
+                dispatch(fetchAllLocationsFailed());
+            }
+        } catch (e) {
+            toast.error("fetch all location error!");
+
+            dispatch(fetchAllLocationsFailed());
+            console.log('fetchAllLocationsFailed', e)
+        }
+    }
+}
+
+export const fetchAllLocationsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_LOCATIONS_SUCCESS,
+    locations: data
+})
+
+export const fetchAllLocationsFailed = () => ({
+    type: actionTypes.FETCH_ALL_LOCATIONS_FAILED,
+})
+
+export const deleteALocation = (locationId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteLocationService(locationId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the location success!");
+                dispatch(deleteLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                toast.error("delete the location error!");
+                dispatch(deleteLocationFailed());
+            }
+        } catch (e) {
+            toast.error("delete the location error!");
+            dispatch(deleteLocationFailed());
+            console.log('saveLocationFailed', e)
+        }
+    }
+}
+
+export const deleteLocationSuccess = () => ({
+    type: actionTypes.DELETE_LOCATION_SUCCESS
+})
+
+export const deleteLocationFailed = () => ({
+    type: actionTypes.DELETE_LOCATION_SUCCESS
+})
+
+export const editALocation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editLocationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the location success!");
+                dispatch(editLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                toast.error("Update the location error!");
+                dispatch(editLocationFailed());
+            }
+        } catch (e) {
+            toast.error("Update the location error!");
+            dispatch(editLocationFailed());
+            console.log('editLocationFailed', e)
+        }
+    }
+}
+
+export const editLocationSuccess = () => ({
+    type: actionTypes.EDIT_LOCATION_SUCCESS
+})
+
+export const editLocationFailed = () => ({
+    type: actionTypes.EDIT_LOCATION_FAILED
+})
+
+
+/*
+export const createNewLocation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewLocationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new location success!");
+                dispatch(saveLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                dispatch(saveLocationFailed());
+            }
+        } catch (e) {
+            dispatch(saveLocationFailed());
+            console.log('saveLocationFailed', e)
+        }
+    }
+}
+
+export const saveLocationSuccess = () => ({
+    type: actionTypes.CREATE_LOCATION_SUCCESS
+})
+
+export const saveLocationFailed = () => ({
+    type: actionTypes.CREATE_LOCATION_FAILED
+})
+
+export const fetchAllLocationsStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllLocations("All");
+            if (res && res.errCode === 0) {
+
+                dispatch(fetchAllLocationsSuccess(res.users.reverse()));
+            } else {
+                toast.error("fetch all location error!");
+                dispatch(fetchAllLocationsFailed());
+            }
+        } catch (e) {
+            toast.error("fetch all location error!");
+
+            dispatch(fetchAllLocationsFailed());
+            console.log('fetchAllLocationsFailed', e)
+        }
+    }
+}
+
+export const fetchAllLocationsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_LOCATIONS_SUCCESS,
+    locations: data
+})
+
+export const fetchAllLocationsFailed = () => ({
+    type: actionTypes.FETCH_ALL_LOCATIONS_FAILED,
+})
+
+export const deleteALocation = (locationId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteLocationService(locationId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the location success!");
+                dispatch(deleteLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                toast.error("delete the location error!");
+                dispatch(deleteLocationFailed());
+            }
+        } catch (e) {
+            toast.error("delete the location error!");
+            dispatch(deleteLocationFailed());
+            console.log('saveLocationFailed', e)
+        }
+    }
+}
+
+export const deleteLocationSuccess = () => ({
+    type: actionTypes.DELETE_LOCATION_SUCCESS
+})
+
+export const deleteLocationFailed = () => ({
+    type: actionTypes.DELETE_LOCATION_SUCCESS
+})
+
+export const editALocation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editLocationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the location success!");
+                dispatch(editLocationSuccess());
+                dispatch(fetchAllLocationsStart());
+            } else {
+                toast.error("Update the location error!");
+                dispatch(editLocationFailed());
+            }
+        } catch (e) {
+            toast.error("Update the location error!");
+            dispatch(editLocationFailed());
+            console.log('editLocationFailed', e)
+        }
+    }
+}
+
+export const editLocationSuccess = () => ({
+    type: actionTypes.EDIT_LOCATION_SUCCESS
+})
+
+export const editLocationFailed = () => ({
+    type: actionTypes.EDIT_LOCATION_FAILED
+})
+
+*/
 

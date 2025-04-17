@@ -79,49 +79,64 @@ class Header extends Component {
             <ChevronRight />
           </li>
           <li>
-            <WashingMachine />
-            <Link to="/system/user-management" className="link">
+          <UsersRound />
+          <Link to="/system/user-management" className="link">
             User management            
             </Link>
             <ChevronRight />
           </li>
           <li>
-            <ArrowLeftRight />
-            <Link to="/system/user-manage" className="link">
-              Doanh thu
+            <MapPinPlus />
+
+            <Link to="/system/location-management" className="link">
+              Location management
             </Link>
             <ChevronRight />
           </li>
           <li>
             <UsersRound />
             <Link to="/system/product-manage" className="link">
-              Thông tin người dùng
+              Charger management
             </Link>
             <ChevronRight />
           </li>
           <li>
             <SquarePen />
             <Link to="/change" className="link">
-              Quản lý giá
+              Type management
             </Link>
             <ChevronRight />
           </li>
           <li>
             <MapPinPlus />
             <Link to="/locations" className="link">
-              Quản lý địa điểm
+              Reservation management
             </Link>
             <ChevronRight />
           </li>
-
+          <li>
+          <ArrowLeftRight />
+          <Link to="/locations" className="link">
+              History management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/locations" className="link">
+              Maintenance management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/locations" className="link">
+              Feedback management
+            </Link>
+            <ChevronRight />
+          </li>
           {/* Mục Quản lý giao dịch chỉ hiển thị khi roleName là "ROLE_ADMIN" */}
-            <li>
-              <CreditCard />
-              <Link to="/ownerwithdraw" className="link">
-                Quản lý giao dịch
-              </Link>
-              <ChevronRight />
-            </li>
+            
           
           <br />
           <hr />
