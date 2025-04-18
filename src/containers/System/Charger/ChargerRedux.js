@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, CommonUtils } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./ChargerRedux.scss";
+import Lightbox from 'react-image-lightbox';
 import TableManageCharger from './TableManageCharger';
-class LocationRedux extends Component {
+class ChargerRedux extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            locationArr: [],
+            chargerArr: [],
             isOpen: false,
 
             charger_name: '',
@@ -19,15 +20,16 @@ class LocationRedux extends Component {
             status: '',
             installation_date: '',
             last_maintence_date: '',
-            location_id: '',
-            
+            location: '',
+            image: '',
+
             action: '',
             chargerEditId: '',
         }
     }
 
     async componentDidMount() {
-this.props.getUserStart();
+this.props.getLocationStart();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -35,29 +37,27 @@ this.props.getUserStart();
         //hiện tại(this) và quá khứ(previous)
         //[] [3]
         //[3] [3]
-        if (prevProps.userRedux !== this.props.userRedux) {
-            let arrUsers = this.props.userRedux;
+        if (prevProps.locationRedux !== this.props.locationRedux) {
+            let arrLocation = this.props.locationRedux;
             this.setState({
-                userArr: arrUsers,
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+                locationArr: arrLocation,
+                location: arrLocation && arrLocation.length > 0 ? arrLocation[0].id : ''
             })
         }
         
 
-        if (prevProps.listLocations !== this.props.listLocations) {
-            let arrUsers = this.props.userRedux;
+        if (prevProps.listChargers !== this.props.listChargers) {
+            let arrLocation = this.props.locationRedux;
 
             this.setState({
-                location_name: '',
-            city: '',
-            address: '',
-            lastName: '',
-            phoneNumber: '',
-            address: '',
-            district: '',
-            lng: '',
-            lat: '',
-            user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                 charger_name: '',
+            model: '',
+            capacity: '',
+            status: '',
+            installation_date: '',
+            last_maintence_date: '',
+            image: '',
+            location: arrLocation && arrLocation.length > 0 ? arrLocation[0].id : '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL: '',
@@ -67,38 +67,57 @@ this.props.getUserStart();
         }
     }
 
+    handleOnchangeImage = async (event) => {
+            let data = event.target.files;
+            let file = data[0];
+            if (file) {
+                let base64 = await CommonUtils.getBase64(file);
+                let objectUrl = URL.createObjectURL(file);
+                this.setState({
+                    previewImgURL: objectUrl,
+                    avatar: base64
+                })
+            }
+        }
+    
+        openPreviewImage = () => {
+            if (!this.state.previewImgURL) return;
+            this.setState({
+                isOpen: true
+            })
+        }
     
 
-    handlesaveLocation = () => {
+    handlesaveCharger = () => {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
 
         if (action === CRUD_ACTIONS.CREATE) {
-            //fire redux create location
-            this.props.createNewLocation({
-                location_name: this.state.location_name,
-                user_id: this.state.user_id,
-                city: this.state.city,
-                address: this.state.address,
-                ward: this.state.ward,
-                district: this.state.district,
-                lng: this.state.lng,
-                lat: this.state.lat
+            //fire redux create charger
+            this.props.createNewCharger({
+                charger_name: this.state.charger_name,
+                model: this.state.model,
+                capacity: this.state.capacity,
+                status: this.state.status,
+                installation_date: this.state.installation_date,
+                last_maintence_date: this.state.last_maintence_date,
+                location_id: this.state.location,
+                avatar: this.state.avatar
             })
         }
         if (action === CRUD_ACTIONS.EDIT) {
-            //fire redux edit location
-            this.props.editALocationRedux({
-                id: this.state.locationEditId,
-                location_name: this.state.location_name,
-                user_id: this.state.user_id,
-                city: this.state.city,
-                address: this.state.address,
-                ward: this.state.ward,
-                district: this.state.district,
-                lng: this.state.lng,
-                lat: this.state.lat
+            //fire redux edit charger
+            this.props.editAChargerRedux({
+                id: this.state.chargerEditId,
+                charger_name: this.state.charger_name,
+                model: this.state.model,
+                capacity: this.state.capacity,
+                status: this.state.status,
+                installation_date: this.state.installation_date,
+                last_maintence_date: this.state.last_maintence_date,
+                location_id: this.state.location,
+                avatar: this.state.avatar
             })
         }
 
@@ -107,8 +126,8 @@ this.props.getUserStart();
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ["location_name", "city", "address",
-            "ward", "district", "lng","lat"]
+        let arrCheck = ["charger_name", "model", "capacity",
+            "status", "installation_date", "last_maintence_date"]
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -127,93 +146,91 @@ this.props.getUserStart();
         })
     }
 
-    handleEditLocationFromParent = (location) => {
+    handleEditChargerFromParent = (charger) => {
+        let imageBase64 = '';
+        if (charger.image) {
+            imageBase64 = new Buffer(charger.image, 'base64').toString('binary');
+        }
         this.setState({
-            location_name: location.location_name,
-            user_id: location.user_id,
-            city: location.city,
-            address: location.address,
-            ward: location.ward,
-            district: location.district,
-            lng: location.lng,
-            lat: location.lat,
+            charger_name: charger.charger_name,
+            model: charger.model,
+            capacity: charger.capacity,
+            status: charger.status,
+            installation_date: charger.installation_date,
+            last_maintence_date: charger.last_maintence_date,
+            location: charger.location_id,
+            previewImgURL: imageBase64,
             action: CRUD_ACTIONS.EDIT,
+            chargerEditId: charger.id
         })
     }
 
     render() {
 
-        let users = this.state.userArr;
+        let locations = this.state.locationArr;
 
-        let { location_name, user_id, city, address, ward,
-            district, lng, lat } = this.state;
+        let { charger_name, model, capacity, status, installation_date,
+            last_maintence_date,location, avatar } = this.state;
         return (
-            <div className='location-redux-container'>
+            <div className='charger-redux-container'>
 
-                <div className="title" >Location Redux</div>
-                <div className='location-redux-body'>
+                <div className="title" >charger Redux</div>
+                <div className='charger-redux-body'>
                     <div className='container'>
                         <div className='row'>
-                            <div className='col-12 my-3'><FormattedMessage id='manage-location.add' /></div>
+                            <div className='col-12 my-3'><FormattedMessage id='manage-charger.add' /></div>
 
                             <div className='col-3'>
-                                <label><FormattedMessage id='location_name' /></label>
+                                <label><FormattedMessage id='charger_name' /></label>
                                 <input className='form-control' type='location_name'
-                                    value={location_name}
-                                    onChange={(event) => { this.onChangeInput(event, 'location_name') }}
+                                    value={charger_name}
+                                    onChange={(event) => { this.onChangeInput(event, 'charger_name') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='city' /></label>
+                                <label><FormattedMessage id='model' /></label>
                                 <input className='form-control' type='text'
-                                    value={city}
-                                    onChange={(event) => { this.onChangeInput(event, 'city') }}
+                                    value={model}
+                                    onChange={(event) => { this.onChangeInput(event, 'model') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='ward' /></label>
+                                <label><FormattedMessage id='capacity' /></label>
                                 <input className='form-control' type='text'
-                                    value={ward}
-                                    onChange={(event) => { this.onChangeInput(event, 'ward') }}
+                                    value={capacity}
+                                    onChange={(event) => { this.onChangeInput(event, 'capacity') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='district' /></label>
+                                <label><FormattedMessage id='disstatustrict' /></label>
                                 <input className='form-control' type='text'
-                                    value={district}
-                                    onChange={(event) => { this.onChangeInput(event, 'district') }}
+                                    value={status}
+                                    onChange={(event) => { this.onChangeInput(event, 'status') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='lng' /></label>
+                                <label><FormattedMessage id='installation_date' /></label>
                                 <input className='form-control' type='text'
-                                    value={lng}
-                                    onChange={(event) => { this.onChangeInput(event, 'lng') }}
+                                    value={installation_date}
+                                    onChange={(event) => { this.onChangeInput(event, 'installation_date') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='lat' /></label>
+                                <label><FormattedMessage id='last_maintence_date' /></label>
                                 <input className='form-control' type='text'
-                                    value={lat}
-                                    onChange={(event) => { this.onChangeInput(event, 'lat') }}
-                                />
-                            </div>
-                            <div className='col-9'>
-                                <label><FormattedMessage id='Address' /></label>
-                                <input className='form-control' type='text'
-                                    value={address}
-                                    onChange={(event) => { this.onChangeInput(event, 'address') }}
+                                    value={last_maintence_date}
+                                    onChange={(event) => { this.onChangeInput(event, 'last_maintence_date') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='user' /></label>
+                                <label><FormattedMessage id='location' /></label>
                                 <select className="form-control"
-                                    value={user_id}
-                                    onChange={(event) => { this.onChangeInput(event, 'user_id') }}
+                                    value={location}
+                                    onChange={(event) => { this.onChangeInput(event, 'location') }}
                                 >
-                                    {users && users.length > 0 &&
-                                        users.map((item, index) => {
-                                            return (<option key={index} value={item.id}>{item.email}</option>
+                                    {locations && locations.length > 0 &&
+                                        locations.map((item, index) => {
+                                            return (<option key={index} value={item.id}>{item.location_name}</option>
                                             )
                                         })
                                     }
@@ -224,16 +241,31 @@ this.props.getUserStart();
                             
                             <div className='col-12 my-3'>
                                 <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary'}
-                                    onClick={() => this.handlesaveLocation()}
+                                    onClick={() => this.handlesaveCharger()}
                                 >
                                     {this.state.action === CRUD_ACTIONS.EDIT ?
                                         <FormattedMessage id='Edit               ' /> :
                                         <FormattedMessage id='Save    ' />}
                                 </button>
                             </div>
+   <div className='col-3'>
+                                <label><FormattedMessage id='Avatar' /></label>
+                                <div className='preview-image-container'>
+                                    <input id="previewImg" type="file" hidden
+                                        onChange={(event) => this.handleOnchangeImage(event)} />
+                                    <label className='label-upload' htmlFor="previewImg">Up load... <i className='fas fa-upload'></i></label>
+                                    <div className='preview-image'
+                                        style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
+                                        onClick={() => this.openPreviewImage()}
+
+                                    ></div>
+
+                                </div>
+                            </div>
+
                             <div className='col-12 mb-5'>
-                                <TableManageLocation
-                                    handleEditLocationFromParentKey={this.handleEditLocationFromParent}
+                                <TableManageCharger
+                                    handleEditChargerFromParentKey={this.handleEditChargerFromParent}
                                     action={this.state.action}
                                 />
                             </div>
@@ -242,7 +274,12 @@ this.props.getUserStart();
 
                 </div>
 
-                
+                {this.state.isOpen === true &&
+                                    <Lightbox
+                                        mainSrc={this.state.previewImgURL}
+                                        onCloseRequest={() => this.setState({ isOpen: false })}
+                                    />
+                                }
 
             </div>
 
@@ -253,20 +290,20 @@ this.props.getUserStart();
 
 const mapStateToProps = state => {
     return {
-        userRedux: state.admin.users,
-        listLocations: state.admin.locations
+        locationRedux: state.admin.locations,
+        listChargers: state.admin.chargers
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserStart: () => dispatch(actions.fetchAllUsersStart()),
-        createNewLocation: (data) => dispatch(actions.createNewLocation(data)),
-        fetchLocationRedux: () => dispatch(actions.fetchAllLocationsStart()),
-        editALocationRedux: (data) => dispatch(actions.editALocation(data))
+        getLocationStart: () => dispatch(actions.fetchAllLocationsStart()),
+        createNewCharger: (data) => dispatch(actions.createNewCharger(data)),
+        fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
+        editAChargerRedux: (data) => dispatch(actions.editACharger(data))
 
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LocationRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(ChargerRedux);
 

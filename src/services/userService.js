@@ -57,12 +57,61 @@ const editLocationService = (inputData) => {
 }
 
 
+const getAllChargers = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-charger?id=${inputId}`)
+}
+
+const createNewChargerService = (data) => {
+    //console.log('check data from service: ', data)
+    return axios.post('/api/create-charger', data)
+}
+
+const deleteChargerService = (chargerId) => {
+    //return axios.post('/api/delete-user', { id: userId })
+    return axios.delete('/api/delete-charger', {
+        data: {
+            id: chargerId
+        }
+    });
+}
+
+const editChargerService = (inputData) => {
+    return axios.put('/api/edit-charger', inputData);
+}
+
+
+const getAllTypes = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-type?id=${inputId}`)
+}
+
+const createNewTypeService = (data) => {
+    //console.log('check data from service: ', data)
+    return axios.post('/api/create-type', data)
+}
+
+const deleteTypeService = (typeId) => {
+    //return axios.post('/api/delete-user', { id: userId })
+    return axios.delete('/api/delete-type', {
+        data: {
+            id: typeId
+        }
+    });
+}
+
+const editTypeService = (inputData) => {
+    return axios.put('/api/edit-type', inputData);
+}
 export {
     handleLogin, getAllUsers,
     createNewUserService, deleteUserService,
     editUserService, getAllCodeService,
     getAllLocations, createNewLocationService,
-    deleteLocationService, editLocationService
-
+    deleteLocationService, editLocationService,
+    getAllChargers, createNewChargerService,
+    deleteChargerService, editChargerService,
+    getAllTypes, createNewTypeService,
+    deleteTypeService, editTypeService,
 
 }

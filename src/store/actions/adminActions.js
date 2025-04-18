@@ -2,7 +2,9 @@ import actionTypes from './actionTypes';
 import {
     getAllCodeService, createNewUserService, getAllUsers,
     deleteUserService, editUserService,getAllLocations, createNewLocationService,
-    deleteLocationService, editLocationService
+    deleteLocationService, editLocationService, getAllChargers, createNewChargerService,
+    deleteChargerService, editChargerService, getAllTypes, createNewTypeService,
+    deleteTypeService, editTypeService
 } from '../../services/userService';
 import { toast } from 'react-toastify';
 
@@ -208,9 +210,9 @@ export const fetchAllLocationsStart = () => {
             let res = await getAllLocations("All");
             if (res && res.errCode === 0) {
 
-                dispatch(fetchAllLocationsSuccess(res.users.reverse()));
+                dispatch(fetchAllLocationsSuccess(res.locations.reverse()));
             } else {
-                toast.error("fetch all location error!");
+                toast.error("fetch all location error!!!!");
                 dispatch(fetchAllLocationsFailed());
             }
         } catch (e) {
@@ -257,7 +259,7 @@ export const deleteLocationSuccess = () => ({
 })
 
 export const deleteLocationFailed = () => ({
-    type: actionTypes.DELETE_LOCATION_SUCCESS
+    type: actionTypes.DELETE_LOCATION_FAILED
 })
 
 export const editALocation = (data) => {
@@ -272,9 +274,10 @@ export const editALocation = (data) => {
             } else {
                 toast.error("Update the location error!");
                 dispatch(editLocationFailed());
+                console.log('editLocationFailed1', res)
             }
         } catch (e) {
-            toast.error("Update the location error!");
+            toast.error("Update the location error!!");
             dispatch(editLocationFailed());
             console.log('editLocationFailed', e)
         }
@@ -290,120 +293,245 @@ export const editLocationFailed = () => ({
 })
 
 
-/*
-export const createNewLocation = (data) => {
+
+export const createNewCharger = (data) => {
     return async (dispatch, getstate) => {
         try {
-            let res = await createNewLocationService(data);
+            let res = await createNewChargerService(data);
             //console.log('check create user redux', res)
             if (res && res.errCode === 0) {
-                toast.success("create a new location success!");
-                dispatch(saveLocationSuccess());
-                dispatch(fetchAllLocationsStart());
+                toast.success("create a new charger success!");
+                dispatch(saveChargerSuccess());
+                dispatch(fetchAllChargersStart());
             } else {
-                dispatch(saveLocationFailed());
+                toast.error("create a new charger faild!");
+                dispatch(saveChargerFailed());
+                console.log('createChargerFailed', res)
+
             }
         } catch (e) {
-            dispatch(saveLocationFailed());
-            console.log('saveLocationFailed', e)
+            dispatch(saveChargerFailed());
+            console.log('saveChargerFailed', e)
         }
     }
 }
 
-export const saveLocationSuccess = () => ({
-    type: actionTypes.CREATE_LOCATION_SUCCESS
+export const saveChargerSuccess = () => ({
+    type: actionTypes.CREATE_CHARGER_SUCCESS
 })
 
-export const saveLocationFailed = () => ({
-    type: actionTypes.CREATE_LOCATION_FAILED
+export const saveChargerFailed = () => ({
+    type: actionTypes.CREATE_CHARGER_FAILED
 })
 
-export const fetchAllLocationsStart = () => {
+export const fetchAllChargersStart = () => {
     return async (dispatch, getstate) => {
         try {
-            let res = await getAllLocations("All");
+            let res = await getAllChargers("All");
             if (res && res.errCode === 0) {
 
-                dispatch(fetchAllLocationsSuccess(res.users.reverse()));
+                dispatch(fetchAllChargersSuccess(res.chargers.reverse()));
             } else {
-                toast.error("fetch all location error!");
-                dispatch(fetchAllLocationsFailed());
+                toast.error("fetch all charger error!");
+                dispatch(fetchAllChargersFailed());
+                console.log('fetchAllChargersFailed', res)
             }
         } catch (e) {
-            toast.error("fetch all location error!");
+            toast.error("fetch all charger error!!");
 
-            dispatch(fetchAllLocationsFailed());
-            console.log('fetchAllLocationsFailed', e)
+            dispatch(fetchAllChargersFailed());
+            console.log('fetchAllChargersFailed', e)
         }
     }
 }
 
-export const fetchAllLocationsSuccess = (data) => ({
-    type: actionTypes.FETCH_ALL_LOCATIONS_SUCCESS,
-    locations: data
+export const fetchAllChargersSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_CHARGERS_SUCCESS,
+    chargers: data
 })
 
-export const fetchAllLocationsFailed = () => ({
-    type: actionTypes.FETCH_ALL_LOCATIONS_FAILED,
+export const fetchAllChargersFailed = () => ({
+    type: actionTypes.FETCH_ALL_CHARGERS_FAILED,
 })
 
-export const deleteALocation = (locationId) => {
+export const deleteACharger = (chargerId) => {
     return async (dispatch, getstate) => {
         try {
-            let res = await deleteLocationService(locationId);
+            let res = await deleteChargerService(chargerId);
             //console.log('check create user redux', res)
             if (res && res.errCode === 0) {
-                toast.success("delete the location success!");
-                dispatch(deleteLocationSuccess());
-                dispatch(fetchAllLocationsStart());
+                toast.success("delete the charger success!");
+                dispatch(deleteChargerSuccess());
+                dispatch(fetchAllChargersStart());
             } else {
-                toast.error("delete the location error!");
-                dispatch(deleteLocationFailed());
+                toast.error("delete the charger error!");
+                dispatch(deleteChargerFailed());
             }
         } catch (e) {
-            toast.error("delete the location error!");
-            dispatch(deleteLocationFailed());
-            console.log('saveLocationFailed', e)
+            toast.error("delete the charger error!");
+            dispatch(deleteChargerFailed());
+            console.log('saveChargerFailed', e)
         }
     }
 }
 
-export const deleteLocationSuccess = () => ({
-    type: actionTypes.DELETE_LOCATION_SUCCESS
+export const deleteChargerSuccess = () => ({
+    type: actionTypes.DELETE_CHARGER_SUCCESS
 })
 
-export const deleteLocationFailed = () => ({
-    type: actionTypes.DELETE_LOCATION_SUCCESS
+export const deleteChargerFailed = () => ({
+    type: actionTypes.DELETE_CHARGER_FAILED
 })
 
-export const editALocation = (data) => {
+export const editACharger = (data) => {
     return async (dispatch, getstate) => {
         try {
-            let res = await editLocationService(data);
+            let res = await editChargerService(data);
             //console.log('check create user redux', res)
             if (res && res.errCode === 0) {
-                toast.success("Update the location success!");
-                dispatch(editLocationSuccess());
-                dispatch(fetchAllLocationsStart());
+                toast.success("Update the charger success!");
+                dispatch(editChargerSuccess());
+                dispatch(fetchAllChargersStart());
             } else {
-                toast.error("Update the location error!");
-                dispatch(editLocationFailed());
+                toast.error("Update the charger error!");
+                dispatch(editChargerFailed());
+                console.log('editChargerFailed', res)
+
             }
         } catch (e) {
-            toast.error("Update the location error!");
-            dispatch(editLocationFailed());
-            console.log('editLocationFailed', e)
+            toast.error("Update the charger error!!");
+            dispatch(editChargerFailed());
+            console.log('editChargerFailed', e)
         }
     }
 }
 
-export const editLocationSuccess = () => ({
-    type: actionTypes.EDIT_LOCATION_SUCCESS
+export const editChargerSuccess = () => ({
+    type: actionTypes.EDIT_CHARGER_SUCCESS
 })
 
-export const editLocationFailed = () => ({
-    type: actionTypes.EDIT_LOCATION_FAILED
+export const editChargerFailed = () => ({
+    type: actionTypes.EDIT_CHARGER_FAILED
 })
 
-*/
+//
 
+export const createNewType = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewTypeService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new type success!");
+                dispatch(saveTypeSuccess());
+                dispatch(fetchAllTypesStart());
+            } else {
+                toast.error("create a new type faild!!");
+                dispatch(saveTypeFailed());
+                console.log('createTypeFailed', res)
+
+            }
+        } catch (e) {
+            dispatch(saveTypeFailed());
+            console.log('saveTypeFailed', e)
+        }
+    }
+}
+
+export const saveTypeSuccess = () => ({
+    type: actionTypes.CREATE_TYPE_SUCCESS
+})
+
+export const saveTypeFailed = () => ({
+    type: actionTypes.CREATE_TYPE_FAILED
+})
+
+export const fetchAllTypesStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllTypes("All");
+            if (res && res.errCode === 0) {
+
+                dispatch(fetchAllTypesSuccess(res.types.reverse()));
+            } else {
+                toast.error("fetch all type error!");
+                dispatch(fetchAllTypesFailed());
+                console.log('fetchAllTypesFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all type error!!");
+
+            dispatch(fetchAllTypesFailed());
+            console.log('fetchAllTypesFailed', e)
+        }
+    }
+}
+
+export const fetchAllTypesSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_TYPES_SUCCESS,
+    types: data
+})
+
+export const fetchAllTypesFailed = () => ({
+    type: actionTypes.FETCH_ALL_TYPES_FAILED,
+})
+
+export const deleteAType = (typeId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteTypeService(typeId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the type success!");
+                dispatch(deleteTypeSuccess());
+                dispatch(fetchAllTypesStart());
+            } else {
+                toast.error("delete the type error!");
+                dispatch(deleteTypeFailed());
+            }
+        } catch (e) {
+            toast.error("delete the type error!");
+            dispatch(deleteTypeFailed());
+            console.log('saveTypeFailed', e)
+        }
+    }
+}
+
+export const deleteTypeSuccess = () => ({
+    type: actionTypes.DELETE_TYPE_SUCCESS
+})
+
+export const deleteTypeFailed = () => ({
+    type: actionTypes.DELETE_TYPE_FAILED
+})
+
+export const editAType = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editTypeService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the type success!");
+                dispatch(editTypeSuccess());
+                dispatch(fetchAllTypesStart());
+            } else {
+                toast.error("Update the type error!");
+                dispatch(editTypeFailed());
+                console.log('editTypeFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the type error!!");
+            dispatch(editTypeFailed());
+            console.log('editTypeFailed', e)
+        }
+    }
+}
+
+export const editTypeSuccess = () => ({
+    type: actionTypes.EDIT_TYPE_SUCCESS
+})
+
+export const editTypeFailed = () => ({
+    type: actionTypes.EDIT_TYPE_FAILED
+})

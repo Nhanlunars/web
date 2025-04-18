@@ -95,14 +95,14 @@ class Header extends Component {
           </li>
           <li>
             <UsersRound />
-            <Link to="/system/product-manage" className="link">
+            <Link to="/system/charger-management" className="link">
               Charger management
             </Link>
             <ChevronRight />
           </li>
           <li>
             <SquarePen />
-            <Link to="/change" className="link">
+            <Link to="/system/type-management" className="link">
               Type management
             </Link>
             <ChevronRight />

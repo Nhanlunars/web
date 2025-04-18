@@ -21,6 +21,7 @@ class LocationRedux extends Component {
             phoneNumber: '',
             address: '',
             district: '',
+            ward: '',
             lng: '',
             lat: '',
             
@@ -58,6 +59,7 @@ this.props.getUserStart();
             phoneNumber: '',
             address: '',
             district: '',
+            ward: '',
             lng: '',
             lat: '',
             user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
@@ -141,6 +143,7 @@ this.props.getUserStart();
             lng: location.lng,
             lat: location.lat,
             action: CRUD_ACTIONS.EDIT,
+            locationEditId: location.id
         })
     }
 

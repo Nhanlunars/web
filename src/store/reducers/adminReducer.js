@@ -5,6 +5,9 @@ const initialState = {
     genders: [],
     roles: [],
     users: [],
+    locations: [],
+    charger: [],
+    type: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -57,7 +60,26 @@ const adminReducer = (state = initialState, action) => {
                 return {
                     ...state
                 }
-
+                case actionTypes.FETCH_ALL_CHARGERS_SUCCESS:
+                    state.chargers = action.chargers;
+                    return {
+                        ...state
+                    }
+                case actionTypes.FETCH_ALL_CHARGERS_FAILED:
+                    state.chargers = [];
+                    return {
+                        ...state
+                    }
+                    case actionTypes.FETCH_ALL_TYPES_SUCCESS:
+                    state.types = action.types;
+                    return {
+                        ...state
+                    }
+                case actionTypes.FETCH_ALL_TYPES_FAILED:
+                    state.types = [];
+                    return {
+                        ...state
+                    }
 
         default:
             return state;

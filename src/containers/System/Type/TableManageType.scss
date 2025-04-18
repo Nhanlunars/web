@@ -1,23 +1,23 @@
-#TableManageCharger {
+#TableManageType {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-#TableManageCharger td, th {
+#TableManageType td, th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#TableManageCharger tr:nth-child(even) {
+#TableManageType tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-#TableManageCharger tr:hover {
+#TableManageType tr:hover {
     background-color: #ddd;
 }
 
-#TableManageCharger th {
+#TableManageType th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;

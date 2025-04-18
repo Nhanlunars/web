@@ -4,6 +4,9 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/Admin/UserRedux';
 import LocationRedux from '../containers/System/Location/LocationRedux';
+import ChargerRedux from '../containers/System/Charger/ChargerRedux';
+import TypeRedux from '../containers/System/Type/TypeRedux';
+
 import Header from '../containers/Header/Header';
 import ProductManage from '../containers/System/ProductManage';
 import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
@@ -19,9 +22,10 @@ class System extends Component {
                 <div className="system-list">
                     <Switch>
                         <Route path="/system/user-manage" component={UserManage} />
-                        <Route path="/user-management" component={UserRedux} />
                         <Route path="/system/user-management" component={UserRedux} />
                         <Route path="/system/location-management" component={LocationRedux} />
+                        <Route path="/system/charger-management" component={ChargerRedux} />
+                        <Route path="/system/type-management" component={TypeRedux} />
 
                         <Route path="/system/product-manage" component={ProductManage} />
                         <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />

@@ -1,66 +1,66 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import './TableManageLocation.scss';
+import './TableManageCharger.scss';
 import * as actions from "../../../store/actions";
 
-class TableManageLocation extends Component {
+class TableManageCharger extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            locationsRedux: []
+            chargersRedux: []
         }
     }
     componentDidMount() {
-        this.props.fetchLocationRedux();
+        this.props.fetchChargerRedux();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.listLocations !== this.props.listLocations) {
+        if (prevProps.listChargers !== this.props.listChargers) {
             this.setState({
-                locationsRedux: this.props.listLocations
+                chargersRedux: this.props.listChargers
             })
         }
     }
 
-    handleDeleteLocation = (location) => {
-        this.props.deleteALocationRedux(location.id);
+    handleDeleteCharger = (charger) => {
+        this.props.deleteAChargerRedux(charger.id);
     }
 
-    handleEditLocation = (location) => {
-        this.props.handleEditLocationFromParentKey(location)
+    handleEditCharger = (charger) => {
+        this.props.handleEditChargerFromParentKey(charger)
     }
 
     render() {
-        let arrLocations = this.state.locationsRedux;
+        let arrChargers = this.state.chargersRedux;
         return (
             <React.Fragment>
-                <table id="TableManageLocation">
+                <table id="TableManageCharger">
                     <tbody>
                         <tr>
-                            <th>Location name</th>
-                            <th>city</th>
-                            <th>Address</th>
-                            <th>Ward</th>
-                            <th>District</th>
-                            <th>lng</th>
-                            <th>lat</th>
+                            <th>Charger name</th>
+                            <th>model</th>
+                            <th>capacity</th>
+                            <th>status</th>
+                            <th>installation_date</th>
+                            <th>last_maintence_date</th>
+                            <th>location_id</th>
                             <th>Actions</th>
                         </tr>
-                        {arrLocations && arrLocations.length > 0 &&
-                            arrLocations.map((item, index) => {
+                        {arrChargers && arrChargers.length > 0 &&
+                            arrChargers.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.location_name}</td>
-                                        <td>{item.city}</td>
-                                        <td>{item.address}</td>
-                                        <td>{item.ward}</td>
-                                        <td>{item.district}</td>
-                                        <td>{item.lng}</td>
-                                        <td>{item.lat}</td>
+                                        <td>{item.charger_name}</td>
+                                        <td>{item.model}</td>
+                                        <td>{item.capacity}</td>
+                                        <td>{item.status}</td>
+                                        <td>{item.installation_date}</td>
+                                        <td>{item.last_maintence_date}</td>
+                                        <td>{item.location_id}</td>
                                         <td>
-                                            <button onClick={() => this.handleEditLocation(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
-                                            <button onClick={() => this.handleDeleteLocation(item)}
+                                            <button onClick={() => this.handleEditCharger(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
+                                            <button onClick={() => this.handleDeleteCharger(item)}
                                                 className='btn-delete' ><i className='fas fa-trash'></i> </button>
                                         </td>
                                     </tr>
@@ -83,15 +83,15 @@ class TableManageLocation extends Component {
 
 const mapStateToProps = state => {
     return {
-        listLocations: state.admin.locations
+        listChargers: state.admin.chargers
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchLocationRedux: () => dispatch(actions.fetchAllLocationsStart()),
-        deleteALocationRedux: (id) => dispatch(actions.deleteALocation(id))
+        fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
+        deleteAChargerRedux: (id) => dispatch(actions.deleteACharger(id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageLocation);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageCharger);

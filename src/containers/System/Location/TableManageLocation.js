@@ -39,6 +39,7 @@ class TableManageLocation extends Component {
                     <tbody>
                         <tr>
                             <th>Location name</th>
+                            <th>User id</th>
                             <th>city</th>
                             <th>Address</th>
                             <th>Ward</th>
@@ -52,6 +53,7 @@ class TableManageLocation extends Component {
                                 return (
                                     <tr key={index}>
                                         <td>{item.location_name}</td>
+                                        <td>{item.user_id}</td>
                                         <td>{item.city}</td>
                                         <td>{item.address}</td>
                                         <td>{item.ward}</td>
