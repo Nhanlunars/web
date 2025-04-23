@@ -6,8 +6,8 @@ const initialState = {
     roles: [],
     users: [],
     locations: [],
-    charger: [],
-    type: [],
+    chargers: [],
+    types: [],
 }
 
 const adminReducer = (state = initialState, action) => {

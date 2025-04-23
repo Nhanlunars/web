@@ -1,11 +1,12 @@
 import actionTypes from './actionTypes';
-import {
+import{
     getAllCodeService, createNewUserService, getAllUsers,
     deleteUserService, editUserService,getAllLocations, createNewLocationService,
     deleteLocationService, editLocationService, getAllChargers, createNewChargerService,
     deleteChargerService, editChargerService, getAllTypes, createNewTypeService,
-    deleteTypeService, editTypeService
-} from '../../services/userService';
+    deleteTypeService, editTypeService}
+ from '../../services/userService';
+//import index from '../../services';
 import { toast } from 'react-toastify';
 
 
@@ -100,7 +101,7 @@ export const fetchAllUsersStart = () => {
                 dispatch(fetchAllUsersFailed());
             }
         } catch (e) {
-            toast.error("fetch all user error!");
+            toast.error("fetch all user error!!");
 
             dispatch(fetchAllUsersFailed());
             console.log('fetchAllUsersFailed', e)

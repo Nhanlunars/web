@@ -7,7 +7,7 @@ const handleLogin = (userEmail, userPassword) => {
 
 const getAllUsers = (inputId) => {
     //tamplate string
-    return axios.get(`/api/get-all-users?id=${inputId}`)
+    return axios.get(`/api/get-all-user?id=${inputId}`)
 }
 
 const createNewUserService = (data) => {
@@ -35,7 +35,7 @@ const getAllCodeService = (inputType) => {
 
 const getAllLocations = (inputId) => {
     //tamplate string
-    return axios.get(`/api/get-all-locations?id=${inputId}`)
+    return axios.get(`/api/get-all-location?id=${inputId}`)
 }
 
 const createNewLocationService = (data) => {

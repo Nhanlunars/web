@@ -39,7 +39,6 @@ class TableManageCharger extends Component {
                     <tbody>
                         <tr>
                             <th>Charger name</th>
-                            <th>model</th>
                             <th>capacity</th>
                             <th>status</th>
                             <th>installation_date</th>
@@ -52,7 +51,6 @@ class TableManageCharger extends Component {
                                 return (
                                     <tr key={index}>
                                         <td>{item.charger_name}</td>
-                                        <td>{item.model}</td>
                                         <td>{item.capacity}</td>
                                         <td>{item.status}</td>
                                         <td>{item.installation_date}</td>

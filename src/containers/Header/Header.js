@@ -10,13 +10,11 @@ import _ from 'lodash';
 import { Link } from "react-router-dom";
 import {
     LayoutDashboard,
-    WashingMachine,
     ArrowLeftRight,
     UsersRound,
     SquarePen,
     MapPinPlus,
     ChevronRight,
-    CreditCard,
     LogOut,
   } from "lucide-react";
 

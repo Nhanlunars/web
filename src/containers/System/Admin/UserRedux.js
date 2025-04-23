@@ -187,7 +187,7 @@ class UserRedux extends Component {
         let isGetGenders = this.props.isLoadingGender;
 
         let { email, password, firstName, lastName, phoneNumber,
-            address, gender, role, avatar, } = this.state;
+            address, gender, role, } = this.state;
         return (
             <div className='user-redux-container'>
 

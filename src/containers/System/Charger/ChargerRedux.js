@@ -15,7 +15,6 @@ class ChargerRedux extends Component {
             isOpen: false,
 
             charger_name: '',
-            model: '',
             capacity: '',
             status: '',
             installation_date: '',
@@ -51,7 +50,6 @@ this.props.getLocationStart();
 
             this.setState({
                  charger_name: '',
-            model: '',
             capacity: '',
             status: '',
             installation_date: '',
@@ -97,7 +95,6 @@ this.props.getLocationStart();
             //fire redux create charger
             this.props.createNewCharger({
                 charger_name: this.state.charger_name,
-                model: this.state.model,
                 capacity: this.state.capacity,
                 status: this.state.status,
                 installation_date: this.state.installation_date,
@@ -111,7 +108,6 @@ this.props.getLocationStart();
             this.props.editAChargerRedux({
                 id: this.state.chargerEditId,
                 charger_name: this.state.charger_name,
-                model: this.state.model,
                 capacity: this.state.capacity,
                 status: this.state.status,
                 installation_date: this.state.installation_date,
@@ -126,7 +122,7 @@ this.props.getLocationStart();
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ["charger_name", "model", "capacity",
+        let arrCheck = ["charger_name", "capacity",
             "status", "installation_date", "last_maintence_date"]
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
@@ -153,7 +149,6 @@ this.props.getLocationStart();
         }
         this.setState({
             charger_name: charger.charger_name,
-            model: charger.model,
             capacity: charger.capacity,
             status: charger.status,
             installation_date: charger.installation_date,
@@ -169,7 +164,7 @@ this.props.getLocationStart();
 
         let locations = this.state.locationArr;
 
-        let { charger_name, model, capacity, status, installation_date,
+        let { charger_name, capacity, status, installation_date,
             last_maintence_date,location, avatar } = this.state;
         return (
             <div className='charger-redux-container'>
@@ -185,13 +180,6 @@ this.props.getLocationStart();
                                 <input className='form-control' type='location_name'
                                     value={charger_name}
                                     onChange={(event) => { this.onChangeInput(event, 'charger_name') }}
-                                />
-                            </div>
-                            <div className='col-3'>
-                                <label><FormattedMessage id='model' /></label>
-                                <input className='form-control' type='text'
-                                    value={model}
-                                    onChange={(event) => { this.onChangeInput(event, 'model') }}
                                 />
                             </div>
                             <div className='col-3'>
