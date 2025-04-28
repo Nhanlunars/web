@@ -107,14 +107,14 @@ class Header extends Component {
           </li>
           <li>
             <MapPinPlus />
-            <Link to="/locations" className="link">
+            <Link to="/system/reservation-management" className="link">
               Reservation management
             </Link>
             <ChevronRight />
           </li>
           <li>
           <ArrowLeftRight />
-          <Link to="/locations" className="link">
+          <Link to="/system/type-management" className="link">
               History management
             </Link>
             <ChevronRight />
@@ -140,6 +140,7 @@ class Header extends Component {
           <hr />
           {/* Button Đăng Xuất */}
           <button
+          onClick={processLogout}
             variant="outlined"
             startIcon={<LogOut />}
             sx={{

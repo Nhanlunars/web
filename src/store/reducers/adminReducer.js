@@ -70,7 +70,7 @@ const adminReducer = (state = initialState, action) => {
                     return {
                         ...state
                     }
-                    case actionTypes.FETCH_ALL_TYPES_SUCCESS:
+                case actionTypes.FETCH_ALL_TYPES_SUCCESS:
                     state.types = action.types;
                     return {
                         ...state
@@ -80,6 +80,16 @@ const adminReducer = (state = initialState, action) => {
                     return {
                         ...state
                     }
+                    case actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS:
+                        state.reservations = action.reservations;
+                        return {
+                            ...state
+                        }
+                    case actionTypes.FETCH_ALL_RESERVATIONS_FAILED:
+                        state.reservations = [];
+                        return {
+                            ...state
+                        }
 
         default:
             return state;

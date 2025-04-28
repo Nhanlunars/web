@@ -4,7 +4,11 @@ import{
     deleteUserService, editUserService,getAllLocations, createNewLocationService,
     deleteLocationService, editLocationService, getAllChargers, createNewChargerService,
     deleteChargerService, editChargerService, getAllTypes, createNewTypeService,
-    deleteTypeService, editTypeService}
+    deleteTypeService, editTypeService, getAllReservations, createNewReservationService,
+    deleteReservationService, editReservationService
+
+
+}
  from '../../services/userService';
 //import index from '../../services';
 import { toast } from 'react-toastify';
@@ -454,6 +458,7 @@ export const fetchAllTypesStart = () => {
             if (res && res.errCode === 0) {
 
                 dispatch(fetchAllTypesSuccess(res.types.reverse()));
+
             } else {
                 toast.error("fetch all type error!");
                 dispatch(fetchAllTypesFailed());
@@ -535,4 +540,126 @@ export const editTypeSuccess = () => ({
 
 export const editTypeFailed = () => ({
     type: actionTypes.EDIT_TYPE_FAILED
+})
+
+//
+
+
+export const createNewReservation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewReservationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new reservation success!");
+                dispatch(saveReservationSuccess());
+                dispatch(fetchAllReservationsStart());
+            } else {
+                toast.error("create a new reservation faild!!");
+                dispatch(saveReservationFailed());
+                console.log('createReservationFailed', res)
+
+            }
+        } catch (e) {
+            dispatch(saveReservationFailed());
+            console.log('saveReservationFailed', e)
+        }
+    }
+}
+
+export const saveReservationSuccess = () => ({
+    type: actionTypes.CREATE_RESERVATION_SUCCESS
+})
+
+export const saveReservationFailed = () => ({
+    type: actionTypes.CREATE_RESERVATION_FAILED
+})
+
+export const fetchAllReservationsStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllReservations("All");
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllReservationsSuccess(res.reservations.reverse()));
+            } else {
+                toast.error("fetch all reservation error!");
+                dispatch(fetchAllReservationsFailed());
+                console.log('fetchAllReservationsFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all reservation error!!");
+
+            dispatch(fetchAllReservationsFailed());
+            console.log('fetchAllReservationsFailed', e)
+        }
+    }
+}
+
+export const fetchAllReservationsSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS,
+    reservations: data
+})
+
+export const fetchAllReservationsFailed = () => ({
+    type: actionTypes.FETCH_ALL_RESERVATIONS_FAILED,
+})
+
+export const deleteAReservation = (reservationId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteReservationService(reservationId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the reservation success!");
+                dispatch(deleteReservationSuccess());
+                dispatch(fetchAllReservationsStart());
+            } else {
+                toast.error("delete the reservation error!");
+                dispatch(deleteReservationFailed());
+            }
+        } catch (e) {
+            toast.error("delete the reservation error!");
+            dispatch(deleteReservationFailed());
+            console.log('saveReservationFailed', e)
+        }
+    }
+}
+
+export const deleteReservationSuccess = () => ({
+    type: actionTypes.DELETE_RESERVATION_SUCCESS
+})
+
+export const deleteReservationFailed = () => ({
+    type: actionTypes.DELETE_RESERVATION_FAILED
+})
+
+export const editAReservation = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editReservationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the reservation success!");
+                dispatch(editReservationSuccess());
+                dispatch(fetchAllReservationsStart());
+            } else {
+                toast.error("Update the reservation error!");
+                dispatch(editReservationFailed());
+                console.log('editReservationFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the reservation error!!");
+            dispatch(editReservationFailed());
+            console.log('editReservationFailed', e)
+        }
+    }
+}
+
+export const editReservationSuccess = () => ({
+    type: actionTypes.EDIT_RESERVATION_SUCCESS
+})
+
+export const editReservationFailed = () => ({
+    type: actionTypes.EDIT_RESERVATION_FAILED
 })

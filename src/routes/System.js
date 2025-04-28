@@ -6,6 +6,8 @@ import UserRedux from '../containers/System/Admin/UserRedux';
 import LocationRedux from '../containers/System/Location/LocationRedux';
 import ChargerRedux from '../containers/System/Charger/ChargerRedux';
 import TypeRedux from '../containers/System/Type/TypeRedux';
+import ReservationRedux from '../containers/System/Reservation/ReservationRedux';
+
 
 import Header from '../containers/Header/Header';
 import ProductManage from '../containers/System/ProductManage';
@@ -26,6 +28,8 @@ class System extends Component {
                         <Route path="/system/location-management" component={LocationRedux} />
                         <Route path="/system/charger-management" component={ChargerRedux} />
                         <Route path="/system/type-management" component={TypeRedux} />
+                        <Route path="/system/reservation-management" component={ReservationRedux} />
+
 
                         <Route path="/system/product-manage" component={ProductManage} />
                         <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />

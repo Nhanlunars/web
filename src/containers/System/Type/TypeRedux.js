@@ -155,7 +155,7 @@ this.props.getChargerStart();
                             </div>
                             
                             <div className='col-3'>
-                                <label><FormattedMessage id='user' /></label>
+                                <label><FormattedMessage id='Charger' /></label>
                                 <select className="form-control"
                                     value={charger_id}
                                     onChange={(event) => { this.onChangeInput(event, 'charger_id') }}

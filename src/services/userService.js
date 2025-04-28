@@ -103,6 +103,29 @@ const deleteTypeService = (typeId) => {
 const editTypeService = (inputData) => {
     return axios.put('/api/edit-type', inputData);
 }
+
+
+const getAllReservations = (inputId) => {
+    return axios.get(`/api/get-all-reservation?id=${inputId}`)
+}
+
+const createNewReservationService = (data) => {
+    return axios.post('/api/create-reservation', data)
+}
+
+const deleteReservationService = (reservationId) => {
+    return axios.delete('/api/delete-reservation', {
+        data: {
+            id: reservationId
+        }
+    });
+}
+
+const editReservationService = (inputData) => {
+    return axios.put('/api/edit-reservation', inputData);
+}
+
+
 export {
     handleLogin, getAllUsers,
     createNewUserService, deleteUserService,
@@ -113,5 +136,7 @@ export {
     deleteChargerService, editChargerService,
     getAllTypes, createNewTypeService,
     deleteTypeService, editTypeService,
+    getAllReservations, createNewReservationService,
+    deleteReservationService, editReservationService,
 
 }
