@@ -42,6 +42,7 @@ class TableManageType extends Component {
                             <th>Charger id</th>
                             <th>Describe</th>
                             <th>Default price</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                         {arrTypes && arrTypes.length > 0 &&
@@ -52,6 +53,7 @@ class TableManageType extends Component {
                                         <td>{item.charger_id}</td>
                                         <td>{item.describe}</td>
                                         <td>{item.default_price}</td>
+                                        <td>{item.status}</td>
                                         <td>
                                             <button onClick={() => this.handleEditType(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
                                             <button onClick={() => this.handleDeleteType(item)}

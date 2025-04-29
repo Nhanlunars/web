@@ -114,7 +114,7 @@ class Header extends Component {
           </li>
           <li>
           <ArrowLeftRight />
-          <Link to="/system/type-management" className="link">
+          <Link to="/system/history-management" className="link">
               History management
             </Link>
             <ChevronRight />

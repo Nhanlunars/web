@@ -5,7 +5,9 @@ import{
     deleteLocationService, editLocationService, getAllChargers, createNewChargerService,
     deleteChargerService, editChargerService, getAllTypes, createNewTypeService,
     deleteTypeService, editTypeService, getAllReservations, createNewReservationService,
-    deleteReservationService, editReservationService
+    deleteReservationService, editReservationService, getAllHistorys, createNewHistoryService,
+    deleteHistoryService, editHistoryService, getAllInfos, createNewInfoService,
+    deleteInfoService, editInfoService,
 
 
 }
@@ -72,10 +74,10 @@ export const createNewUser = (data) => {
             let res = await createNewUserService(data);
             //console.log('check create user redux', res)
             if (res && res.errCode === 0) {
-                toast.success("create a new user success!");
                 dispatch(saveUserSuccess());
                 dispatch(fetchAllUsersStart());
             } else {
+                toast.error(res.errMessage);
                 dispatch(saveUserFailed());
             }
         } catch (e) {
@@ -188,10 +190,10 @@ export const createNewLocation = (data) => {
             let res = await createNewLocationService(data);
             //console.log('check create user redux', res)
             if (res && res.errCode === 0) {
-                toast.success("create a new location success!");
                 dispatch(saveLocationSuccess());
                 dispatch(fetchAllLocationsStart());
             } else {
+                toast.error(res.errMessage);
                 dispatch(saveLocationFailed());
             }
         } catch (e) {
@@ -543,8 +545,6 @@ export const editTypeFailed = () => ({
 })
 
 //
-
-
 export const createNewReservation = (data) => {
     return async (dispatch, getstate) => {
         try {
@@ -663,3 +663,248 @@ export const editReservationSuccess = () => ({
 export const editReservationFailed = () => ({
     type: actionTypes.EDIT_RESERVATION_FAILED
 })
+//
+export const createNewHistory = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewHistoryService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new history success!");
+                dispatch(saveHistorySuccess());
+                dispatch(fetchAllHistorysStart());
+            } else {
+                toast.error("create a new history faild!!");
+                dispatch(saveHistoryFailed());
+                console.log('createHistoryFailed', res)
+
+            }
+        } catch (e) {
+            dispatch(saveHistoryFailed());
+            console.log('saveHistoryFailed', e)
+        }
+    }
+}
+
+export const saveHistorySuccess = () => ({
+    type: actionTypes.CREATE_HISTORY_SUCCESS
+})
+
+export const saveHistoryFailed = () => ({
+    type: actionTypes.CREATE_HISTORY_FAILED
+})
+
+export const fetchAllHistorysStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllHistorys("All");
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllHistorysSuccess(res.historys.reverse()));
+            } else {
+                toast.error("fetch all history error!");
+                dispatch(fetchAllHistorysFailed());
+                console.log('fetchAllHistorysFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all history error!!");
+
+            dispatch(fetchAllHistorysFailed());
+            console.log('fetchAllHistorysFailed', e)
+        }
+    } 
+}
+
+export const fetchAllHistorysSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_HISTORYS_SUCCESS,
+    historys: data
+})
+
+export const fetchAllHistorysFailed = () => ({
+    type: actionTypes.FETCH_ALL_HISTORYS_FAILED,
+})
+
+export const deleteAHistory = (historyId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteHistoryService(historyId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the history success!");
+                dispatch(deleteHistorySuccess());
+                dispatch(fetchAllHistorysStart());
+            } else {
+                toast.error("delete the history error!");
+                dispatch(deleteHistoryFailed());
+            }
+        } catch (e) {
+            toast.error("delete the history error!");
+            dispatch(deleteHistoryFailed());
+            console.log('saveHistoryFailed', e)
+        }
+    }
+}
+
+export const deleteHistorySuccess = () => ({
+    type: actionTypes.DELETE_HISTORY_SUCCESS
+})
+
+export const deleteHistoryFailed = () => ({
+    type: actionTypes.DELETE_HISTORY_FAILED
+})
+
+export const editAHistory = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editHistoryService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the history success!");
+                dispatch(editHistorySuccess());
+                dispatch(fetchAllHistorysStart());
+            } else {
+                toast.error("Update the history error!");
+                dispatch(editHistoryFailed());
+                console.log('editHistoryFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the history error!!");
+            dispatch(editHistoryFailed());
+            console.log('editHistoryFailed', e)
+        }
+    }
+}
+
+export const editHistorySuccess = () => ({
+    type: actionTypes.EDIT_HISTORY_SUCCESS
+})
+
+export const editHistoryFailed = () => ({
+    type: actionTypes.EDIT_HISTORY_FAILED
+})
+//
+
+export const createNewInfo = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await createNewInfoService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("create a new history success!");
+                dispatch(saveInfoSuccess());
+                dispatch(fetchAllInfosStart());
+            } else {
+                toast.error("create a new history faild!!");
+                dispatch(saveInfoFailed());
+                console.log('createInfoFailed', res)
+
+            }
+        } catch (e) {
+            dispatch(saveInfoFailed());
+            console.log('saveInfoFailed', e)
+        }
+    }
+}
+
+export const saveInfoSuccess = () => ({
+    type: actionTypes.CREATE_INFO_SUCCESS
+})
+
+export const saveInfoFailed = () => ({
+    type: actionTypes.CREATE_INFO_FAILED
+})
+
+export const fetchAllInfosStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllInfos("All");
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllInfosSuccess(res.infos.reverse()));
+            } else {
+                toast.error("fetch all info error!");
+                dispatch(fetchAllInfosFailed());
+                console.log('fetchAllInfosFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all info error!!");
+
+            dispatch(fetchAllInfosFailed());
+            console.log('fetchAllInfosFailed', e)
+        }
+    } 
+}
+
+export const fetchAllInfosSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_INFOS_SUCCESS,
+    infos: data
+})
+
+export const fetchAllInfosFailed = () => ({
+    type: actionTypes.FETCH_ALL_INFOS_FAILED,
+})
+
+export const deleteAInfo = (infoId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await deleteInfoService(infoId);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("delete the info success!");
+                dispatch(deleteInfoSuccess());
+                dispatch(fetchAllInfosStart());
+            } else {
+                toast.error("delete the info error!");
+                dispatch(deleteInfoFailed());
+            }
+        } catch (e) {
+            toast.error("delete the info error!");
+            dispatch(deleteInfoFailed());
+            console.log('saveInfoFailed', e)
+        }
+    }
+}
+
+export const deleteInfoSuccess = () => ({
+    type: actionTypes.DELETE_INFO_SUCCESS
+})
+
+export const deleteInfoFailed = () => ({
+    type: actionTypes.DELETE_INFO_FAILED
+})
+
+export const editAInfo = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editInfoService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the info success!");
+                dispatch(editInfoSuccess());
+                dispatch(fetchAllInfosStart());
+            } else {
+                toast.error("Update the info error!");
+                dispatch(editInfoFailed());
+                console.log('editInfoFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the info error!!");
+            dispatch(editInfoFailed());
+            console.log('editInfoFailed', e)
+        }
+    }
+}
+
+export const editInfoSuccess = () => ({
+    type: actionTypes.EDIT_INFO_SUCCESS
+})
+
+export const editInfoFailed = () => ({
+    type: actionTypes.EDIT_INFO_FAILED
+})
+
+
+
+
+
+

@@ -1,0 +1,267 @@
+import React, { Component } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { connect } from 'react-redux';
+import { CRUD_ACTIONS, CommonUtils } from '../../../utils';
+import * as actions from "../../../store/actions";
+import "./InfoRedux.scss";
+import TableManageInfo from './TableManageInfo';
+class InfoRedux extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            userArr: [],
+            previewImgURL: '',
+            isOpen: false,
+
+            bank_name: '',
+            user: '',
+            account_number: '',
+            account_name: '',
+            picture: '',
+            
+            action: '',
+            infoEditId: '',
+        }
+    }
+
+    async componentDidMount() {
+this.props.getUserStart();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        //render => didupdate
+        //hiện tại(this) và quá khứ(previous)
+        //[] [3]
+        //[3] [3]
+        if (prevProps.userRedux !== this.props.userRedux) {
+            let arrUsers = this.props.userRedux;
+            this.setState({
+                userArr: arrUsers,
+                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+            })
+        }
+        
+
+        if (prevProps.listInfos !== this.props.listInfos) {
+            let arrUsers = this.props.userRedux;
+
+            this.setState({
+                bank_name: '',
+                account_number: '',
+                account_name: '',
+                picture: '',          
+                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                action: CRUD_ACTIONS.CREATE,
+                previewImgURL: '',
+
+            })
+
+        }
+    }
+
+    handleOnchangeImage = async (event) => {
+        let data = event.target.files;
+        let file = data[0];
+        if (file) {
+            let base64 = await CommonUtils.getBase64(file);
+            let objectUrl = URL.createObjectURL(file);
+            this.setState({
+                previewImgURL: objectUrl,
+                avatar: base64
+            })
+        }
+    }
+
+    openPreviewImage = () => {
+        if (!this.state.previewImgURL) return;
+        this.setState({
+            isOpen: true
+        })
+    }
+
+    handlesaveInfo = () => {
+        let isValid = this.checkValidateInput();
+        if (isValid === false) return;
+        let { action } = this.state;
+
+        if (action === CRUD_ACTIONS.CREATE) {
+            //fire redux create info
+            this.props.createNewInfo({
+                user_id: this.state.user_id,
+                bank_name: this.state.bank_name,
+                account_number: this.state.account_number,
+                account_name: this.state.account_name,
+                picture: this.state.picture,
+            })
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit info
+            this.props.editAInfoRedux({
+                id: this.state.infoEditId,
+                user_id: this.state.user_id,
+                bank_name: this.state.bank_name,
+                account_number: this.state.account_number,
+                account_name: this.state.account_name,
+                picture: this.state.picture,
+            })
+        }
+
+
+    }
+
+    checkValidateInput = () => {
+        let isValid = true;
+        let arrCheck = ["bank_name", "account_number", "account_name",
+            "picture"]
+        for (let i = 0; i < arrCheck.length; i++) {
+            if (!this.state[arrCheck[i]]) {
+                isValid = false;
+                alert('This input is required: ' + arrCheck[i])
+                break;
+            }
+        }
+        return isValid;
+    }
+
+    onChangeInput = (event, id) => {
+        let copyState = { ...this.state }
+        copyState[id] = event.target.value;
+        this.setState({
+            ...copyState
+        })
+    }
+
+    handleEditInfoFromParent = (info) => {
+        let imageBase64 = '';
+        if (info.image) {
+            imageBase64 = new Buffer(info.image, 'base64').toString('binary');
+        }
+        this.setState({
+            user_id: info.user_id,
+            bank_name: info.bank_name,
+            account_number: info.account_number,
+            account_name: info.account_name,
+            picture: '',
+            previewImgURL: imageBase64,
+            action: CRUD_ACTIONS.EDIT,
+            infoEditId: info.id
+        })
+    }
+
+    render() {
+
+        let users = this.state.userArr;
+
+        let { user_id, bank_name, account_number, account_name,
+            picture, } = this.state;
+        return (
+            <div className='info-redux-container'>
+
+                <div className="title" >Info Redux</div>
+                <div className='info-redux-body'>
+                    <div className='container'>
+                        <div className='row'>
+                            <div className='col-12 my-3'><FormattedMessage id='manage-info.add' /></div>
+
+                            <div className='col-3'>
+                                <label><FormattedMessage id='bank_name' /></label>
+                                <input className='form-control' type='Text'
+                                    value={bank_name}
+                                    onChange={(event) => { this.onChangeInput(event, 'bank_name') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='account_number' /></label>
+                                <input className='form-control' type='text'
+                                    value={account_number}
+                                    onChange={(event) => { this.onChangeInput(event, 'account_number') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='account_name' /></label>
+                                <input className='form-control' type='text'
+                                    value={account_name}
+                                    onChange={(event) => { this.onChangeInput(event, 'account_name') }}
+                                />
+                            </div>
+                            
+                            
+                            <div className='col-3'>
+                                <label><FormattedMessage id='user' /></label>
+                                <select className="form-control"
+                                    value={user_id}
+                                    onChange={(event) => { this.onChangeInput(event, 'user_id') }}
+                                >
+                                    {users && users.length > 0 &&
+                                        users.map((item, index) => {
+                                            return (<option key={index} value={item.id}>{item.email}</option>
+                                            )
+                                        })
+                                    }
+
+                                </select>
+                            </div>
+                           <div className='col-3'>
+                               <label><FormattedMessage id='Avatar' /></label>
+                               <div className='preview-image-container'>
+                                   <input id="previewImg" type="file" hidden
+                                       onChange={(event) => this.handleOnchangeImage(event)} />
+                                   <label className='label-upload' htmlFor="previewImg">Up load... <i className='fas fa-upload'></i></label>
+                                   <div className='preview-image'
+                                       style={{ backgroundImage: `url(${this.state.previewImgURL})` }}
+                                       onClick={() => this.openPreviewImage()}
+
+                                   ></div>
+
+                               </div>
+                            </div>
+                            
+                            <div className='col-12 my-3'>
+                                <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary'}
+                                    onClick={() => this.handlesaveInfo()}
+                                >
+                                    {this.state.action === CRUD_ACTIONS.EDIT ?
+                                        <FormattedMessage id='Edit               ' /> :
+                                        <FormattedMessage id='Save    ' />}
+                                </button>
+                            </div>
+                            <div className='col-12 mb-5'>
+                                <TableManageInfo
+                                    handleEditInfoFromParentKey={this.handleEditInfoFromParent}
+                                    action={this.state.action}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+
+        )
+    }
+
+}
+
+const mapStateToProps = state => {
+    return {
+        userRedux: state.admin.users,
+        listInfos: state.admin.infos
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUserStart: () => dispatch(actions.fetchAllUsersStart()),
+        createNewInfo: (data) => dispatch(actions.createNewInfo(data)),
+        fetchInfoRedux: () => dispatch(actions.fetchAllInfosStart()),
+        editAInfoRedux: (data) => dispatch(actions.editAInfo(data))
+
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InfoRedux);
+

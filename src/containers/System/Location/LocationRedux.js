@@ -61,7 +61,6 @@ this.props.getUserStart();
             lng: '',
             lat: '',
             user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
-                avatar: '',
                 action: CRUD_ACTIONS.CREATE,
                 previewImgURL: '',
 

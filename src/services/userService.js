@@ -12,7 +12,7 @@ const getAllUsers = (inputId) => {
 
 const createNewUserService = (data) => {
     //console.log('check data from service: ', data)
-    return axios.post('/api/create-new-user', data)
+    return axios.post('/api/create-new-user1', data)
 }
 
 const deleteUserService = (userId) => {
@@ -104,7 +104,7 @@ const editTypeService = (inputData) => {
     return axios.put('/api/edit-type', inputData);
 }
 
-
+//
 const getAllReservations = (inputId) => {
     return axios.get(`/api/get-all-reservation?id=${inputId}`)
 }
@@ -125,6 +125,47 @@ const editReservationService = (inputData) => {
     return axios.put('/api/edit-reservation', inputData);
 }
 
+//
+const getAllHistorys = (inputId) => {
+    return axios.get(`/api/get-all-history?id=${inputId}`)
+}
+
+const createNewHistoryService = (data) => {
+    return axios.post('/api/create-history', data)
+}
+
+const deleteHistoryService = (historyId) => {
+    return axios.delete('/api/delete-history', {
+        data: {
+            id: historyId
+        }
+    });
+}
+
+const editHistoryService = (inputData) => {
+    return axios.put('/api/edit-info', inputData);
+}
+//
+const getAllInfos = (inputId) => {
+    return axios.get(`/api/get-all-info?id=${inputId}`)
+}
+
+const createNewInfoService = (data) => {
+    return axios.post('/api/create-info', data)
+}
+
+const deleteInfoService = (infoId) => {
+    return axios.delete('/api/delete-info', {
+        data: {
+            id: infoId
+        }
+    });
+}
+
+const editInfoService = (inputData) => {
+    return axios.put('/api/edit-info', inputData);
+}
+
 
 export {
     handleLogin, getAllUsers,
@@ -138,5 +179,9 @@ export {
     deleteTypeService, editTypeService,
     getAllReservations, createNewReservationService,
     deleteReservationService, editReservationService,
+    getAllHistorys, createNewHistoryService,
+    deleteHistoryService, editHistoryService,
+    getAllInfos, createNewInfoService,
+    deleteInfoService, editInfoService,
 
 }

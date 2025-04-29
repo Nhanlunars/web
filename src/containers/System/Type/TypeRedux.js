@@ -17,7 +17,8 @@ class TypeRedux extends Component {
             charger: '',
             describe: '',
             default_price: '',
-            
+            status: '',
+
             action: '',
             typeEditId: '',
         }
@@ -48,6 +49,7 @@ this.props.getChargerStart();
                 type_name: '',
             describe: '',
             default_price: '',
+            status: '',
             charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
                 action: CRUD_ACTIONS.CREATE,
 
@@ -70,6 +72,7 @@ this.props.getChargerStart();
                 charger_id: this.state.charger_id,
                 describe: this.state.describe,
                 default_price: this.state.default_price,
+                status: this.state.status,
             })
         }
         if (action === CRUD_ACTIONS.EDIT) {
@@ -80,6 +83,7 @@ this.props.getChargerStart();
                 charger_id: this.state.charger_id,
                 describe: this.state.describe,
                 default_price: this.state.default_price,
+                status: this.state.status,
             })
         }
 
@@ -113,6 +117,7 @@ this.props.getChargerStart();
             charger_id: type.charger_id,
             default_price: type.default_price,
             describe: type.describe,
+            status: type.status,
             action: CRUD_ACTIONS.EDIT,
             typeEditId: type.id
         })
@@ -122,7 +127,7 @@ this.props.getChargerStart();
 
         let chargers = this.state.chargerArr;
 
-        let { type_name, charger_id, default_price, describe} = this.state;
+        let { type_name, charger_id, default_price, describe, status} = this.state;
         return (
             <div className='type-redux-container'>
 
@@ -153,7 +158,14 @@ this.props.getChargerStart();
                                     onChange={(event) => { this.onChangeInput(event, 'describe') }}
                                 />
                             </div>
-                            
+                            <div className='col-3'>
+                                <label><FormattedMessage id='status' /></label>
+                                <input className='form-control' type='text'
+                                    value={status}
+                                    onChange={(event) => { this.onChangeInput(event, 'status') }}
+                                />
+                            </div>
+
                             <div className='col-3'>
                                 <label><FormattedMessage id='Charger' /></label>
                                 <select className="form-control"

@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import { CRUD_ACTIONS } from '../../../utils';
 import * as actions from "../../../store/actions";
-import "./ReservationRedux.scss";
-import TableManageReservation from './TableManageReservation';
-class ReservationRedux extends Component {
+import "./HistoryRedux.scss";
+import TableManageHistory from './TableManageHistory';
+class HistoryRedux extends Component {
 
     constructor(props) {
         super(props);
@@ -17,11 +17,13 @@ class ReservationRedux extends Component {
 
             start_time: '',
             end_time: '',
-            note: '',
+            number_start: '',
+            number_end: '',
+            cost: '',
             status: '',
 
             action: '',
-            reservationEditId: '',
+            historyEditId: '',
         }
     }
 
@@ -59,7 +61,7 @@ class ReservationRedux extends Component {
         }
         
 
-        if (prevProps.listReservations !== this.props.listReservations) {
+        if (prevProps.listHistorys !== this.props.listHistorys) {
             let arrUsers = this.props.userRedux;
             let arrChargers = this.props.chargerRedux;
             let arrTypes = this.props.typeRedux;
@@ -68,11 +70,13 @@ class ReservationRedux extends Component {
             this.setState({
                 start_time: '',
                 end_time: '',
-                note: '',
+                number_start: '',
+                number_end: '',
+                cost: '',
                 status: '',
-            user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
-            charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
-            type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
 
                 action: CRUD_ACTIONS.CREATE,
 
@@ -83,33 +87,37 @@ class ReservationRedux extends Component {
 
     
 
-    handlesaveReservation = () => {
+    handlesaveHistory = () => {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
-            this.props.createNewReservation({
+            this.props.createNewHistory({
                 user_id: this.state.user_id,
                 charger_id: this.state.charger_id,
                 type_id: this.state.type_id,
                 start_time: this.state.start_time,
                 end_time: this.state.end_time,
-                note: this.state.note,
+                number_start: this.state.number_start,
+                number_end: this.state.number_end,
+                cost: this.state.cost,
                 status: this.state.status,
             })
         }
         if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
-            this.props.editAReservationRedux({
-                id: this.state.reservationEditId,
+            this.props.editAHistoryRedux({
+                id: this.state.historyEditId,
                 user_id: this.state.user_id,
                 charger_id: this.state.charger_id,
                 type_id: this.state.type_id,
                 start_time: this.state.start_time,
                 end_time: this.state.end_time,
-                note: this.state.note,
+                number_start: this.state.number_start,
+                number_end: this.state.number_end,
+                cost: this.state.cost,
                 status: this.state.status,
 
             })
@@ -120,7 +128,7 @@ class ReservationRedux extends Component {
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ["start_time", "note", "end_time"]
+        let arrCheck = ["start_time", "number_start"]
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -139,17 +147,19 @@ class ReservationRedux extends Component {
         })
     }
 
-    handleEditReservationFromParent = (reservation) => {
+    handleEditHistoryFromParent = (history) => {
         this.setState({
-            user_id: reservation.user_id,
-            charger_id: reservation.charger_id,
-            type_id: reservation.type_id,
-            start_time: reservation.start_time,
-            end_time: reservation.end_time,
-            note: reservation.note,
-            status: reservation.status,
+            user_id: history.user_id,
+            charger_id: history.charger_id,
+            type_id: history.type_id,
+            start_time: history.start_time,
+            end_time: history.end_time,
+            number_start: history.number_start,
+            number_end: history.number_end,
+            cost: history.cost,
+            status: history.status,
             action: CRUD_ACTIONS.EDIT,
-            reservationEditId: reservation.id
+            historyEditId: history.id
         })
     }
 
@@ -160,12 +170,12 @@ class ReservationRedux extends Component {
         let types = this.state.typeArr;
 
 
-        let { user_id, charger_id, type_id, start_time, end_time, note, status} = this.state;
+        let { user_id, charger_id, type_id, start_time, end_time, number_start,number_end,cost, status} = this.state;
         return (
-            <div className='reservation-redux-container'>
+            <div className='history-redux-container'>
 
-                <div className="title" >Reservation Redux</div>
-                <div className='reservation-redux-body'>
+                <div className="title" >History Redux</div>
+                <div className='history-redux-body'>
                     <div className='container'>
                         <div className='row'>
                             <div className='col-12 my-3'><FormattedMessage id='manage-location.add' /></div>
@@ -185,10 +195,24 @@ class ReservationRedux extends Component {
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='Note' /></label>
+                                <label><FormattedMessage id='number_start' /></label>
                                 <input className='form-control' type='text'
-                                    value={note}
-                                    onChange={(event) => { this.onChangeInput(event, 'note') }}
+                                    value={number_start}
+                                    onChange={(event) => { this.onChangeInput(event, 'number_start') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='number_end' /></label>
+                                <input className='form-control' type='text'
+                                    value={number_end}
+                                    onChange={(event) => { this.onChangeInput(event, 'number_end') }}
+                                />
+                            </div>
+                            <div className='col-3'>
+                                <label><FormattedMessage id='cost' /></label>
+                                <input className='form-control' type='text'
+                                    value={cost}
+                                    onChange={(event) => { this.onChangeInput(event, 'cost') }}
                                 />
                             </div>
                             <div className='col-3'>
@@ -249,7 +273,7 @@ class ReservationRedux extends Component {
                             
                             <div className='col-12 my-3'>
                                 <button className={this.state.action === CRUD_ACTIONS.EDIT ? 'btn btn-warning' : 'btn btn-primary'}
-                                    onClick={() => this.handlesaveReservation()}
+                                    onClick={() => this.handlesaveHistory()}
                                 >
                                     {this.state.action === CRUD_ACTIONS.EDIT ?
                                         <FormattedMessage id='Edit               ' /> :
@@ -257,8 +281,8 @@ class ReservationRedux extends Component {
                                 </button>
                             </div>
                             <div className='col-12 mb-5'>
-                                <TableManageReservation
-                                    handleEditReservationFromParentKey={this.handleEditReservationFromParent}
+                                <TableManageHistory
+                                    handleEditHistoryFromParentKey={this.handleEditHistoryFromParent}
                                     action={this.state.action}
                                 />
                             </div>
@@ -282,7 +306,7 @@ const mapStateToProps = state => {
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
 
-        listReservations: state.admin.reservations
+        listHistorys: state.admin.historys
     };
 };
 
@@ -292,12 +316,12 @@ const mapDispatchToProps = dispatch => {
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
         getTypeStart: () => dispatch(actions.fetchAllTypesStart()),
 
-        createNewReservation: (data) => dispatch(actions.createNewReservation(data)),
-        fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),
-        editAReservationRedux: (data) => dispatch(actions.editAReservation(data))
+        createNewHistory: (data) => dispatch(actions.createNewHistory(data)),
+        fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
+        editAHistoryRedux: (data) => dispatch(actions.editAHistory(data))
 
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReservationRedux);
+export default connect(mapStateToProps, mapDispatchToProps)(HistoryRedux);
 

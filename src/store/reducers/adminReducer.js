@@ -50,47 +50,70 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
-            case actionTypes.FETCH_ALL_LOCATIONS_SUCCESS:
-                state.locations = action.locations;
+        case actionTypes.FETCH_ALL_LOCATIONS_SUCCESS:
+            state.locations = action.locations;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_LOCATIONS_FAILED:
+            state.locations = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_CHARGERS_SUCCESS:
+            state.chargers = action.chargers;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_CHARGERS_FAILED:
+            state.chargers = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_TYPES_SUCCESS:
+            state.types = action.types;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_TYPES_FAILED:
+            state.types = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS:
+            state.reservations = action.reservations;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_RESERVATIONS_FAILED:
+            state.reservations = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_HISTORYS_SUCCESS:
+                state.historys = action.historys;
                 return {
                     ...state
                 }
-            case actionTypes.FETCH_ALL_LOCATIONS_FAILED:
-                state.locations = [];
+        case actionTypes.FETCH_ALL_HISTORYS_FAILED:
+                state.historys = [];
                 return {
                     ...state
                 }
-                case actionTypes.FETCH_ALL_CHARGERS_SUCCESS:
-                    state.chargers = action.chargers;
+        case actionTypes.FETCH_ALL_INFOS_SUCCESS:
+                    state.infos = action.infos;
                     return {
                         ...state
-                    }
-                case actionTypes.FETCH_ALL_CHARGERS_FAILED:
-                    state.chargers = [];
+                }
+        case actionTypes.FETCH_ALL_INFOS_FAILED:
+                    state.infos = [];
                     return {
                         ...state
-                    }
-                case actionTypes.FETCH_ALL_TYPES_SUCCESS:
-                    state.types = action.types;
-                    return {
-                        ...state
-                    }
-                case actionTypes.FETCH_ALL_TYPES_FAILED:
-                    state.types = [];
-                    return {
-                        ...state
-                    }
-                    case actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS:
-                        state.reservations = action.reservations;
-                        return {
-                            ...state
-                        }
-                    case actionTypes.FETCH_ALL_RESERVATIONS_FAILED:
-                        state.reservations = [];
-                        return {
-                            ...state
-                        }
+                }
 
+
+
+                
         default:
             return state;
     }

@@ -1,41 +1,41 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import './TableManageReservation.scss';
+import './TableManageHistory.scss';
 import * as actions from "../../../store/actions";
 
-class TableManageReservation extends Component {
+class TableManageHistory extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            reservationsRedux: []
+            historysRedux: []
         }
     }
     componentDidMount() {
-        this.props.fetchReservationRedux();
+        this.props.fetchHistoryRedux();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.listReservations !== this.props.listReservations) {
+        if (prevProps.listHistorys !== this.props.listHistorys) {
             this.setState({
-                reservationsRedux: this.props.listReservations
+                historysRedux: this.props.listHistorys
             })
         }
     }
 
-    handleDeleteReservation = (reservation) => {
-        this.props.deleteAReservationRedux(reservation.id);
+    handleDeleteHistory = (history) => {
+        this.props.deleteAHistoryRedux(history.id);
     }
 
-    handleEditReservation = (reservation) => {
-        this.props.handleEditReservationFromParentKey(reservation)
+    handleEditHistory = (history) => {
+        this.props.handleEditHistoryFromParentKey(history)
     }
 
     render() {
-        let arrReservations = this.state.reservationsRedux;
+        let arrHistorys = this.state.historysRedux;
         return (
             <React.Fragment>
-                <table id="TableManageReservation">
+                <table id="TableManageHistory">
                     <tbody>
                         <tr>
                             <th>User id</th>
@@ -43,23 +43,26 @@ class TableManageReservation extends Component {
                             <th>Type id</th>
                             <th>Time start</th>
                             <th>Time end</th>
-                            <th>Note</th>
+                            <th>Number start</th>
+                            <th>Number end</th>
+                            <th>Cost</th>
                             <th>Actions</th>
                         </tr>
-                        {arrReservations && arrReservations.length > 0 &&
-                            arrReservations.map((item, index) => {
+                        {arrHistorys && arrHistorys.length > 0 &&
+                            arrHistorys.map((item, index) => {
                                 return (
                                     <tr key={index}>
                                         <td>{item.user_id}</td>
                                         <td>{item.charger_id}</td>
                                         <td>{item.type_id}</td>
                                         <td>{item.start_time}</td>
-
                                         <td>{item.end_time}</td>
-                                        <td>{item.note}</td>
+                                        <td>{item.number_start}</td>
+                                        <td>{item.number_end}</td>
+                                        <td>{item.cost}</td>
                                         <td>
-                                            <button onClick={() => this.handleEditReservation(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
-                                            <button onClick={() => this.handleDeleteReservation(item)}
+                                            <button onClick={() => this.handleEditHistory(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
+                                            <button onClick={() => this.handleDeleteHistory(item)}
                                                 className='btn-delete' ><i className='fas fa-trash'></i> </button>
                                         </td>
                                     </tr>
@@ -82,15 +85,15 @@ class TableManageReservation extends Component {
 
 const mapStateToProps = state => {
     return {
-        listReservations: state.admin.reservations
+        listHistorys: state.admin.historys
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),
-        deleteAReservationRedux: (id) => dispatch(actions.deleteAReservation(id))
+        fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
+        deleteAHistoryRedux: (id) => dispatch(actions.deleteAHistory(id))
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TableManageReservation);
+export default connect(mapStateToProps, mapDispatchToProps)(TableManageHistory);
