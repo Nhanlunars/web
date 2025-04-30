@@ -1,6 +1,6 @@
 import axios from '../axios'
 
-
+//user
 const handleLogin = (userEmail, userPassword) => {
     return axios.post('/api/login', { email: userEmail, password: userPassword });
 }
@@ -32,7 +32,7 @@ const getAllCodeService = (inputType) => {
     return axios.get(`/api/allcode?type=${inputType}`)
 }
 
-
+//location
 const getAllLocations = (inputId) => {
     //tamplate string
     return axios.get(`/api/get-all-location?id=${inputId}`)
@@ -56,7 +56,7 @@ const editLocationService = (inputData) => {
     return axios.put('/api/edit-location', inputData);
 }
 
-
+//charger
 const getAllChargers = (inputId) => {
     //tamplate string
     return axios.get(`/api/get-all-charger?id=${inputId}`)
@@ -80,7 +80,7 @@ const editChargerService = (inputData) => {
     return axios.put('/api/edit-charger', inputData);
 }
 
-
+//type
 const getAllTypes = (inputId) => {
     //tamplate string
     return axios.get(`/api/get-all-type?id=${inputId}`)
@@ -104,7 +104,7 @@ const editTypeService = (inputData) => {
     return axios.put('/api/edit-type', inputData);
 }
 
-//
+//reservation
 const getAllReservations = (inputId) => {
     return axios.get(`/api/get-all-reservation?id=${inputId}`)
 }
@@ -125,7 +125,7 @@ const editReservationService = (inputData) => {
     return axios.put('/api/edit-reservation', inputData);
 }
 
-//
+//history
 const getAllHistorys = (inputId) => {
     return axios.get(`/api/get-all-history?id=${inputId}`)
 }
@@ -145,7 +145,7 @@ const deleteHistoryService = (historyId) => {
 const editHistoryService = (inputData) => {
     return axios.put('/api/edit-info', inputData);
 }
-//
+//info
 const getAllInfos = (inputId) => {
     return axios.get(`/api/get-all-info?id=${inputId}`)
 }
@@ -165,6 +165,106 @@ const deleteInfoService = (infoId) => {
 const editInfoService = (inputData) => {
     return axios.put('/api/edit-info', inputData);
 }
+//feedback
+const getAllFeedbacks = (inputId) => {
+    return axios.get(`/api/get-all-feedback?id=${inputId}`)
+}
+
+const createNewFeedbackService = (data) => {
+    return axios.post('/api/create-feedback', data)
+}
+
+const deleteFeedbackService = (feedbackId) => {
+    return axios.delete('/api/delete-feedback', {
+        data: {
+            id: feedbackId
+        }
+    });
+}
+
+const editFeedbackService = (inputData) => {
+    return axios.put('/api/edit-feedback', inputData);
+}
+//device
+const getAllDevices = (inputId) => {
+    return axios.get(`/api/get-all-device?id=${inputId}`)
+}
+
+const createNewDeviceService = (data) => {
+    return axios.post('/api/create-device', data)
+}
+
+const deleteDeviceService = (deviceId) => {
+    return axios.delete('/api/delete-device', {
+        data: {
+            id: deviceId
+        }
+    });
+}
+
+const editDeviceService = (inputData) => {
+    return axios.put('/api/edit-device', inputData);
+}
+//maintenance
+const getAllMaintenances = (inputId) => {
+    return axios.get(`/api/get-all-maintenance?id=${inputId}`)
+}
+
+const createNewMaintenanceService = (data) => {
+    return axios.post('/api/create-maintenance', data)
+}
+
+const deleteMaintenanceService = (maintenanceId) => {
+    return axios.delete('/api/delete-maintenance', {
+        data: {
+            id: maintenanceId
+        }
+    });
+}
+
+const editMaintenanceService = (inputData) => {
+    return axios.put('/api/edit-maintenance', inputData);
+}
+//notification
+const getAllNotifications = (inputId) => {
+    return axios.get(`/api/get-all-notification?id=${inputId}`)
+}
+
+const createNewNotificationService = (data) => {
+    return axios.post('/api/create-notification', data)
+}
+
+const deleteNotificationService = (notificationId) => {
+    return axios.delete('/api/delete-notification', {
+        data: {
+            id: notificationId
+        }
+    });
+}
+
+const editNotificationService = (inputData) => {
+    return axios.put('/api/edit-notification', inputData);
+}
+//otp
+const getAllOtps = (inputId) => {
+    return axios.get(`/api/get-all-otp?id=${inputId}`)
+}
+
+const createNewOtpService = (data) => {
+    return axios.post('/api/create-otp', data)
+}
+
+const deleteOtpService = (otpId) => {
+    return axios.delete('/api/delete-otp', {
+        data: {
+            id: otpId
+        }
+    });
+}
+
+const editOtpService = (inputData) => {
+    return axios.put('/api/edit-otp', inputData);
+}
 
 
 export {
@@ -183,5 +283,15 @@ export {
     deleteHistoryService, editHistoryService,
     getAllInfos, createNewInfoService,
     deleteInfoService, editInfoService,
+    getAllFeedbacks, createNewFeedbackService,
+    deleteFeedbackService, editFeedbackService,
+    getAllDevices, createNewDeviceService,
+    deleteDeviceService, editDeviceService,
+    getAllMaintenances, createNewMaintenanceService,
+    deleteMaintenanceService, editMaintenanceService,
+    getAllNotifications, createNewNotificationService,
+    deleteNotificationService, editNotificationService,
+    getAllOtps, createNewOtpService,
+    deleteOtpService, editOtpService,
 
 }

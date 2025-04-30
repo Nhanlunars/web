@@ -8,6 +8,14 @@ const initialState = {
     locations: [],
     chargers: [],
     types: [],
+    reservations: [],
+    historys: [],
+    infos: [],
+    feedbacks: [],
+    devices: [],
+    maintenances: [],
+    notifications: [],
+    otps: [],
 }
 
 const adminReducer = (state = initialState, action) => {
@@ -91,25 +99,78 @@ const adminReducer = (state = initialState, action) => {
                 ...state
             }
         case actionTypes.FETCH_ALL_HISTORYS_SUCCESS:
-                state.historys = action.historys;
-                return {
-                    ...state
-                }
+            state.historys = action.historys;
+            return {
+                ...state
+            }
         case actionTypes.FETCH_ALL_HISTORYS_FAILED:
-                state.historys = [];
+            state.historys = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_INFOS_SUCCESS:
+                state.infos = action.infos;
                 return {
                     ...state
-                }
-        case actionTypes.FETCH_ALL_INFOS_SUCCESS:
-                    state.infos = action.infos;
-                    return {
-                        ...state
-                }
+            }
         case actionTypes.FETCH_ALL_INFOS_FAILED:
-                    state.infos = [];
-                    return {
-                        ...state
-                }
+                state.infos = [];
+                return {
+                    ...state
+            }
+
+
+
+        case actionTypes.FETCH_ALL_FEEDBACKS_SUCCESS:
+                state.feedbacks = action.feedbacks;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_FEEDBACKS_FAILED:
+                state.feedbacks = [];
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_DEVICES_SUCCESS:
+                state.devices = action.devices;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_DEVICES_FAILED:
+            state.devices = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_MAINTENANCES_SUCCESS:
+                state.maintenances = action.maintenances;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_MAINTENANCES_FAILED:
+                state.maintenances = [];
+                return {
+                    ...state
+            } 
+        case actionTypes.FETCH_ALL_NOTIFICATIONS_SUCCESS:
+                state.notifications = action.notifications;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_NOTIFICATIONS_FAILED:
+                state.notifications = [];
+                return {
+                    ...state
+            }
+            case actionTypes.FETCH_ALL_OTPS_SUCCESS:
+                state.otps = action.otps;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_OTPS_FAILED:
+                state.otps = [];
+                return {
+                    ...state
+            }  
 
 
 

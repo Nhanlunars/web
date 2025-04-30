@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
 import { adminMenu, ownerMenu } from './menuApp';
+import CustomScrollbars from '../../components/CustomScrollbars.js';
 import './Header.scss';
 import { USER_ROLE } from "../../utils";
 import _ from 'lodash';
@@ -49,22 +50,24 @@ class Header extends Component {
         const { processLogout, userInfo } = this.props;
 
         return (
+                                  
+          
             <div className="sidebar">
-
+<CustomScrollbars style={{ height: '100vh', width: '100%' }}>
             <div className="header-container">
                 {/* thanh navigator */}
-                <div className="header-tabs-container">
+                {/*<div className="header-tabs-container">
                     <Navigator menus={this.state.menuApp} /> 
-                   {/* <Navigator menus={adminMenu} />*/}
-                </div>
+                   {/* <Navigator menus={adminMenu} />}
+                </div>*/}
 <div className='languages'>
 <span className='welcome' ><FormattedMessage id='Welcome ' />
                         {userInfo && userInfo.firstName ? userInfo.lastName : 'hmm'}
                     </span>
 {/* nút logout */}
-<div className="btn btn-logout" onClick={processLogout}>
+{/*<div className="btn btn-logout" onClick={processLogout}>
                     <i className="fas fa-sign-out-alt"></i>
-                </div>
+                </div>*/}
 </div>     
             </div>
             <div className="navigationBar">
@@ -121,15 +124,43 @@ class Header extends Component {
           </li>
           <li>
             <MapPinPlus />
-            <Link to="/locations" className="link">
-              Maintenance management
+            <Link to="/system/info-management" className="link">
+              Info management
             </Link>
             <ChevronRight />
           </li>
           <li>
             <MapPinPlus />
-            <Link to="/locations" className="link">
+            <Link to="/system/feedback-management" className="link">
               Feedback management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/system/device-management" className="link">
+              Device management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/system/maintenance-management" className="link">
+            Maintenance management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/system/notification-managements" className="link">
+              Notification management
+            </Link>
+            <ChevronRight />
+          </li>
+          <li>
+            <MapPinPlus />
+            <Link to="/system/otp-management" className="link">
+              Otp management
             </Link>
             <ChevronRight />
           </li>
@@ -159,8 +190,10 @@ class Header extends Component {
         </ul>
       </div>
 
-
+      </CustomScrollbars>
             </div>
+           
+
         );
     }
 

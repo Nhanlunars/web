@@ -9,6 +9,8 @@ import TypeRedux from '../containers/System/Type/TypeRedux';
 import ReservationRedux from '../containers/System/Reservation/ReservationRedux';
 import HistoryRedux from '../containers/System/History/HistoryRedux';
 import InfoRedux from '../containers/System/Info/InfoRedux';
+import FeedbackRedux from '../containers/System/Feedback/FeedbackRedux';
+
 
 
 
@@ -35,6 +37,8 @@ class System extends Component {
                         <Route path="/system/reservation-management" component={ReservationRedux} />
                         <Route path="/system/history-management" component={HistoryRedux} />
                         <Route path="/system/info-management" component={InfoRedux} />
+                        <Route path="/system/feedback-management" component={FeedbackRedux} />
+
 
 
 
