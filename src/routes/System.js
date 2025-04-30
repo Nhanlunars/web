@@ -10,11 +10,10 @@ import ReservationRedux from '../containers/System/Reservation/ReservationRedux'
 import HistoryRedux from '../containers/System/History/HistoryRedux';
 import InfoRedux from '../containers/System/Info/InfoRedux';
 import FeedbackRedux from '../containers/System/Feedback/FeedbackRedux';
-
-
-
-
-
+import DeviceRedux from '../containers/System/Device/DeviceRedux';
+import MaintenanceRedux from '../containers/System/Maintenance/MaintenanceRedux';
+import NotificationRedux from '../containers/System/Notification/NotificationRedux';
+import OtpRedux from '../containers/System/Otp/OtpRedux';
 import Header from '../containers/Header/Header';
 import ProductManage from '../containers/System/ProductManage';
 import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
@@ -38,9 +37,10 @@ class System extends Component {
                         <Route path="/system/history-management" component={HistoryRedux} />
                         <Route path="/system/info-management" component={InfoRedux} />
                         <Route path="/system/feedback-management" component={FeedbackRedux} />
-
-
-
+                        <Route path="/system/device-management" component={DeviceRedux} />
+                        <Route path="/system/maintenance-management" component={MaintenanceRedux} />
+                        <Route path="/system/notification-management" component={NotificationRedux} />
+                        <Route path="/system/otp-management" component={OtpRedux} />
 
                         <Route path="/system/product-manage" component={ProductManage} />
                         <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />

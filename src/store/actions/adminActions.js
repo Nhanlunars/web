@@ -1307,9 +1307,8 @@ export const fetchAllNotificationsStart = () => {
             }
         } catch (e) {
             toast.error("fetch all notification error!!");
-
             dispatch(fetchAllNotificationsFailed());
-            console.log('fetchAllNotificationsFailed', e)
+            console.log('fetchAllNotificationsFailed!!', e)
         }
     } 
 }

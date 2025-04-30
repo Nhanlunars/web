@@ -152,7 +152,7 @@ class Header extends Component {
           </li>
           <li>
             <MapPinPlus />
-            <Link to="/system/notification-managements" className="link">
+            <Link to="/system/notification-management" className="link">
               Notification management
             </Link>
             <ChevronRight />

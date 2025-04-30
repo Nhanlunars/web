@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { CRUD_ACTIONS, CommonUtils } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./InfoRedux.scss";
+import Lightbox from 'react-image-lightbox';
+import 'react-image-lightbox/style.css';
 import TableManageInfo from './TableManageInfo';
 class InfoRedux extends Component {
 
@@ -68,7 +70,7 @@ this.props.getUserStart();
             let objectUrl = URL.createObjectURL(file);
             this.setState({
                 previewImgURL: objectUrl,
-                avatar: base64
+                picture: base64
             })
         }
     }
@@ -134,8 +136,8 @@ this.props.getUserStart();
 
     handleEditInfoFromParent = (info) => {
         let imageBase64 = '';
-        if (info.image) {
-            imageBase64 = new Buffer(info.image, 'base64').toString('binary');
+        if (info.picture) {
+            imageBase64 = new Buffer(info.picture, 'base64').toString('binary');
         }
         this.setState({
             user_id: info.user_id,
@@ -236,7 +238,12 @@ this.props.getUserStart();
                     </div>
 
                 </div>
-
+{this.state.isOpen === true &&
+                    <Lightbox
+                        mainSrc={this.state.previewImgURL}
+                        onCloseRequest={() => this.setState({ isOpen: false })}
+                    />
+                }
                 
 
             </div>
