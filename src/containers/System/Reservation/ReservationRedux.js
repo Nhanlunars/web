@@ -50,6 +50,9 @@ class ReservationRedux extends Component {
                 charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
+        if (prevState.charger_id !== this.state.charger_id) {
+            this.props.getTypeStart(this.state.charger_id);           
+        }
         if (prevProps.typeRedux !== this.props.typeRedux) {
             let arrTypes = this.props.typeRedux;
             this.setState({
@@ -159,6 +162,7 @@ class ReservationRedux extends Component {
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
 
+        console.log(this.state.type_id);
 
         let { user_id, charger_id, type_id, start_time, end_time, note, status} = this.state;
         return (
@@ -226,7 +230,6 @@ class ReservationRedux extends Component {
                                             )
                                         })
                                     }
-
                                 </select>
                             </div>
 
@@ -290,7 +293,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
-        getTypeStart: () => dispatch(actions.fetchAllTypesStart()),
+        getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewReservation: (data) => dispatch(actions.createNewReservation(data)),
         fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),

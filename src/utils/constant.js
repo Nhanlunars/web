@@ -28,6 +28,6 @@ export const YesNoObj = {
 
 export const USER_ROLE = {
     ADMIN: 'R1',
-    OWNER: 'R2',
-    USER: 'R3'
+    USER: 'R2',
+    OWNER: 'R3',
 }

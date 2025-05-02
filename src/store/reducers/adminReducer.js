@@ -5,6 +5,7 @@ const initialState = {
     genders: [],
     roles: [],
     users: [],
+    roleIds: [],
     locations: [],
     chargers: [],
     types: [],
@@ -58,12 +59,35 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+            case actionTypes.GET_ALL_ROLE_SUCCESS:
+                state.users = action.users;
+                return {
+                    ...state
+                }
+            case actionTypes.GET_ALL_ROLE_FAILED:
+                state.users = [];
+                return {
+                    ...state
+                }
+
+
+
         case actionTypes.FETCH_ALL_LOCATIONS_SUCCESS:
             state.locations = action.locations;
             return {
                 ...state
             }
         case actionTypes.FETCH_ALL_LOCATIONS_FAILED:
+            state.locations = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_LOCATION_BY_USERID_SUCCESS:
+            state.locations = action.locations;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_LOCATION_BY_USERID_FAILED:
             state.locations = [];
             return {
                 ...state
@@ -78,6 +102,16 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case actionTypes.FETCH_ALL_CHARGER_BY_LOCATIONID_SUCCESS:
+            state.chargers = action.chargers;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_CHARGER_BY_LOCATIONID_FAILED:
+            state.chargers = [];
+            return {
+                ...state
+            }
         case actionTypes.FETCH_ALL_TYPES_SUCCESS:
             state.types = action.types;
             return {
@@ -88,6 +122,16 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+            case actionTypes.FETCH_ALL_TYPE_BY_CHARGERID_SUCCESS:
+                state.types = action.types;
+                return {
+                    ...state
+                }
+            case actionTypes.FETCH_ALL_TYPE_BY_CHARGERID_FAILED:
+                state.types = [];
+                return {
+                    ...state
+                }
         case actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS:
             state.reservations = action.reservations;
             return {

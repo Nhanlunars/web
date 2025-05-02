@@ -28,7 +28,7 @@ class InfoRedux extends Component {
     }
 
     async componentDidMount() {
-this.props.getUserStart();
+this.props.getRole();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -262,7 +262,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserStart: () => dispatch(actions.fetchAllUsersStart()),
+        getRole: () => dispatch(actions.getRoleStart()),
         createNewInfo: (data) => dispatch(actions.createNewInfo(data)),
         fetchInfoRedux: () => dispatch(actions.fetchAllInfosStart()),
         editAInfoRedux: (data) => dispatch(actions.editAInfo(data))

@@ -27,6 +27,7 @@ class FeedbackRedux extends Component {
         this.props.getUserStart();
         this.props.getChargerStart();
         this.props.getTypeStart();
+        //this.state.getTypeStart();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -48,13 +49,16 @@ class FeedbackRedux extends Component {
                 charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
+        if (prevState.charger_id !== this.state.charger_id) {
+            this.props.getTypeStart(this.state.charger_id);           
+        }
         if (prevProps.typeRedux !== this.props.typeRedux) {
             let arrTypes = this.props.typeRedux;
             this.setState({
                 typeArr: arrTypes,
                 type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
             })
-        }
+    }
         
 
         if (prevProps.listFeedbacks !== this.props.listFeedbacks) {
@@ -129,6 +133,7 @@ class FeedbackRedux extends Component {
         this.setState({
             ...copyState
         })
+
     }
 
     handleEditFeedbackFromParent = (feedback) => {
@@ -148,9 +153,8 @@ class FeedbackRedux extends Component {
         let users = this.state.userArr;
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
-
-
         let { user_id, charger_id, type_id, rating, comment} = this.state;
+console.log("state", this.state);
         return (
             <div className='feedback-redux-container'>
 
@@ -176,7 +180,7 @@ class FeedbackRedux extends Component {
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='User' /></label>
-                                <select className="form-control"
+                                <select className="form-control" type='listbox'
                                     value={user_id}
                                     onChange={(event) => { this.onChangeInput(event, 'user_id') }}
                                 >
@@ -214,8 +218,9 @@ class FeedbackRedux extends Component {
                                 >
                                     {types && types.length > 0 &&
                                         types.map((item, index) => {
-                                            return (<option key={index} value={item.id}>{item.type_name}</option>
-                                            )
+                                            return (
+                                            <option key={index} value={item.id} selected="selected">{item.type_name}</option>
+                                        )
                                         })
                                     }
 
@@ -264,15 +269,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
+        
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
-        getTypeStart: () => dispatch(actions.fetchAllTypesStart()),
+        getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewFeedback: (data) => dispatch(actions.createNewFeedback(data)),
         fetchFeedbackRedux: () => dispatch(actions.fetchAllFeedbacksStart()),
         editAFeedbackRedux: (data) => dispatch(actions.editAFeedback(data))
 
     };
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedbackRedux);

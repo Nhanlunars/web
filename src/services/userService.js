@@ -10,6 +10,12 @@ const getAllUsers = (inputId) => {
     return axios.get(`/api/get-all-user?id=${inputId}`)
 }
 
+const getRole = (inputRole) => {
+    //tamplate string
+    return axios.get(`/api/get-role?roleId=${inputRole}`)
+}
+
+
 const createNewUserService = (data) => {
     //console.log('check data from service: ', data)
     return axios.post('/api/create-new-user1', data)
@@ -38,6 +44,11 @@ const getAllLocations = (inputId) => {
     return axios.get(`/api/get-all-location?id=${inputId}`)
 }
 
+const getAllLocationByUserId = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-location-by-userId?user_id=${inputId}`)
+}
+
 const createNewLocationService = (data) => {
     //console.log('check data from service: ', data)
     return axios.post('/api/create-location', data)
@@ -62,6 +73,11 @@ const getAllChargers = (inputId) => {
     return axios.get(`/api/get-all-charger?id=${inputId}`)
 }
 
+const getAllChargerByLocationId = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-charger-by-locationId?id=${inputId}`)
+}
+
 const createNewChargerService = (data) => {
     //console.log('check data from service: ', data)
     return axios.post('/api/create-charger', data)
@@ -84,6 +100,11 @@ const editChargerService = (inputData) => {
 const getAllTypes = (inputId) => {
     //tamplate string
     return axios.get(`/api/get-all-type?id=${inputId}`)
+}
+
+const getAllTypeByChargerId = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-type-by-chargerId?charger_id=${inputId}`)
 }
 
 const createNewTypeService = (data) => {
@@ -268,14 +289,14 @@ const editOtpService = (inputData) => {
 
 
 export {
-    handleLogin, getAllUsers,
+    handleLogin, getAllUsers, getRole,
     createNewUserService, deleteUserService,
     editUserService, getAllCodeService,
-    getAllLocations, createNewLocationService,
+    getAllLocations, createNewLocationService, getAllLocationByUserId, 
     deleteLocationService, editLocationService,
-    getAllChargers, createNewChargerService,
+    getAllChargers, createNewChargerService, getAllChargerByLocationId, 
     deleteChargerService, editChargerService,
-    getAllTypes, createNewTypeService,
+    getAllTypes, createNewTypeService, getAllTypeByChargerId,
     deleteTypeService, editTypeService,
     getAllReservations, createNewReservationService,
     deleteReservationService, editReservationService,

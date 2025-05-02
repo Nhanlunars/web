@@ -23,7 +23,7 @@ class DeviceRedux extends Component {
     }
 
     async componentDidMount() {
-        this.props.getUserStart();
+        this.props.getRole();
         this.props.getChargerStart();
         this.props.getTypeStart();
     }
@@ -46,6 +46,9 @@ class DeviceRedux extends Component {
                 chargerArr: arrChargers,
                 charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
+        }
+        if (prevState.charger_id !== this.state.charger_id) {
+            this.props.getTypeStart(this.state.charger_id);           
         }
         if (prevProps.typeRedux !== this.props.typeRedux) {
             let arrTypes = this.props.typeRedux;
@@ -253,9 +256,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserStart: () => dispatch(actions.fetchAllUsersStart()),
+        getRole: () => dispatch(actions.getRoleStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
-        getTypeStart: () => dispatch(actions.fetchAllTypesStart()),
+        getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewDevice: (data) => dispatch(actions.createNewDevice(data)),
         fetchDeviceRedux: () => dispatch(actions.fetchAllDevicesStart()),

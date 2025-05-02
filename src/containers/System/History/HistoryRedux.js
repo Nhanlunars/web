@@ -52,6 +52,9 @@ class HistoryRedux extends Component {
                 charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
+        if (prevState.charger_id !== this.state.charger_id) {
+            this.props.getTypeStart(this.state.charger_id);           
+        }
         if (prevProps.typeRedux !== this.props.typeRedux) {
             let arrTypes = this.props.typeRedux;
             this.setState({
@@ -314,7 +317,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
-        getTypeStart: () => dispatch(actions.fetchAllTypesStart()),
+        getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewHistory: (data) => dispatch(actions.createNewHistory(data)),
         fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
