@@ -39,14 +39,14 @@ class FeedbackRedux extends Component {
             let arrUsers = this.props.userRedux;
             this.setState({
                 userArr: arrUsers,
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
             })
         }
         if (prevProps.chargerRedux !== this.props.chargerRedux) {
             let arrChargers = this.props.chargerRedux;
             this.setState({
                 chargerArr: arrChargers,
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
         if (prevState.charger_id !== this.state.charger_id) {
@@ -56,7 +56,7 @@ class FeedbackRedux extends Component {
             let arrTypes = this.props.typeRedux;
             this.setState({
                 typeArr: arrTypes,
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
             })
     }
         
@@ -70,9 +70,9 @@ class FeedbackRedux extends Component {
             this.setState({
                 rating: '',
             comment: '',
-            user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
-            charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
-            type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+            user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+            charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+            type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
 
                 action: CRUD_ACTIONS.CREATE,
 

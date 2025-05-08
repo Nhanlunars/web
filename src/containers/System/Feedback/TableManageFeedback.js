@@ -49,9 +49,9 @@ class TableManageFeedback extends Component {
                             arrFeedbacks.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
-                                        <td>{item.charger_id}</td>
-                                        <td>{item.type_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                        <td>{item.charger.charger_name}</td>
+                                        <td>{item.type.type_name}</td>
                                         <td>{item.rating}</td>
 
                                         <td>{item.comment}</td>

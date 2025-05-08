@@ -49,7 +49,7 @@ class TableManageInfo extends Component {
                             arrInfos.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
                                         <td>{item.bank_name}</td>
                                         <td>{item.account_number}</td>
                                         <td>{item.account_name}</td>

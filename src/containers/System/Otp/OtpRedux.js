@@ -36,7 +36,7 @@ this.props.getUserStart();
             let arrUsers = this.props.userRedux;
             this.setState({
                 userArr: arrUsers,
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
             })
         }
         

@@ -8,11 +8,13 @@ class TableManageType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            typesRedux: []
+            typesRedux: [],
+
         }
     }
     componentDidMount() {
         this.props.fetchTypeRedux();
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,7 +52,7 @@ class TableManageType extends Component {
                                 return (
                                     <tr key={index}>
                                         <td>{item.type_name}</td>
-                                        <td>{item.charger_id}</td>
+                                        <td>{item.charger.charger_name}</td>
                                         <td>{item.describe}</td>
                                         <td>{item.default_price}</td>
                                         <td>{item.status}</td>

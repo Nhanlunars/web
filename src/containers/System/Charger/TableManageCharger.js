@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageCharger.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageCharger extends Component {
     constructor(props) {
@@ -12,7 +13,14 @@ class TableManageCharger extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchChargerRedux();
+        const {  userInfo } = this.props;
+                            if(userInfo.roleId === USER_ROLE.ADMIN){
+                                this.props.fetchChargerRedux();
+                            }
+                            if(userInfo.roleId === USER_ROLE.OWNER){
+                                this.props.fetchChargerReduxx(userInfo.id);
+                
+                            }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -42,7 +50,7 @@ class TableManageCharger extends Component {
                             <th>capacity</th>
                             <th>installation_date</th>
                             <th>last_maintence_date</th>
-                            <th>location_id</th>
+                            <th>location name</th>
                             <th>Actions</th>
                         </tr>
                         {arrChargers && arrChargers.length > 0 &&
@@ -53,7 +61,7 @@ class TableManageCharger extends Component {
                                         <td>{item.capacity}</td>
                                         <td>{item.installation_date}</td>
                                         <td>{item.last_maintence_date}</td>
-                                        <td>{item.location_id}</td>
+                                        <td>{item.location.location_name}</td>
                                         <td>
                                             <button onClick={() => this.handleEditCharger(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>
                                             <button onClick={() => this.handleDeleteCharger(item)}
@@ -79,14 +87,18 @@ class TableManageCharger extends Component {
 
 const mapStateToProps = state => {
     return {
-        listChargers: state.admin.chargers
+        listChargers: state.admin.chargers, 
+       userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
-        deleteAChargerRedux: (id) => dispatch(actions.deleteACharger(id))
+        deleteAChargerRedux: (id) => dispatch(actions.deleteACharger(id)),
+        fetchChargerReduxx: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
+
     };
 };
 

@@ -13,6 +13,7 @@ class HistoryRedux extends Component {
             userArr: [],
             chargerArr: [],
             typeArr: [],
+            statusArr: [],
             isOpen: false,
 
             start_time: '',
@@ -31,6 +32,7 @@ class HistoryRedux extends Component {
         this.props.getUserStart();
         this.props.getChargerStart();
         this.props.getTypeStart();
+        this.props.getStatusStart();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -42,24 +44,39 @@ class HistoryRedux extends Component {
             let arrUsers = this.props.userRedux;
             this.setState({
                 userArr: arrUsers,
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                a:'1'
             })
         }
         if (prevProps.chargerRedux !== this.props.chargerRedux) {
             let arrChargers = this.props.chargerRedux;
             this.setState({
                 chargerArr: arrChargers,
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+                a:'2'
             })
         }
         if (prevState.charger_id !== this.state.charger_id) {
-            this.props.getTypeStart(this.state.charger_id);           
+            this.props.getTypeStart(this.state.charger_id);  
+            this.setState({
+                a:'3'
+            })        
         }
         if (prevProps.typeRedux !== this.props.typeRedux) {
             let arrTypes = this.props.typeRedux;
             this.setState({
                 typeArr: arrTypes,
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+                a:'4'
+            })
+        }
+        
+        if (prevProps.statusRedux !== this.props.statusRedux) {
+            let arrStatus = this.props.statusRedux;
+            this.setState({
+                statusArr: arrStatus,
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
+                a:'4'
             })
         }
         
@@ -68,7 +85,7 @@ class HistoryRedux extends Component {
             let arrUsers = this.props.userRedux;
             let arrChargers = this.props.chargerRedux;
             let arrTypes = this.props.typeRedux;
-
+            let arrStatus = this.props.statusRedux;
 
             this.setState({
                 start_time: '',
@@ -77,12 +94,13 @@ class HistoryRedux extends Component {
                 number_end: '',
                 cost: '',
                 status: '',
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
 
                 action: CRUD_ACTIONS.CREATE,
-
+a:'6'
             })
 
         }
@@ -107,6 +125,7 @@ class HistoryRedux extends Component {
                 number_end: this.state.number_end,
                 cost: this.state.cost,
                 status: this.state.status,
+                
             })
         }
         if (action === CRUD_ACTIONS.EDIT) {
@@ -122,8 +141,8 @@ class HistoryRedux extends Component {
                 number_end: this.state.number_end,
                 cost: this.state.cost,
                 status: this.state.status,
-
             })
+            console.log(this.state.status);
         }
 
 
@@ -171,8 +190,9 @@ class HistoryRedux extends Component {
         let users = this.state.userArr;
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
+        let statuss = this.state.statusArr;
 
-
+console.log('state', this.state)
         let { user_id, charger_id, type_id, start_time, end_time, number_start,number_end,cost, status} = this.state;
         return (
             <div className='history-redux-container'>
@@ -220,10 +240,15 @@ class HistoryRedux extends Component {
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='Status' /></label>
-                                <input className='form-control' type='text'
+                                <select className='form-control'
                                     value={status}
                                     onChange={(event) => { this.onChangeInput(event, 'status') }}
-                                />
+                                >
+                                    {statuss && statuss.length > 0 &&
+                                    statuss.map((item, index) => {
+                                        return (<option key={index} value={item.keyMap}>{item.value}</option>)
+                                    })}
+                            </select>
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='user' /></label>
@@ -308,7 +333,7 @@ const mapStateToProps = state => {
         userRedux: state.admin.users,
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
-
+        statusRedux: state.admin.statuss,
         listHistorys: state.admin.historys
     };
 };
@@ -317,6 +342,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+        getStatusStart: () => dispatch(actions.fetchStatusStart()),
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewHistory: (data) => dispatch(actions.createNewHistory(data)),

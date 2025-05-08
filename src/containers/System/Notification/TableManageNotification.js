@@ -48,7 +48,7 @@ class TableManageNotification extends Component {
                             arrNotifications.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
                                         <td>{item.title}</td>
                                         <td>{item.message}</td>
                                         <td>{item.is_read}</td>

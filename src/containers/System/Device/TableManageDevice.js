@@ -48,9 +48,9 @@ class TableManageDevice extends Component {
                             arrDevices.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
-                                        <td>{item.charger_id}</td>
-                                        <td>{item.type_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                        <td>{item.charger.charger_name}</td>
+                                        <td>{item.type.type_name}</td>
                                         <td>{item.fcm_token}</td>
                                         <td>
                                             <button onClick={() => this.handleEditDevice(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>

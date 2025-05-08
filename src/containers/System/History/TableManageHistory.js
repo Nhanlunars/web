@@ -13,6 +13,7 @@ class TableManageHistory extends Component {
     }
     componentDidMount() {
         this.props.fetchHistoryRedux();
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -52,9 +53,9 @@ class TableManageHistory extends Component {
                             arrHistorys.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
-                                        <td>{item.charger_id}</td>
-                                        <td>{item.type_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                        <td>{item.charger.charger_name}</td>
+                                        <td>{item.type.type_name}</td>
                                         <td>{item.start_time}</td>
                                         <td>{item.end_time}</td>
                                         <td>{item.number_start}</td>
@@ -85,7 +86,9 @@ class TableManageHistory extends Component {
 
 const mapStateToProps = state => {
     return {
-        listHistorys: state.admin.historys
+        listHistorys: state.admin.historys,
+        userInfo: state.user.userInfo,
+
     };
 };
 

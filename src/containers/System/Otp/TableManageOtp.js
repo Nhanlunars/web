@@ -48,7 +48,7 @@ class TableManageOtp extends Component {
                             arrOtps.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
                                         <td>{item.code}</td>
                                         <td>{item.expiry_date}</td>
                                         <td>{item.is_used}</td>

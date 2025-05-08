@@ -51,8 +51,8 @@ class TableManageMaintenance extends Component {
                             arrMaintenances.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.charger_id}</td>
-                                        <td>{item.type_id}</td>
+                                        <td>{item.charger.charger_name}</td>
+                                        <td>{item.type.type_name}</td>
                                         <td>{item.maintenance_date}</td>
                                         <td>{item.completion_date}</td>
                                         <td>{item.maintenance_type}</td>

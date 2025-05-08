@@ -13,12 +13,15 @@ class TableManageReservation extends Component {
     }
     componentDidMount() {
         this.props.fetchReservationRedux();
+        this.props.getName();
+        
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps.listReservations !== this.props.listReservations) {
             this.setState({
-                reservationsRedux: this.props.listReservations
+                reservationsRedux: this.props.listReservations,
+                //userName
             })
         }
     }
@@ -50,9 +53,9 @@ class TableManageReservation extends Component {
                             arrReservations.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user_id}</td>
-                                        <td>{item.charger_id}</td>
-                                        <td>{item.type_id}</td>
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                        <td>{item.charger.charger_name}</td>
+                                        <td>{item.type.type_name}</td>
                                         <td>{item.start_time}</td>
 
                                         <td>{item.end_time}</td>
@@ -89,7 +92,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),
-        deleteAReservationRedux: (id) => dispatch(actions.deleteAReservation(id))
+        deleteAReservationRedux: (id) => dispatch(actions.deleteAReservation(id)),
+        getName: (id) => dispatch(actions.getNameUserByUserId(id))
+        
     };
 };
 

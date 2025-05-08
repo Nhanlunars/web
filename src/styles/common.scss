@@ -24,3 +24,12 @@
   height: 100vh; /* Chiều cao bằng chiều cao màn hình */
 
 }
+
+.owner-container{
+    margin-left: 280px; /* Đẩy dashboard ra bên phải để không bị chồng lên sidebar */
+  background-color: #F0F8FF; /* Màu nền của dashboard */
+  flex: 1; /* Chiếm không gian còn lại */
+  overflow-y: auto; /* Cho phép cuộn dọc */
+  height: 100vh; /* Chiều cao bằng chiều cao màn hình */
+
+}

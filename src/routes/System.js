@@ -15,17 +15,19 @@ import MaintenanceRedux from '../containers/System/Maintenance/MaintenanceRedux'
 import NotificationRedux from '../containers/System/Notification/NotificationRedux';
 import OtpRedux from '../containers/System/Otp/OtpRedux';
 import Header from '../containers/Header/Header';
-import ProductManage from '../containers/System/ProductManage';
-import RegisterPackageGroupOrAcc from '../containers/System/RegisterPackageGroupOrAcc';
 import "../styles/common.scss";
+import { USER_ROLE } from "../utils";
+import * as actions from "../store/actions";
+
 
 class System extends Component {
     render() {
-        const { systemMenuPath, isLoggedIn } = this.props;
+        const { systemMenuPath, isLoggedIn, userInfo } = this.props;
         return (
             <React.Fragment>
                 {isLoggedIn && <Header />}
-            <div className="system-container">
+                {/*userInfo.roleId === USER_ROLE.ADMIN && userInfo?(
+                    <div className="system-container">
                 <div className="system-list">
                     <Switch>
                         <Route path="/system/user-manage" component={UserManage} />
@@ -41,13 +43,35 @@ class System extends Component {
                         <Route path="/system/maintenance-management" component={MaintenanceRedux} />
                         <Route path="/system/notification-management" component={NotificationRedux} />
                         <Route path="/system/otp-management" component={OtpRedux} />
-
-                        <Route path="/system/product-manage" component={ProductManage} />
-                        <Route path="/system/register-package-group-or-account" component={RegisterPackageGroupOrAcc} />
                         <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
                     </Switch>
                 </div>
             </div>
+            
+        ) : ''
+       
+    */}
+     <div className="system-container">
+        <div className="system-list">
+            <Switch>
+                <Route path="/system/user-manage" component={UserManage} />
+                <Route path="/system/user-management" component={UserRedux} />
+                <Route path="/system/location-management" component={LocationRedux} />
+                <Route path="/system/charger-management" component={ChargerRedux} />
+                <Route path="/system/type-management" component={TypeRedux} />
+                <Route path="/system/reservation-management" component={ReservationRedux} />
+                <Route path="/system/history-management" component={HistoryRedux} />
+                <Route path="/system/info-management" component={InfoRedux} />
+                <Route path="/system/feedback-management" component={FeedbackRedux} />
+                <Route path="/system/device-management" component={DeviceRedux} />
+                <Route path="/system/maintenance-management" component={MaintenanceRedux} />
+                <Route path="/system/notification-management" component={NotificationRedux} />
+                <Route path="/system/otp-management" component={OtpRedux} />
+                <Route component={() => { return (<Redirect to={systemMenuPath} />) }} />
+            </Switch>
+        </div>
+    </div>
+            
             </React.Fragment>
         );
     }
@@ -56,7 +80,9 @@ class System extends Component {
 const mapStateToProps = state => {
     return {
         systemMenuPath: state.app.systemMenuPath,
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        userInfo: state.user.userInfo,
+
 
     };
 };

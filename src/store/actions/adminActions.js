@@ -2,7 +2,7 @@ import actionTypes from './actionTypes';
 import{
     getAllCodeService, createNewUserService, getAllUsers, getRole, 
     deleteUserService, editUserService,getAllLocations, createNewLocationService,getAllLocationByUserId,
-    deleteLocationService, editLocationService, getAllChargers, createNewChargerService, getAllChargerByLocationId,
+    deleteLocationService, editLocationService, getAllChargers, createNewChargerService, getAllChargerByUserId,
     deleteChargerService, editChargerService, getAllTypes, createNewTypeService, getAllTypeByChargerId,
     deleteTypeService, editTypeService, getAllReservations, createNewReservationService,
     deleteReservationService, editReservationService, getAllHistorys, createNewHistoryService,
@@ -71,6 +71,34 @@ export const fetchRoleSuccess = (roleData) => ({
 
 export const fetchRoleFailed = () => ({
     type: actionTypes.FETCH_ROLE_FAILED
+})
+
+
+export const fetchStatusStart = () => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllCodeService("STATUS");
+            if (res && res.errCode === 0) {
+                dispatch(fetchStatusSuccess(res.data));
+                console.log('log', res);
+            } else {
+                dispatch(fetchStatusFailed());
+                console.log('log1', res);
+            }
+        } catch (e) {
+            dispatch(fetchStatusFailed());
+            console.log('fetchStatusFailed', e)
+        }
+    }
+}
+
+export const fetchStatusSuccess = (statusData) => ({
+    type: actionTypes.FETCH_STATUS_SUCCESS,
+    data: statusData
+})
+
+export const fetchStatusFailed = () => ({
+    type: actionTypes.FETCH_STATUS_FAIDED
 })
 
 export const createNewUser = (data) => {
@@ -298,20 +326,19 @@ export const fetchAllLocationsFailed = () => ({
 })
 
 
-export const fetchAllLocationByUserIdStart = () => {
+export const fetchAllLocationByUserIdStart = (userId) => {
     return async (dispatch, getstate) => {
         try {
-            let res = await getAllLocationByUserId("All");
+            let res = await getAllLocationByUserId(userId);
             if (res && res.errCode === 0) {
-
                 dispatch(fetchAllLocationByUserIdSuccess(res.locations.reverse()));
             } else {
                 toast.error("fetch all location error!!!!");
                 dispatch(fetchAllLocationByUserIdFailed());
+
             }
         } catch (e) {
             toast.error("fetch all location error!");
-
             dispatch(fetchAllLocationByUserIdFailed());
             console.log('fetchAllLocationsFailed', e)
         }
@@ -424,6 +451,8 @@ export const fetchAllChargersStart = () => {
             if (res && res.errCode === 0) {
 
                 dispatch(fetchAllChargersSuccess(res.chargers.reverse()));
+              //  dispatch(fetchAllTypesSuccess(res.types.reverse()));
+
             } else {
                 toast.error("fetch all charger error!");
                 dispatch(fetchAllChargersFailed());
@@ -448,10 +477,10 @@ export const fetchAllChargersFailed = () => ({
 })
 
 
-export const fetchAllChargerByLocationIdStart = (locationId) => {
+export const fetchAllChargerByUserIdStart = (userId) => {
     return async (dispatch, getstate) => {
         try {
-            let res = await getAllChargerByLocationId(locationId);
+            let res = await getAllChargerByUserId(userId);
             if (res && res.errCode === 0) {
                 dispatch(fetchAllChargerByLocationIdSuccess(res.chargers.reverse()));
             } else {
@@ -607,14 +636,13 @@ export const fetchAllTypeByChargerIdStart = (charger_id) => {
                 dispatch(fetchAllTypeByChargerIdSuccess(res.types.reverse()));
                 console.log('ok ok', res)
 
-
             } else {
-                toast.error("fetch all type error!");
+                //toast.error("fetch all type by chargerId error!");
                 dispatch(fetchAllTypeByChargerIdFailed());
                 console.log('fetchAllTypesFailed', res)
             }
         } catch (e) {
-            toast.error("fetch all type error!!");
+            //toast.error("fetch all type by chargerId error!!");
             dispatch(fetchAllTypeByChargerIdFailed());
             console.log('fetchAllTypesFailed', e)
         }

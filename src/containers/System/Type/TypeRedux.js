@@ -11,6 +11,7 @@ class TypeRedux extends Component {
         super(props);
         this.state = {
             chargerArr: [],
+            statusArr: [],
             isOpen: false,
 
             type_name: '',
@@ -26,6 +27,8 @@ class TypeRedux extends Component {
 
     async componentDidMount() {
 this.props.getChargerStart();
+this.props.getStatusStart();
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -37,20 +40,29 @@ this.props.getChargerStart();
             let arrChargers = this.props.chargerRedux;
             this.setState({
                 chargerArr: arrChargers,
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
-        
+        if (prevProps.statusRedux !== this.props.statusRedux) {
+            let arrStatus = this.props.statusRedux;
+            this.setState({
+                statusArr: arrStatus,
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : ''
+            })
+        }
 
         if (prevProps.listTypes !== this.props.listTypes) {
             let arrChargers = this.props.chargerRedux;
+            let arrStatus = this.props.statusRedux;
+
 
             this.setState({
                 type_name: '',
             describe: '',
             default_price: '',
-            status: '',
-            charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+            status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
+            charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+            status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
                 action: CRUD_ACTIONS.CREATE,
 
             })
@@ -126,7 +138,9 @@ this.props.getChargerStart();
     render() {
 
         let chargers = this.state.chargerArr;
+        let statuss = this.state.statusArr;
 
+console.log(this.state)
         let { type_name, charger_id, default_price, describe, status} = this.state;
         return (
             <div className='type-redux-container'>
@@ -159,12 +173,17 @@ this.props.getChargerStart();
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='status' /></label>
-                                <input className='form-control' type='text'
-                                    value={status}
-                                    onChange={(event) => { this.onChangeInput(event, 'status') }}
-                                />
-                            </div>
+                                                            <label><FormattedMessage id='Status' /></label>
+                                                            <select className='form-control'
+                                                                value={status}
+                                                                onChange={(event) => { this.onChangeInput(event, 'status') }}
+                                                            >
+                                                                {statuss && statuss.length > 0 &&
+                                                                statuss.map((item, index) => {
+                                                                    return (<option key={index} value={item.keyMap}>{item.value}</option>)
+                                                                })}
+                                                        </select>
+                                                        </div>
 
                             <div className='col-3'>
                                 <label><FormattedMessage id='Charger' /></label>
@@ -215,7 +234,9 @@ this.props.getChargerStart();
 const mapStateToProps = state => {
     return {
         chargerRedux: state.admin.chargers,
-        listTypes: state.admin.types
+        listTypes: state.admin.types,
+        statusRedux: state.admin.statuss,
+
     };
 };
 
@@ -224,7 +245,8 @@ const mapDispatchToProps = dispatch => {
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
         createNewType: (data) => dispatch(actions.createNewType(data)),
         fetchTypeRedux: () => dispatch(actions.fetchAllTypesStart()),
-        editATypeRedux: (data) => dispatch(actions.editAType(data))
+        editATypeRedux: (data) => dispatch(actions.editAType(data)),
+        getStatusStart: () => dispatch(actions.fetchStatusStart()),
 
     };
 };

@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS, CommonUtils } from '../../../utils';
+import { CRUD_ACTIONS, CommonUtils, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./ChargerRedux.scss";
 import Lightbox from 'react-image-lightbox';
 import TableManageCharger from './TableManageCharger';
 class ChargerRedux extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +25,16 @@ class ChargerRedux extends Component {
     }
 
     async componentDidMount() {
-this.props.getLocationStart();
+        let {  userInfo } = this.props;
+        let userId = userInfo.id;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+
+this.props.getLocationStart();}
+if(userInfo.roleId === USER_ROLE.OWNER){
+
+this.props.fetchLocationByUserIdRedux(userId);}
+
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -45,8 +53,10 @@ this.props.getLocationStart();
 
         if (prevProps.listChargers !== this.props.listChargers) {
             let arrLocation = this.props.locationRedux;
+            let {  userInfo } = this.props;
 
             this.setState({
+         userId : userInfo.id,
                  charger_name: '',
             capacity: '',
             installation_date: '',
@@ -127,9 +137,10 @@ this.props.getLocationStart();
     render() {
 
         let locations = this.state.locationArr;
-
+        
         let { charger_name, capacity, installation_date,
             last_maintence_date,location } = this.state;
+            console.log('state', this.state)
         return (
             <div className='charger-redux-container'>
 
@@ -224,15 +235,19 @@ this.props.getLocationStart();
 const mapStateToProps = state => {
     return {
         locationRedux: state.admin.locations,
-        listChargers: state.admin.chargers
+        listChargers: state.admin.chargers,
+        userInfo: state.user.userInfo,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getLocationStart: () => dispatch(actions.fetchAllLocationsStart()),
+        fetchLocationByUserIdRedux: (userId) => dispatch(actions.fetchAllLocationByUserIdStart(userId)),
+        
+        //getChargerByUserIdStart: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         createNewCharger: (data) => dispatch(actions.createNewCharger(data)),
-        fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
+        //fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
         editAChargerRedux: (data) => dispatch(actions.editACharger(data))
 
     };

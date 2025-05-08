@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageLocation.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageLocation extends Component {
     constructor(props) {
@@ -12,7 +13,15 @@ class TableManageLocation extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchLocationRedux();
+        //this.props.fetchLocationRedux();
+         const {  userInfo } = this.props;
+                    if(userInfo.roleId === USER_ROLE.ADMIN){
+                        this.props.fetchLocationRedux();
+                    }
+                    if(userInfo.roleId === USER_ROLE.OWNER){
+                        this.props.fetchLocationByUserIdRedux(userInfo.id);
+        
+                    }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -32,6 +41,7 @@ class TableManageLocation extends Component {
     }
 
     render() {
+                let { userInfo } = this.props;
         let arrLocations = this.state.locationsRedux;
         return (
             <React.Fragment>
@@ -39,7 +49,9 @@ class TableManageLocation extends Component {
                     <tbody>
                         <tr>
                             <th>Location name</th>
-                            <th>User id</th>
+                            {userInfo.roleId === USER_ROLE.ADMIN ? (
+                                <th> User name </th>
+                            ): ''}
                             <th>city</th>
                             <th>Address</th>
                             <th>Ward</th>
@@ -53,7 +65,9 @@ class TableManageLocation extends Component {
                                 return (
                                     <tr key={index}>
                                         <td>{item.location_name}</td>
-                                        <td>{item.user_id}</td>
+                                        {userInfo.roleId === USER_ROLE.ADMIN && userInfo ? (
+                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                    ):''}
                                         <td>{item.city}</td>
                                         <td>{item.address}</td>
                                         <td>{item.ward}</td>
@@ -85,12 +99,15 @@ class TableManageLocation extends Component {
 
 const mapStateToProps = state => {
     return {
-        listLocations: state.admin.locations
+        listLocations: state.admin.locations,
+        userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        fetchLocationByUserIdRedux: (userId) => dispatch(actions.fetchAllLocationByUserIdStart(userId)),
         fetchLocationRedux: () => dispatch(actions.fetchAllLocationsStart()),
         deleteALocationRedux: (id) => dispatch(actions.deleteALocation(id))
     };

@@ -12,6 +12,7 @@ class MaintenanceRedux extends Component {
         this.state = {
             chargerArr: [],
             typeArr: [],
+            statusArr: [],
             isOpen: false,
 
             maintenance_date: '',
@@ -29,6 +30,8 @@ class MaintenanceRedux extends Component {
     async componentDidMount() {
         this.props.getChargerStart();
         this.props.getTypeStart();
+        this.props.getStatusStart();
+
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -41,7 +44,7 @@ class MaintenanceRedux extends Component {
             let arrChargers = this.props.chargerRedux;
             this.setState({
                 chargerArr: arrChargers,
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
         if (prevState.charger_id !== this.state.charger_id) {
@@ -51,7 +54,14 @@ class MaintenanceRedux extends Component {
             let arrTypes = this.props.typeRedux;
             this.setState({
                 typeArr: arrTypes,
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
+            })
+        }
+        if (prevProps.statusRedux !== this.props.statusRedux) {
+            let arrStatus = this.props.statusRedux;
+            this.setState({
+                statusArr: arrStatus,
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : ''
             })
         }
         
@@ -157,7 +167,7 @@ class MaintenanceRedux extends Component {
 
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
-
+        let statuss = this.state.statusArr;
 
         let { charger_id, type_id, maintenance_date, completion_date, maintenance_type,technician_name,maintenance_cost, status} = this.state;
         return (
@@ -205,12 +215,17 @@ class MaintenanceRedux extends Component {
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='Status' /></label>
-                                <input className='form-control' type='text'
-                                    value={status}
-                                    onChange={(event) => { this.onChangeInput(event, 'status') }}
-                                />
-                            </div>
+                                                            <label><FormattedMessage id='Status' /></label>
+                                                            <select className='form-control'
+                                                                value={status}
+                                                                onChange={(event) => { this.onChangeInput(event, 'status') }}
+                                                            >
+                                                                {statuss && statuss.length > 0 &&
+                                                                statuss.map((item, index) => {
+                                                                    return (<option key={index} value={item.keyMap}>{item.value}</option>)
+                                                                })}
+                                                        </select>
+                                                        </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='Charger' /></label>
                                 <select className="form-control"
@@ -277,6 +292,7 @@ const mapStateToProps = state => {
     return {
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
+        statusRedux: state.admin.statuss,
 
         listMaintenances: state.admin.maintenances
     };
@@ -286,6 +302,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
+        getStatusStart: () => dispatch(actions.fetchStatusStart()),
 
         createNewMaintenance: (data) => dispatch(actions.createNewMaintenance(data)),
         fetchMaintenanceRedux: () => dispatch(actions.fetchAllMaintenancesStart()),

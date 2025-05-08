@@ -37,14 +37,14 @@ class DeviceRedux extends Component {
             let arrUsers = this.props.userRedux;
             this.setState({
                 userArr: arrUsers,
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : ''
             })
         }
         if (prevProps.chargerRedux !== this.props.chargerRedux) {
             let arrChargers = this.props.chargerRedux;
             this.setState({
                 chargerArr: arrChargers,
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : ''
             })
         }
         if (prevState.charger_id !== this.state.charger_id) {
@@ -54,7 +54,7 @@ class DeviceRedux extends Component {
             let arrTypes = this.props.typeRedux;
             this.setState({
                 typeArr: arrTypes,
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : ''
             })
         }
         
@@ -67,9 +67,9 @@ class DeviceRedux extends Component {
 
             this.setState({
                 fcm_token: '',
-                user: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
-                charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
-                type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
+                user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
+                charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
+                type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
 
                 action: CRUD_ACTIONS.CREATE,
 
@@ -146,7 +146,7 @@ class DeviceRedux extends Component {
         let users = this.state.userArr;
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
-
+console.log('state', this.state)
 
         let { user_id, charger_id, type_id, fcm_token} = this.state;
         return (

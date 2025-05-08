@@ -73,9 +73,9 @@ const getAllChargers = (inputId) => {
     return axios.get(`/api/get-all-charger?id=${inputId}`)
 }
 
-const getAllChargerByLocationId = (inputId) => {
+const getAllChargerByUserId = (inputId) => {
     //tamplate string
-    return axios.get(`/api/get-all-charger-by-locationId?id=${inputId}`)
+    return axios.get(`/api/get-all-charger-by-userid?user_id=${inputId}`)
 }
 
 const createNewChargerService = (data) => {
@@ -294,7 +294,7 @@ export {
     editUserService, getAllCodeService,
     getAllLocations, createNewLocationService, getAllLocationByUserId, 
     deleteLocationService, editLocationService,
-    getAllChargers, createNewChargerService, getAllChargerByLocationId, 
+    getAllChargers, createNewChargerService, getAllChargerByUserId, 
     deleteChargerService, editChargerService,
     getAllTypes, createNewTypeService, getAllTypeByChargerId,
     deleteTypeService, editTypeService,
