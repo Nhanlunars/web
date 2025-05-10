@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./ReservationRedux.scss";
 import TableManageReservation from './TableManageReservation';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_orange.css';
+  
 class ReservationRedux extends Component {
 
     constructor(props) {
@@ -15,10 +18,9 @@ class ReservationRedux extends Component {
             typeArr: [],
             isOpen: false,
 
-            start_time: '',
+            start_time:  new Date(),
             end_time: '',
             note: '',
-            status: '',
 
             action: '',
             reservationEditId: '',
@@ -27,10 +29,14 @@ class ReservationRedux extends Component {
 
     async componentDidMount() {
         this.props.getUserStart();
-        //this.props.getChargerStart();
-         this.props.getChargerStart();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }
          this.props.getStatusStart();
-        console.log("bakdjbkadbflknalkdfnklsadnfklads")
 
         // this.props.getTypeStart(a?.[0].id);
     }
@@ -82,7 +88,7 @@ class ReservationRedux extends Component {
             let arrStatus = this.props.statusRedux;
             this.setState({
                 statusArr: arrStatus,
-                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : ''
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : ''
             })
         }
 
@@ -92,7 +98,7 @@ class ReservationRedux extends Component {
             let arrTypes = this.props.typeRedux;
             let arrStatus = this.props.statusRedux;
 
-            console.log("dkabkfdafdfad", )
+          
 
 
             this.setState({
@@ -103,7 +109,7 @@ class ReservationRedux extends Component {
             user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
             charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
             type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
- status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
+ status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
                 action: CRUD_ACTIONS.CREATE,
 
             })
@@ -117,6 +123,7 @@ class ReservationRedux extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
+        const {  userInfo } = this.props;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
@@ -130,7 +137,8 @@ class ReservationRedux extends Component {
                 status: this.state.status,
             })
         }
-        if (action === CRUD_ACTIONS.EDIT) {
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
             this.props.editAReservationRedux({
                 id: this.state.reservationEditId,
@@ -144,6 +152,24 @@ class ReservationRedux extends Component {
 
             })
         }
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editAReservation({
+                id: this.state.reservationEditId,
+                user_id: this.state.user_id,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                start_time: this.state.start_time,
+                end_time: this.state.end_time,
+                note: this.state.note,
+                status: this.state.status,
+userId: userInfo.id
+            })
+        }
+        }
+        
 
 
     }
@@ -194,6 +220,7 @@ class ReservationRedux extends Component {
 
         let { user_id, charger_id, type_id, start_time, end_time, note, status} = this.state;
         return (
+            
             <div className='reservation-redux-container'>
 
                 <div className="title" >Reservation Redux</div>
@@ -203,18 +230,31 @@ class ReservationRedux extends Component {
                             <div className='col-12 my-3'><FormattedMessage id='manage-location.add' /></div>
 
                             <div className='col-3'>
-                                <label><FormattedMessage id='Time start' /></label>
-                                <input className='form-control' type='text'
-                                    value={start_time}
-                                    onChange={(event) => { this.onChangeInput(event, 'start_time') }}
+                                <label><FormattedMessage id='Time start' /></label>                               
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                placeholder = 'Choose time'
+                                format = 'yyyy/MM/dd HH:mm'
+                                value={start_time}  
+                                onChange={start_time =>  this.setState({start_time}) }
                                 />
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='Time end' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={end_time}
                                     onChange={(event) => { this.onChangeInput(event, 'end_time') }}
+                                />*/}
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                    placeholder = 'Choose time'
+                                    format = 'yyyy/MM/dd HH:mm'
+                                    value={end_time}  
+                                    onChange={end_time =>  this.setState({end_time}) }
                                 />
+
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='Note' /></label>
@@ -320,6 +360,7 @@ const mapStateToProps = state => {
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
         statusRedux: state.admin.statuss,
+       userInfo: state.user.userInfo,
 
         listReservations: state.admin.reservations
     };
@@ -329,13 +370,15 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
-
+        getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
         getStatusStart: () => dispatch(actions.fetchStatusStart()),
 
         createNewReservation: (data) => dispatch(actions.createNewReservation(data)),
-        fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),
-        editAReservationRedux: (data) => dispatch(actions.editAReservation(data))
+       // fetchReservationRedux: () => dispatch(actions.fetchAllReservationsStart()),
+        editAReservationRedux: (data) => dispatch(actions.editAReservation(data)),
+                editAReservation: (data) => dispatch(actions.editAReservationn(data))
+
 
     };
 };

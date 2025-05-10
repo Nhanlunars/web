@@ -3,6 +3,8 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageType.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
+
 
 class TableManageType extends Component {
     constructor(props) {
@@ -13,7 +15,14 @@ class TableManageType extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchTypeRedux();
+        //this.props.fetchTypeRedux();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.fetchTypeRedux();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.fetchType(userInfo.id);
+        }
 
     }
 
@@ -81,13 +90,16 @@ class TableManageType extends Component {
 
 const mapStateToProps = state => {
     return {
-        listTypes: state.admin.types
+        listTypes: state.admin.types,
+                userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchTypeRedux: () => dispatch(actions.fetchAllTypesStart()),
+        fetchType: (userId) => dispatch(actions.fetchAllTypeByUserIdStart(userId)),
         deleteATypeRedux: (id) => dispatch(actions.deleteAType(id))
     };
 };

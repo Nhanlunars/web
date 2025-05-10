@@ -3,18 +3,16 @@ import{
     getAllCodeService, createNewUserService, getAllUsers, getRole, 
     deleteUserService, editUserService,getAllLocations, createNewLocationService,getAllLocationByUserId,
     deleteLocationService, editLocationService, getAllChargers, createNewChargerService, getAllChargerByUserId,
-    deleteChargerService, editChargerService, getAllTypes, createNewTypeService, getAllTypeByChargerId,
-    deleteTypeService, editTypeService, getAllReservations, createNewReservationService,
-    deleteReservationService, editReservationService, getAllHistorys, createNewHistoryService,
-    deleteHistoryService, editHistoryService, getAllInfos, createNewInfoService,
-    deleteInfoService, editInfoService, getAllFeedbacks, createNewFeedbackService,
-    deleteFeedbackService, editFeedbackService, getAllDevices, createNewDeviceService,
-    deleteDeviceService, editDeviceService, getAllMaintenances, createNewMaintenanceService,
+    deleteChargerService, editChargerService, getAllTypes, createNewTypeService, getAllTypeByChargerId, getAllTypeByUserId,
+    deleteTypeService, editTypeService, getAllReservations, createNewReservationService, getAllReservationsByUserId,
+    deleteReservationService, editReservationService, getAllHistorys, createNewHistoryService, getAllHistorysbyUserId,
+    deleteHistoryService, editHistoryService, getAllInfos, createNewInfoService, getAllInfosByUserId,
+    deleteInfoService, editInfoService, getAllFeedbacks, createNewFeedbackService, getAllFeedbackByOwnerId,
+    deleteFeedbackService, editFeedbackService, getAllDevices, createNewDeviceService, getAllDevicesByUserId,
+    deleteDeviceService, editDeviceService, getAllMaintenances, createNewMaintenanceService, getAllMaintenancesByUserId,
     deleteMaintenanceService, editMaintenanceService, getAllNotifications, createNewNotificationService,
     deleteNotificationService, editNotificationService, getAllOtps, createNewOtpService,
     deleteOtpService, editOtpService,
-
-
 }
  from '../../services/userService';
 //import index from '../../services';
@@ -72,7 +70,6 @@ export const fetchRoleSuccess = (roleData) => ({
 export const fetchRoleFailed = () => ({
     type: actionTypes.FETCH_ROLE_FAILED
 })
-
 
 export const fetchStatusStart = () => {
     return async (dispatch, getstate) => {
@@ -167,7 +164,6 @@ export const getNameUserByUserId = (userId) => {
     }
 }
 
-
 export const fetchAllUsersSuccess = (data) => ({
     type: actionTypes.FETCH_ALL_USERS_SUCCESS,
     users: data
@@ -207,8 +203,6 @@ export const getRoleSuccess = (data) => ({
 export const getRoleFailed = () => ({
     type: actionTypes.GET_ALL_ROLE_FAILED,
 })
-
-
 
 export const deleteAUser = (userId) => {
     return async (dispatch, getstate) => {
@@ -325,7 +319,6 @@ export const fetchAllLocationsFailed = () => ({
     type: actionTypes.FETCH_ALL_LOCATIONS_FAILED,
 })
 
-
 export const fetchAllLocationByUserIdStart = (userId) => {
     return async (dispatch, getstate) => {
         try {
@@ -392,6 +385,28 @@ export const editALocation = (data) => {
                 toast.success("Update the location success!");
                 dispatch(editLocationSuccess());
                 dispatch(fetchAllLocationsStart());
+            } else {
+                toast.error("Update the location error!");
+                dispatch(editLocationFailed());
+                console.log('editLocationFailed1', res)
+            }
+        } catch (e) {
+            toast.error("Update the location error!!");
+            dispatch(editLocationFailed());
+            console.log('editLocationFailed', e)
+        }
+    }
+}
+
+export const editALocationn = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editLocationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the location success!");
+                dispatch(editLocationSuccess());
+                dispatch(fetchAllLocationByUserIdStart(data.user_id));
             } else {
                 toast.error("Update the location error!");
                 dispatch(editLocationFailed());
@@ -558,6 +573,29 @@ export const editACharger = (data) => {
     }
 }
 
+export const editAChargerr = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editChargerService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the charger success!");
+                dispatch(editChargerSuccess());
+                dispatch(fetchAllChargerByUserIdStart(data.userId));
+            } else {
+                toast.error("Update the charger error!");
+                dispatch(editChargerFailed());
+                console.log('editChargerFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the charger error!!");
+            dispatch(editChargerFailed());
+            console.log('editChargerFailed', e)
+        }
+    }
+}
+
 export const editChargerSuccess = () => ({
     type: actionTypes.EDIT_CHARGER_SUCCESS
 })
@@ -602,9 +640,7 @@ export const fetchAllTypesStart = () => {
         try {
             let res = await getAllTypes("All");
             if (res && res.errCode === 0) {
-
                 dispatch(fetchAllTypesSuccess(res.types.reverse()));
-
             } else {
                 toast.error("fetch all type error!");
                 dispatch(fetchAllTypesFailed());
@@ -658,7 +694,33 @@ export const fetchAllTypeByChargerIdFailed = () => ({
     type: actionTypes.FETCH_ALL_TYPE_BY_CHARGERID_FAILED,
 })
 
+export const fetchAllTypeByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllTypeByUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllTypeByUserIdSuccess(res.types.reverse()));
+            } else {
+                toast.error("fetch all type by userid error!");
+                dispatch(fetchAllTypeByUserIdFailed());
+                console.log('fetchAllTypesByUserIdFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all type by userid error!!");
+            dispatch(fetchAllTypeByUserIdFailed());
+            console.log('fetchAllTypesByUserIdFailed', e)
+        }
+    }
+}
 
+export const fetchAllTypeByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_TYPE_BY_USERID_SUCCESS,
+    types: data
+})
+
+export const fetchAllTypeByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_TYPE_BY_USERID_FAILED,
+})
 
 export const deleteAType = (typeId) => {
     return async (dispatch, getstate) => {
@@ -698,6 +760,29 @@ export const editAType = (data) => {
                 toast.success("Update the type success!");
                 dispatch(editTypeSuccess());
                 dispatch(fetchAllTypesStart());
+            } else {
+                toast.error("Update the type error!");
+                dispatch(editTypeFailed());
+                console.log('editTypeFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the type error!!");
+            dispatch(editTypeFailed());
+            console.log('editTypeFailed', e)
+        }
+    }
+}
+
+export const editATypee = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editTypeService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the type success!");
+                dispatch(editTypeSuccess());
+                dispatch(fetchAllTypeByUserIdStart(data.userId));
             } else {
                 toast.error("Update the type error!");
                 dispatch(editTypeFailed());
@@ -780,6 +865,34 @@ export const fetchAllReservationsFailed = () => ({
     type: actionTypes.FETCH_ALL_RESERVATIONS_FAILED,
 })
 
+export const fetchAllReservationsByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllReservationsByUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllReservationsByUserIdSuccess(res.reservations.reverse()));
+            } else {
+                toast.error("fetch all reservation by userid error!");
+                dispatch(fetchAllReservationsByUserIdFailed());
+                console.log('fetchAllReservationsByUserIdFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all reservation by userid error!!");
+            dispatch(fetchAllReservationsByUserIdFailed());
+            console.log('fetchAllReservationsByUserIdFailed', e)
+        }
+    }
+}
+
+export const fetchAllReservationsByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_RESERVATIONS_BY_USERID_SUCCESS,
+    reservations: data
+})
+
+export const fetchAllReservationsByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_RESERVATIONS_BY_USERID_FAILED,
+})
+
 export const deleteAReservation = (reservationId) => {
     return async (dispatch, getstate) => {
         try {
@@ -818,6 +931,29 @@ export const editAReservation = (data) => {
                 toast.success("Update the reservation success!");
                 dispatch(editReservationSuccess());
                 dispatch(fetchAllReservationsStart());
+            } else {
+                toast.error("Update the reservation error!");
+                dispatch(editReservationFailed());
+                console.log('editReservationFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the reservation error!!");
+            dispatch(editReservationFailed());
+            console.log('editReservationFailed', e)
+        }
+    }
+}
+
+export const editAReservationn = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editReservationService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the reservation success!");
+                dispatch(editReservationSuccess());
+                dispatch(fetchAllReservationsByUserIdStart(data.userId));
             } else {
                 toast.error("Update the reservation error!");
                 dispatch(editReservationFailed());
@@ -899,6 +1035,35 @@ export const fetchAllHistorysFailed = () => ({
     type: actionTypes.FETCH_ALL_HISTORYS_FAILED,
 })
 
+export const fetchAllHistorysbyUserId = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllHistorysbyUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllHistorysbyUserIdSuccess(res.historys.reverse()));
+            } else {
+                toast.error("fetch all history error!");
+                dispatch(fetchAllHistorysbyUserIdFailed());
+                console.log('fetchAllHistorysFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all history error!!");
+
+            dispatch(fetchAllHistorysbyUserIdFailed());
+            console.log('fetchAllHistorysFailed', e)
+        }
+    } 
+}
+
+export const fetchAllHistorysbyUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_HISTORYS_BY_USERID_SUCCESS,
+    historys: data
+})
+
+export const fetchAllHistorysbyUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_HISTORYS_BY_USERID_FAILED,
+})
+
 export const deleteAHistory = (historyId) => {
     return async (dispatch, getstate) => {
         try {
@@ -937,6 +1102,29 @@ export const editAHistory = (data) => {
                 toast.success("Update the history success!");
                 dispatch(editHistorySuccess());
                 dispatch(fetchAllHistorysStart());
+            } else {
+                toast.error("Update the history error!");
+                dispatch(editHistoryFailed());
+                console.log('editHistoryFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the history error!!");
+            dispatch(editHistoryFailed());
+            console.log('editHistoryFailed', e)
+        }
+    }
+}
+
+export const editAHistoryy = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editHistoryService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the history success!");
+                dispatch(editHistorySuccess());
+                dispatch(fetchAllHistorysbyUserId(data.userId));
             } else {
                 toast.error("Update the history error!");
                 dispatch(editHistoryFailed());
@@ -1018,6 +1206,35 @@ export const fetchAllInfosFailed = () => ({
     type: actionTypes.FETCH_ALL_INFOS_FAILED,
 })
 
+export const fetchAllInfosByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllInfosByUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllInfosByUserIdSuccess(res.infos.reverse()));
+            } else {
+                toast.error("fetch all info by userid error!");
+                dispatch(fetchAllInfosByUserIdFailed());
+                console.log('fetchAllInfosByUserIdFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all info by userid error!!");
+
+            dispatch(fetchAllInfosByUserIdFailed());
+            console.log('fetchAllInfosByUserIdFailed', e)
+        }
+    } 
+}
+
+export const fetchAllInfosByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_INFOS_BY_USERID_SUCCESS,
+    infos: data
+})
+
+export const fetchAllInfosByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_INFOS_BY_USERID_FAILED,
+})
+
 export const deleteAInfo = (infoId) => {
     return async (dispatch, getstate) => {
         try {
@@ -1056,6 +1273,29 @@ export const editAInfo = (data) => {
                 toast.success("Update the info success!");
                 dispatch(editInfoSuccess());
                 dispatch(fetchAllInfosStart());
+            } else {
+                toast.error("Update the info error!");
+                dispatch(editInfoFailed());
+                console.log('editInfoFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the info error!!");
+            dispatch(editInfoFailed());
+            console.log('editInfoFailed', e)
+        }
+    }
+}
+
+export const editAInfoo = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editInfoService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the info success!");
+                dispatch(editInfoSuccess());
+                dispatch(fetchAllInfosByUserIdStart(data.userId));
             } else {
                 toast.error("Update the info error!");
                 dispatch(editInfoFailed());
@@ -1138,6 +1378,37 @@ export const fetchAllFeedbacksFailed = () => ({
     type: actionTypes.FETCH_ALL_FEEDBACKS_FAILED,
 })
 
+
+export const fetchAllFeedbacksByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllFeedbackByOwnerId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllFeedbacksByUserIdSuccess(res.feedbacks.reverse()));
+            } else {
+                toast.error("fetch all feedback error!");
+                dispatch(fetchAllFeedbacksByUserIdFailed());
+                console.log('fetchAllFeedbacksFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all feedback error!!");
+
+            dispatch(fetchAllFeedbacksByUserIdFailed());
+            console.log('fetchAllFeedbacksFailed', e)
+        }
+    } 
+}
+
+export const fetchAllFeedbacksByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_FEEDBACKS_BY_USREID_SUCCESS,
+    feedbacks: data
+})
+
+export const fetchAllFeedbacksByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_FEEDBACKS_BY_USREID_FAILED,
+})
+
+
 export const deleteAFeedback = (feedbackId) => {
     return async (dispatch, getstate) => {
         try {
@@ -1176,6 +1447,29 @@ export const editAFeedback = (data) => {
                 toast.success("Update the feedback success!");
                 dispatch(editFeedbackSuccess());
                 dispatch(fetchAllFeedbacksStart());
+            } else {
+                toast.error("Update the feedback error!");
+                dispatch(editFeedbackFailed());
+                console.log('editFeedbackFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the feedback error!!");
+            dispatch(editFeedbackFailed());
+            console.log('editFeedbackFailed', e)
+        }
+    }
+}
+
+export const editAFeedbackk = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editFeedbackService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the feedback success!");
+                dispatch(editFeedbackSuccess());
+                dispatch(fetchAllFeedbacksByUserIdStart(data.userId));
             } else {
                 toast.error("Update the feedback error!");
                 dispatch(editFeedbackFailed());
@@ -1258,6 +1552,35 @@ export const fetchAllDevicesFailed = () => ({
     type: actionTypes.FETCH_ALL_DEVICES_FAILED,
 })
 
+export const fetchAllDevicesByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllDevicesByUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllDevicesByUserIdSuccess(res.devices.reverse()));
+            } else {
+                toast.error("fetch all device error!");
+                dispatch(fetchAllDevicesByUserIdFailed());
+                console.log('fetchAllDevicesFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all device error!!");
+
+            dispatch(fetchAllDevicesByUserIdFailed());
+            console.log('fetchAllDevicesFailed', e)
+        }
+    } 
+}
+
+export const fetchAllDevicesByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_DEVICES_BY_USERID_SUCCESS,
+    devices: data
+})
+
+export const fetchAllDevicesByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_DEVICES_BY_USERID_FAILED,
+})
+
 export const deleteADevice = (deviceId) => {
     return async (dispatch, getstate) => {
         try {
@@ -1296,6 +1619,29 @@ export const editADevice = (data) => {
                 toast.success("Update the device success!");
                 dispatch(editDeviceSuccess());
                 dispatch(fetchAllDevicesStart());
+            } else {
+                toast.error("Update the device error!");
+                dispatch(editDeviceFailed());
+                console.log('editDeviceFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the device error!!");
+            dispatch(editDeviceFailed());
+            console.log('editDeviceFailed', e)
+        }
+    }
+}
+
+export const editADevicee = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editDeviceService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the device success!");
+                dispatch(editDeviceSuccess());
+                dispatch(fetchAllDevicesByUserIdStart(data.userId));
             } else {
                 toast.error("Update the device error!");
                 dispatch(editDeviceFailed());
@@ -1378,6 +1724,35 @@ export const fetchAllMaintenancesFailed = () => ({
     type: actionTypes.FETCH_ALL_MAINTENANCES_FAILED,
 })
 
+export const fetchAllMaintenancesByUserIdStart = (userId) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await getAllMaintenancesByUserId(userId);
+            if (res && res.errCode === 0) {
+                dispatch(fetchAllMaintenancesByUserIdSuccess(res.maintenances.reverse()));
+            } else {
+                toast.error("fetch all maintenance error!");
+                dispatch(fetchAllMaintenancesByUserIdFailed());
+                console.log('fetchAllMaintenancesFailed', res)
+            }
+        } catch (e) {
+            toast.error("fetch all maintenance error!!");
+
+            dispatch(fetchAllMaintenancesByUserIdFailed());
+            console.log('fetchAllMaintenancesFailed', e)
+        }
+    } 
+}
+
+export const fetchAllMaintenancesByUserIdSuccess = (data) => ({
+    type: actionTypes.FETCH_ALL_MAINTENANCES_BY_USERID_SUCCESS,
+    maintenances: data
+})
+
+export const fetchAllMaintenancesByUserIdFailed = () => ({
+    type: actionTypes.FETCH_ALL_MAINTENANCES_BY_USERID_FAILED,
+})
+
 export const deleteAMaintenance = (maintenanceId) => {
     return async (dispatch, getstate) => {
         try {
@@ -1416,6 +1791,29 @@ export const editAMaintenance = (data) => {
                 toast.success("Update the maintenance success!");
                 dispatch(editMaintenanceSuccess());
                 dispatch(fetchAllMaintenancesStart());
+            } else {
+                toast.error("Update the maintenance error!");
+                dispatch(editMaintenanceFailed());
+                console.log('editMaintenanceFailed', res)
+
+            }
+        } catch (e) {
+            toast.error("Update the maintenance error!!");
+            dispatch(editMaintenanceFailed());
+            console.log('editMaintenanceFailed', e)
+        }
+    }
+}
+
+export const editAMaintenancee = (data) => {
+    return async (dispatch, getstate) => {
+        try {
+            let res = await editMaintenanceService(data);
+            //console.log('check create user redux', res)
+            if (res && res.errCode === 0) {
+                toast.success("Update the maintenance success!");
+                dispatch(editMaintenanceSuccess());
+                dispatch(fetchAllMaintenancesByUserIdStart(data.userId));
             } else {
                 toast.error("Update the maintenance error!");
                 dispatch(editMaintenanceFailed());

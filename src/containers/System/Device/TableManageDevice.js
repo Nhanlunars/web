@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageDevice.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageDevice extends Component {
     constructor(props) {
@@ -12,7 +13,14 @@ class TableManageDevice extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchDeviceRedux();
+        //this.props.fetchDeviceRedux();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.fetchDeviceRedux();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.fetchDevice(userInfo.id);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -32,13 +40,17 @@ class TableManageDevice extends Component {
     }
 
     render() {
+                let { userInfo } = this.props;
+
         let arrDevices = this.state.devicesRedux;
         return (
             <React.Fragment>
                 <table id="TableManageDevice">
                     <tbody>
                         <tr>
-                            <th>User id</th>
+                            {userInfo.roleId === USER_ROLE.ADMIN ? (
+                                                            <th> User name </th>
+                                                            ): ''}
                             <th>Charger id</th>
                             <th>Type id</th>
                             <th>fcm_token</th>
@@ -48,7 +60,9 @@ class TableManageDevice extends Component {
                             arrDevices.map((item, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                        {userInfo.roleId === USER_ROLE.ADMIN ? (
+                                                                                        <td>{item.user.firstName} {item.user.lastName}</td>
+                                                                                    ):''}
                                         <td>{item.charger.charger_name}</td>
                                         <td>{item.type.type_name}</td>
                                         <td>{item.fcm_token}</td>
@@ -77,13 +91,17 @@ class TableManageDevice extends Component {
 
 const mapStateToProps = state => {
     return {
-        listDevices: state.admin.devices
+        listDevices: state.admin.devices,
+                        userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchDeviceRedux: () => dispatch(actions.fetchAllDevicesStart()),
+        fetchDevice: (userId) => dispatch(actions.fetchAllDevicesByUserIdStart(userId)),
+
         deleteADeviceRedux: (id) => dispatch(actions.deleteADevice(id))
     };
 };

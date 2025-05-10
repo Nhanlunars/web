@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageHistory.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageHistory extends Component {
     constructor(props) {
@@ -12,8 +13,14 @@ class TableManageHistory extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchHistoryRedux();
-
+        //this.props.fetchHistoryRedux();
+const {  userInfo } = this.props;
+                if(userInfo.roleId === USER_ROLE.ADMIN){
+                    this.props.fetchHistoryRedux();
+                }
+                if(userInfo.roleId === USER_ROLE.OWNER){
+                    this.props.fetchHistory(userInfo.id);
+                }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -56,9 +63,32 @@ class TableManageHistory extends Component {
                                         <td>{item.user.firstName} {item.user.lastName}</td>
                                         <td>{item.charger.charger_name}</td>
                                         <td>{item.type.type_name}</td>
-                                        <td>{item.start_time}</td>
-                                        <td>{item.end_time}</td>
-                                        <td>{item.number_start}</td>
+                                        <td>
+                                            {(() => {
+                                            const date = new Date(item.start_time);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+                                        </td>
+
+                                        <td>
+                                            {(() => {
+                                            const date = new Date(item.end_time);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+
+                                        </td>
+                                                                                <td>{item.number_start}</td>
+
                                         <td>{item.number_end}</td>
                                         <td>{item.cost}</td>
                                         <td>
@@ -95,6 +125,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
+        fetchHistory: (userId) => dispatch(actions.fetchAllHistorysbyUserId(userId)),
+
+        
         deleteAHistoryRedux: (id) => dispatch(actions.deleteAHistory(id))
     };
 };

@@ -15,7 +15,6 @@ const getRole = (inputRole) => {
     return axios.get(`/api/get-role?roleId=${inputRole}`)
 }
 
-
 const createNewUserService = (data) => {
     //console.log('check data from service: ', data)
     return axios.post('/api/create-new-user1', data)
@@ -107,6 +106,11 @@ const getAllTypeByChargerId = (inputId) => {
     return axios.get(`/api/get-all-type-by-chargerId?charger_id=${inputId}`)
 }
 
+const getAllTypeByUserId = (inputId) => {
+    //tamplate string
+    return axios.get(`/api/get-all-type-by-userid?user_id=${inputId}`)
+}
+
 const createNewTypeService = (data) => {
     //console.log('check data from service: ', data)
     return axios.post('/api/create-type', data)
@@ -130,6 +134,10 @@ const getAllReservations = (inputId) => {
     return axios.get(`/api/get-all-reservation?id=${inputId}`)
 }
 
+const getAllReservationsByUserId = (inputId) => {
+    return axios.get(`/api/get-all-reservation-by-ownerid?user_id=${inputId}`)
+}
+
 const createNewReservationService = (data) => {
     return axios.post('/api/create-reservation', data)
 }
@@ -151,6 +159,10 @@ const getAllHistorys = (inputId) => {
     return axios.get(`/api/get-all-history?id=${inputId}`)
 }
 
+const getAllHistorysbyUserId = (inputId) => {
+    return axios.get(`/api/get-all-history-by-ownerid?user_id=${inputId}`)
+}
+
 const createNewHistoryService = (data) => {
     return axios.post('/api/create-history', data)
 }
@@ -164,12 +176,18 @@ const deleteHistoryService = (historyId) => {
 }
 
 const editHistoryService = (inputData) => {
-    return axios.put('/api/edit-info', inputData);
+    return axios.put('/api/edit-history', inputData);
 }
 //info
 const getAllInfos = (inputId) => {
     return axios.get(`/api/get-all-info?id=${inputId}`)
+}    
+
+
+const getAllInfosByUserId = (inputId) => {
+    return axios.get(`/api/get-info-by-userid?user_id=${inputId}`)
 }
+
 
 const createNewInfoService = (data) => {
     return axios.post('/api/create-info', data)
@@ -189,6 +207,10 @@ const editInfoService = (inputData) => {
 //feedback
 const getAllFeedbacks = (inputId) => {
     return axios.get(`/api/get-all-feedback?id=${inputId}`)
+}
+
+const getAllFeedbackByOwnerId = (inputId) => {
+    return axios.get(`/api/get-all-feedback-by-ownerid?user_id=${inputId}`)
 }
 
 const createNewFeedbackService = (data) => {
@@ -211,6 +233,10 @@ const getAllDevices = (inputId) => {
     return axios.get(`/api/get-all-device?id=${inputId}`)
 }
 
+const getAllDevicesByUserId = (inputId) => {
+    return axios.get(`/api/get-all-device-by-userid?user_id=${inputId}`)
+}
+
 const createNewDeviceService = (data) => {
     return axios.post('/api/create-device', data)
 }
@@ -229,6 +255,10 @@ const editDeviceService = (inputData) => {
 //maintenance
 const getAllMaintenances = (inputId) => {
     return axios.get(`/api/get-all-maintenance?id=${inputId}`)
+}
+
+const getAllMaintenancesByUserId = (inputId) => {
+    return axios.get(`/api/get-all-maintenance-by-userid?user_id=${inputId}`)
 }
 
 const createNewMaintenanceService = (data) => {
@@ -297,18 +327,18 @@ export {
     getAllChargers, createNewChargerService, getAllChargerByUserId, 
     deleteChargerService, editChargerService,
     getAllTypes, createNewTypeService, getAllTypeByChargerId,
-    deleteTypeService, editTypeService,
-    getAllReservations, createNewReservationService,
+    deleteTypeService, editTypeService, getAllTypeByUserId,
+    getAllReservations, createNewReservationService, getAllReservationsByUserId,
     deleteReservationService, editReservationService,
-    getAllHistorys, createNewHistoryService,
+    getAllHistorys, createNewHistoryService, getAllHistorysbyUserId,
     deleteHistoryService, editHistoryService,
-    getAllInfos, createNewInfoService,
+    getAllInfos, createNewInfoService, getAllInfosByUserId,
     deleteInfoService, editInfoService,
-    getAllFeedbacks, createNewFeedbackService,
+    getAllFeedbacks, createNewFeedbackService, getAllFeedbackByOwnerId,
     deleteFeedbackService, editFeedbackService,
-    getAllDevices, createNewDeviceService,
+    getAllDevices, createNewDeviceService, getAllDevicesByUserId,
     deleteDeviceService, editDeviceService,
-    getAllMaintenances, createNewMaintenanceService,
+    getAllMaintenances, createNewMaintenanceService, getAllMaintenancesByUserId,
     deleteMaintenanceService, editMaintenanceService,
     getAllNotifications, createNewNotificationService,
     deleteNotificationService, editNotificationService,

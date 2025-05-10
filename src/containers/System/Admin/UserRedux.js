@@ -7,6 +7,11 @@ import "./UserRedux.scss";
 import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import TableManageUser from './TableManageUser';
+import { Buffer } from 'buffer';
+
+if (!window.Buffer) {
+  window.Buffer = Buffer;
+}
 class UserRedux extends Component {
 
     constructor(props) {
@@ -200,7 +205,7 @@ class UserRedux extends Component {
     handleEditUserFromParent = (user) => {
         let imageBase64 = '';
         if (user.image) {
-            imageBase64 = new Buffer(user.image, 'base64').toString('binary');
+            imageBase64 = new Buffer.from(user.image, 'base64').toString('binary');
         }
         this.setState({
             email: user.email,

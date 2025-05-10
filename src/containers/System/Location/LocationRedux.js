@@ -77,7 +77,6 @@ this.props.getUserStart();
         let { action } = this.state;
         let {  userInfo } = this.props;
         if(userInfo.roleId === USER_ROLE.ADMIN){
-            let userId = 'All';
             if (action === CRUD_ACTIONS.CREATE) {
                 //fire redux create location
                 this.props.createNewLocation({
@@ -125,8 +124,9 @@ this.props.getUserStart();
 
         if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
-            this.props.editALocationRedux({
+            this.props.editALocation({
                 id: this.state.locationEditId,
+                user_id:  userId,
                 location_name: this.state.location_name,
                 city: this.state.city,
                 address: this.state.address,
@@ -165,7 +165,7 @@ this.props.getUserStart();
 
     handleEditLocationFromParent = (location) => {
         let {  userInfo } = this.props;
-
+        let userId = userInfo.id;
     if(userInfo.roleId === USER_ROLE.ADMIN){
         this.setState({
             location_name: location.location_name,
@@ -183,7 +183,7 @@ this.props.getUserStart();
     if(userInfo.roleId === USER_ROLE.OWNER){
         this.setState({
             location_name: location.location_name,
-            //user_id: location.user_id,
+            user_id: userId,
             city: location.city,
             address: location.address,
             ward: location.ward,
@@ -336,6 +336,8 @@ const mapDispatchToProps = dispatch => {
                     createNewLocation: (data) => dispatch(actions.createNewLocation(data)),
                     //fetchLocationRedux: (userId) => dispatch(actions.fetchAllLocationsStart(userId)),
                     editALocationRedux: (data) => dispatch(actions.editALocation(data)),
+                    editALocation: (data) => dispatch(actions.editALocationn(data)),
+
             
                 
             

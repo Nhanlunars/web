@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import './CustomScrollbars.scss';
@@ -104,4 +104,4 @@ class CustomScrollbars extends Component {
     }
 }
 
-export default CustomScrollbars;
+export default CustomScrollbars;*/

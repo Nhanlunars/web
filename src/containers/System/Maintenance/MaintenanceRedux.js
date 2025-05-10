@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./MaintenanceRedux.scss";
 import TableManageMaintenance from './TableManageMaintenance';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_orange.css';
+
 class MaintenanceRedux extends Component {
 
     constructor(props) {
@@ -20,7 +23,6 @@ class MaintenanceRedux extends Component {
             maintenance_type: '',
             technician_name: '',
             maintenance_cost: '',
-            status: '',
 
             action: '',
             maintenanceEditId: '',
@@ -28,8 +30,13 @@ class MaintenanceRedux extends Component {
     }
 
     async componentDidMount() {
-        this.props.getChargerStart();
-        this.props.getTypeStart();
+const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }        this.props.getTypeStart();
         this.props.getStatusStart();
 
     }
@@ -61,7 +68,7 @@ class MaintenanceRedux extends Component {
             let arrStatus = this.props.statusRedux;
             this.setState({
                 statusArr: arrStatus,
-                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : ''
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : ''
             })
         }
         
@@ -69,6 +76,7 @@ class MaintenanceRedux extends Component {
         if (prevProps.listMaintenances !== this.props.listMaintenances) {
             let arrChargers = this.props.chargerRedux;
             let arrTypes = this.props.typeRedux;
+            let arrStatus = this.props.statusRedux;
 
 
             this.setState({
@@ -77,7 +85,7 @@ class MaintenanceRedux extends Component {
             maintenance_type: '',
             technician_name: '',
             maintenance_cost: '',
-            status: '',
+            status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
                 charger: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
                 type: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
 
@@ -94,6 +102,7 @@ class MaintenanceRedux extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
+        const {  userInfo } = this.props;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
@@ -108,6 +117,8 @@ class MaintenanceRedux extends Component {
                 status: this.state.status,
             })
         }
+                if(userInfo.roleId === USER_ROLE.ADMIN){
+        
         if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
             this.props.editAMaintenanceRedux({
@@ -123,13 +134,31 @@ class MaintenanceRedux extends Component {
 
             })
         }
+    }
+            if(userInfo.roleId === USER_ROLE.OWNER){
+    if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editAMaintenance({
+                id: this.state.maintenanceEditId,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                maintenance_date: this.state.maintenance_date,
+                completion_date: this.state.completion_date,
+                maintenance_type: this.state.maintenance_type,
+                technician_name: this.state.technician_name,
+                maintenance_cost: this.state.maintenance_cost,
+                status: this.state.status,
+userId: userInfo.id
+            })
+        }
+            }
 
 
     }
 
     checkValidateInput = () => {
         let isValid = true;
-        let arrCheck = ["maintenance_date", "technician_name","status"]
+        let arrCheck = ["maintenance_date", "technician_name"]
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -168,7 +197,7 @@ class MaintenanceRedux extends Component {
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
         let statuss = this.state.statusArr;
-
+console.log(this.state)
         let { charger_id, type_id, maintenance_date, completion_date, maintenance_type,technician_name,maintenance_cost, status} = this.state;
         return (
             <div className='maintenance-redux-container'>
@@ -181,17 +210,36 @@ class MaintenanceRedux extends Component {
 
                             <div className='col-3'>
                                 <label><FormattedMessage id='maintenance_date' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={maintenance_date}
                                     onChange={(event) => { this.onChangeInput(event, 'maintenance_date') }}
+                                />*/}
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                placeholder = 'Choose time'
+                                format = 'yyyy/MM/dd'
+                                value={maintenance_date}  
+                                step={1}
+                                onChange={maintenance_date =>  this.setState({maintenance_date}) }
                                 />
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='completion_date' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={completion_date}
                                     onChange={(event) => { this.onChangeInput(event, 'completion_date') }}
+                                />*/}
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                placeholder = 'Choose time'
+                                format = 'yyyy/MM/dd'
+                                value={completion_date}  
+                                step={1}
+                                onChange={completion_date =>  this.setState({completion_date}) }
                                 />
+                                
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='maintenance_type' /></label>
@@ -293,6 +341,7 @@ const mapStateToProps = state => {
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
         statusRedux: state.admin.statuss,
+        userInfo: state.user.userInfo,
 
         listMaintenances: state.admin.maintenances
     };
@@ -301,12 +350,16 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+                getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
+        
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
         getStatusStart: () => dispatch(actions.fetchStatusStart()),
 
         createNewMaintenance: (data) => dispatch(actions.createNewMaintenance(data)),
-        fetchMaintenanceRedux: () => dispatch(actions.fetchAllMaintenancesStart()),
-        editAMaintenanceRedux: (data) => dispatch(actions.editAMaintenance(data))
+        //fetchMaintenanceRedux: () => dispatch(actions.fetchAllMaintenancesStart()),
+        editAMaintenanceRedux: (data) => dispatch(actions.editAMaintenance(data)),
+                editAMaintenance: (data) => dispatch(actions.editAMaintenancee(data))
+
 
     };
 };

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageMaintenance.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageMaintenance extends Component {
     constructor(props) {
@@ -12,7 +13,14 @@ class TableManageMaintenance extends Component {
         }
     }
     componentDidMount() {
-        this.props.fetchMaintenanceRedux();
+        //this.props.fetchMaintenanceRedux();
+        const {  userInfo } = this.props;
+                if(userInfo.roleId === USER_ROLE.ADMIN){
+                    this.props.fetchMaintenanceRedux();
+                }
+                if(userInfo.roleId === USER_ROLE.OWNER){
+                    this.props.fetchMaintenance(userInfo.id);
+                }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -53,8 +61,28 @@ class TableManageMaintenance extends Component {
                                     <tr key={index}>
                                         <td>{item.charger.charger_name}</td>
                                         <td>{item.type.type_name}</td>
-                                        <td>{item.maintenance_date}</td>
-                                        <td>{item.completion_date}</td>
+                                        <td>
+                                            {(() => {
+                                            const date = new Date(item.maintenance_date);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+                                        </td>
+                                        <td> 
+                                            {(() => {
+                                            const date = new Date(item.completion_date);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+                                        </td>
                                         <td>{item.maintenance_type}</td>
                                         <td>{item.technician_name}</td>
                                         <td>{item.maintenance_cost}</td>
@@ -83,13 +111,17 @@ class TableManageMaintenance extends Component {
 
 const mapStateToProps = state => {
     return {
-        listMaintenances: state.admin.maintenances
+        listMaintenances: state.admin.maintenances,
+        userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        fetchMaintenanceRedux: () => dispatch(actions.fetchAllMaintenancesStart()),
+        fetchMaintenanceRedux: () => dispatch(actions.fetchAllMaintenancesStart()), 
+        fetchMaintenance: (userId) => dispatch(actions.fetchAllMaintenancesByUserIdStart(userId)),
+
         deleteAMaintenanceRedux: (id) => dispatch(actions.deleteAMaintenance(id))
     };
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./TypeRedux.scss";
 import TableManageType from './TableManageType';
@@ -26,7 +26,14 @@ class TypeRedux extends Component {
     }
 
     async componentDidMount() {
-this.props.getChargerStart();
+//this.props.getChargerStart();
+const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }
 this.props.getStatusStart();
 
     }
@@ -60,7 +67,6 @@ this.props.getStatusStart();
                 type_name: '',
             describe: '',
             default_price: '',
-            status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
             charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
             status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
                 action: CRUD_ACTIONS.CREATE,
@@ -76,6 +82,7 @@ this.props.getStatusStart();
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
+const {  userInfo } = this.props;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
@@ -87,7 +94,8 @@ this.props.getStatusStart();
                 status: this.state.status,
             })
         }
-        if (action === CRUD_ACTIONS.EDIT) {
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
             this.props.editATypeRedux({
                 id: this.state.typeEditId,
@@ -98,6 +106,22 @@ this.props.getStatusStart();
                 status: this.state.status,
             })
         }
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+             if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editAType({
+                id: this.state.typeEditId,
+                type_name: this.state.type_name,
+                charger_id: this.state.charger_id,
+                describe: this.state.describe,
+                default_price: this.state.default_price,
+                status: this.state.status,
+                userId: userInfo.id
+            })
+        }
+        }
+        
 
 
     }
@@ -236,6 +260,7 @@ const mapStateToProps = state => {
         chargerRedux: state.admin.chargers,
         listTypes: state.admin.types,
         statusRedux: state.admin.statuss,
+       userInfo: state.user.userInfo,
 
     };
 };
@@ -243,9 +268,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+        getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         createNewType: (data) => dispatch(actions.createNewType(data)),
         fetchTypeRedux: () => dispatch(actions.fetchAllTypesStart()),
         editATypeRedux: (data) => dispatch(actions.editAType(data)),
+                editAType: (data) => dispatch(actions.editATypee(data)),
+
         getStatusStart: () => dispatch(actions.fetchStatusStart()),
 
     };

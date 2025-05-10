@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './TableManageFeedback.scss';
 import * as actions from "../../../store/actions";
+import {  USER_ROLE } from '../../../utils';
 
 class TableManageFeedback extends Component {
     constructor(props) {
@@ -13,6 +14,13 @@ class TableManageFeedback extends Component {
     }
     componentDidMount() {
         this.props.fetchFeedbackRedux();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.fetchFeedbackRedux();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.fetchFeedback(userInfo.id);
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -80,13 +88,17 @@ class TableManageFeedback extends Component {
 
 const mapStateToProps = state => {
     return {
-        listFeedbacks: state.admin.feedbacks
+        listFeedbacks: state.admin.feedbacks,
+                userInfo: state.user.userInfo,
+
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchFeedbackRedux: () => dispatch(actions.fetchAllFeedbacksStart()),
+        fetchFeedback: (userId) => dispatch(actions.fetchAllFeedbacksByUserIdStart(userId)),
+
         deleteAFeedbackRedux: (id) => dispatch(actions.deleteAFeedback(id))
     };
 };

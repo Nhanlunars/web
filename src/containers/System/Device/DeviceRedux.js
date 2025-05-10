@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./DeviceRedux.scss";
 import TableManageDevice from './TableManageDevice';
@@ -24,7 +24,13 @@ class DeviceRedux extends Component {
 
     async componentDidMount() {
         this.props.getRole();
-        this.props.getChargerStart();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }
         this.props.getTypeStart();
     }
 
@@ -84,8 +90,9 @@ class DeviceRedux extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
-
-        if (action === CRUD_ACTIONS.CREATE) {
+        let {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
             this.props.createNewDevice({
                 user_id: this.state.user_id,
@@ -104,6 +111,29 @@ class DeviceRedux extends Component {
                 fcm_token: this.state.fcm_token,
 
             })
+        }
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+        if (action === CRUD_ACTIONS.CREATE) {
+            //fire redux create location
+            this.props.createNewDevice({
+                user_id: userInfo.id,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                fcm_token: this.state.fcm_token,
+            })
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editADevice({
+                id: this.state.deviceEditId,
+                                user_id: userInfo.id,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                fcm_token: this.state.fcm_token,
+userId: userInfo.id
+            })
+        }
         }
 
 
@@ -147,6 +177,7 @@ class DeviceRedux extends Component {
         let chargers = this.state.chargerArr;
         let types = this.state.typeArr;
 console.log('state', this.state)
+        let {  userInfo } = this.props;
 
         let { user_id, charger_id, type_id, fcm_token} = this.state;
         return (
@@ -165,6 +196,7 @@ console.log('state', this.state)
                                     onChange={(event) => { this.onChangeInput(event, 'fcm_token') }}
                                 />
                             </div>
+                                                       {userInfo.roleId === USER_ROLE.ADMIN  ?( 
                            
                             <div className='col-3'>
                                 <label><FormattedMessage id='user' /></label>
@@ -181,6 +213,7 @@ console.log('state', this.state)
 
                                 </select>
                             </div>
+                                                            ):''}
 
                             <div className='col-3'>
                                 <label><FormattedMessage id='Charger' /></label>
@@ -249,6 +282,7 @@ const mapStateToProps = state => {
         userRedux: state.admin.users,
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
+        userInfo: state.user.userInfo,
 
         listDevices: state.admin.devices
     };
@@ -258,11 +292,15 @@ const mapDispatchToProps = dispatch => {
     return {
         getRole: () => dispatch(actions.getRoleStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+        getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
+      
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewDevice: (data) => dispatch(actions.createNewDevice(data)),
         fetchDeviceRedux: () => dispatch(actions.fetchAllDevicesStart()),
-        editADeviceRedux: (data) => dispatch(actions.editADevice(data))
+        editADeviceRedux: (data) => dispatch(actions.editADevice(data)),
+                editADevice: (data) => dispatch(actions.editADevicee(data))
+
 
     };
 };

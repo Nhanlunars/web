@@ -6,6 +6,9 @@ import * as actions from "../../../store/actions";
 import "./ChargerRedux.scss";
 import Lightbox from 'react-image-lightbox';
 import TableManageCharger from './TableManageCharger';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_orange.css';
+
 class ChargerRedux extends Component {
     constructor(props) {
         super(props);
@@ -86,7 +89,9 @@ this.props.fetchLocationByUserIdRedux(userId);}
                 location_id: this.state.location,
             })
         }
-        if (action === CRUD_ACTIONS.EDIT) {
+            let {  userInfo } = this.props;
+if(USER_ROLE.ADMIN === userInfo.roleId){
+if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit charger
             this.props.editAChargerRedux({
                 id: this.state.chargerEditId,
@@ -95,8 +100,41 @@ this.props.fetchLocationByUserIdRedux(userId);}
                 installation_date: this.state.installation_date,
                 last_maintence_date: this.state.last_maintence_date,
                 location_id: this.state.location,
+                userId: this.state.userId
             })
         }
+}
+if(USER_ROLE.ADMIN === userInfo.roleId){
+if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit charger
+            this.props.editAChargerRedux({
+                id: this.state.chargerEditId,
+                charger_name: this.state.charger_name,
+                capacity: this.state.capacity,
+                installation_date: this.state.installation_date,
+                last_maintence_date: this.state.last_maintence_date,
+                location_id: this.state.location,
+                userId: this.state.userId
+            })
+        }
+
+}
+if(USER_ROLE.OWNER === userInfo.roleId){
+if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit charger
+            this.props.editACharger({
+                id: this.state.chargerEditId,
+                charger_name: this.state.charger_name,
+                capacity: this.state.capacity,
+                installation_date: this.state.installation_date,
+                last_maintence_date: this.state.last_maintence_date,
+                location_id: this.state.location,
+                userId: this.state.userId
+            })
+        }
+
+}
+        
 
 
     }
@@ -130,7 +168,7 @@ this.props.fetchLocationByUserIdRedux(userId);}
             last_maintence_date: charger.last_maintence_date,
             location: charger.location_id,
             action: CRUD_ACTIONS.EDIT,
-            chargerEditId: charger.id
+            chargerEditId: charger.id,
         })
     }
 
@@ -167,17 +205,35 @@ this.props.fetchLocationByUserIdRedux(userId);}
                            
                             <div className='col-3'>
                                 <label><FormattedMessage id='installation_date' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={installation_date}
                                     onChange={(event) => { this.onChangeInput(event, 'installation_date') }}
-                                />
+                                />*/}
+                                <Flatpickr  
+                                                                data-enable-time        
+                                                                className='form-control'                                                                         
+                                                                placeholder = 'Choose time'
+                                                                format = 'yyyy/MM/dd HH:mm'
+                                                                value={installation_date}  
+                                                                step={1}
+                                                                onChange={installation_date =>  this.setState({installation_date}) }
+                                                                />
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='last_maintence_date' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={last_maintence_date}
                                     onChange={(event) => { this.onChangeInput(event, 'last_maintence_date') }}
-                                />
+                                />*/}
+                                <Flatpickr  
+                                                                data-enable-time        
+                                                                className='form-control'                                                                         
+                                                                placeholder = 'Choose time'
+                                                                format = 'yyyy/MM/dd HH:mm'
+                                                                value={last_maintence_date}  
+                                                                step={1}
+                                                                onChange={last_maintence_date =>  this.setState({last_maintence_date}) }
+                                                                />
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='location' /></label>
@@ -248,7 +304,9 @@ const mapDispatchToProps = dispatch => {
         //getChargerByUserIdStart: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         createNewCharger: (data) => dispatch(actions.createNewCharger(data)),
         //fetchChargerRedux: () => dispatch(actions.fetchAllChargersStart()),
-        editAChargerRedux: (data) => dispatch(actions.editACharger(data))
+        editAChargerRedux: (data) => dispatch(actions.editACharger(data)),
+                editACharger: (data) => dispatch(actions.editAChargerr(data))
+
 
     };
 };

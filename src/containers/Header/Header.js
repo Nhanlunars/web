@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import * as actions from "../../store/actions";
 import Navigator from '../../components/Navigator';
-import CustomScrollbars from '../../components/CustomScrollbars.js';
+//import CustomScrollbars from '../../components/CustomScrollbars.js';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import './Header.scss';
 import { USER_ROLE } from "../../utils";
 import _ from 'lodash';
@@ -47,10 +48,16 @@ class Header extends Component {
         return (
                                   
             <div className="sidebar">
-<CustomScrollbars style={{ height: '100vh', width: '100%' }}>
+              <Scrollbars style={{ width: 280, height: 700 }}>
+{/*<CustomScrollbars style={{ height: '100vh', width: '100%' }}>*/}
   {/*userInfo.roleId ===  USER_ROLE.ADMIN && userInfo?(*/
     <>
-        <div className="header-container">Hi admin {userInfo ? (userInfo.firstName +' '+ userInfo.lastName): 'hmm'}        </div>
+    {userInfo.roleId ===  USER_ROLE.ADMIN ? (
+      <div className="header-container">Hi admin {userInfo ? (userInfo.firstName +' '+ userInfo.lastName): 'hmm'}</div>) : (
+<div className="header-container">Hi Owner {userInfo ? (userInfo.firstName +' '+ userInfo.lastName): 'hmm'}</div>
+      )
+      }
+        
         <div className="navigationBar">
         <ul>
           <li>
@@ -147,150 +154,13 @@ class Header extends Component {
           </li>
             
           
-         {/*  <br />
-          <hr />
-          <button
-          onClick={processLogout}
-            variant="outlined"
-            startIcon={<LogOut />}
-            sx={{
-              color: "#d32f2f",
-              borderColor: "#d32f2f",
-              "&:hover": {
-                backgroundColor: "#fbeaea",
-                borderColor: "#d32f2f",
-              },
-              margin: 1,
-            }}
-            Width="30%"
-          >
-            Đăng xuất
-          </button> */}
+        
         </ul>
       </div> 
     
     
     </>
-    /*): userInfo.roleId ===  USER_ROLE.OWNER && userInfo ?(
-      <>
-            <div className="header-container">Hi Owner {userInfo ? (userInfo.firstName +' '+ userInfo.lastName): 'hmm'}
-            </div>
-
-        <div className="navigationBar">
-        <ul>
-          <li>
-            <LayoutDashboard />
-            <Link to="/" className="link">
-              Bảng điều khiển
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-          <UsersRound />
-          <Link to="/owner/user-management" className="link">
-            User management            
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-
-            <Link to="/owner/location-management" className="link">
-              Location management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <UsersRound />
-            <Link to="/owner/charger-management" className="link">
-              Charger management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <SquarePen />
-            <Link to="/owner/type-management" className="link">
-              Type management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/reservation-management" className="link">
-              Reservation management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-          <ArrowLeftRight />
-          <Link to="/owner/history-management" className="link">
-              History management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/info-management" className="link">
-              Info management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/feedback-management" className="link">
-              Feedback management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/device-management" className="link">
-              Device management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/maintenance-management" className="link">
-            Maintenance management
-            </Link>
-            <ChevronRight />
-          </li>
-          <li>
-            <MapPinPlus />
-            <Link to="/owner/notification-management" className="link">
-              Notification management
-            </Link>
-            <ChevronRight />
-          </li>
-          
-            
-          {/** 
-          <br />
-          <hr />
-          <button
-          onClick={processLogout}
-            variant="outlined"
-            startIcon={<LogOut />}
-            sx={{
-              color: "#d32f2f",
-              borderColor: "#d32f2f",
-              "&:hover": {
-                backgroundColor: "#fbeaea",
-                borderColor: "#d32f2f",
-              },
-              margin: 1,
-            }}
-            Width="30%"
-          >
-            Đăng xuất
-          </button>}
-        </ul>
-      </div> 
-      
-      </>
-
-    ): 'hmm'*/}
+    /**/}
 
 
 
@@ -316,8 +186,8 @@ class Header extends Component {
           <br />          <br />           <br />  
 
 
-
-      </CustomScrollbars>
+</Scrollbars>
+     {/**  </CustomScrollbars>*/}
             </div>
            
 

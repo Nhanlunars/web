@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS, CommonUtils } from '../../../utils';
+import { CRUD_ACTIONS, CommonUtils , USER_ROLE} from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./InfoRedux.scss";
 import Lightbox from 'react-image-lightbox';
@@ -28,7 +28,12 @@ class InfoRedux extends Component {
     }
 
     async componentDidMount() {
-this.props.getRole();
+        const {  userInfo } = this.props;
+                if(userInfo.roleId === USER_ROLE.ADMIN){
+                    this.props.getRole()
+                }
+
+;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -86,8 +91,9 @@ this.props.getRole();
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
-
-        if (action === CRUD_ACTIONS.CREATE) {
+        let {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create info
             this.props.createNewInfo({
                 user_id: this.state.user_id,
@@ -111,11 +117,36 @@ this.props.getRole();
 
 
     }
+            if(userInfo.roleId === USER_ROLE.OWNER){
+    if (action === CRUD_ACTIONS.CREATE) {
+            //fire redux create info
+            this.props.createNewInfo({
+                user_id: userInfo.id,
+                bank_name: this.state.bank_name,
+                account_number: this.state.account_number,
+                account_name: this.state.account_name,
+                picture: this.state.picture,
+            })
+        }
+        if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit info
+            this.props.editAInfo({
+                id: this.state.infoEditId,
+                bank_name: this.state.bank_name,
+                account_number: this.state.account_number,
+                account_name: this.state.account_name,
+                picture: this.state.picture,
+                userId: userInfo.id
+            })
+        }
+            }
+        }
+        
 
     checkValidateInput = () => {
         let isValid = true;
         let arrCheck = ["bank_name", "account_number", "account_name",
-            "picture"]
+        ]
         for (let i = 0; i < arrCheck.length; i++) {
             if (!this.state[arrCheck[i]]) {
                 isValid = false;
@@ -137,7 +168,7 @@ this.props.getRole();
     handleEditInfoFromParent = (info) => {
         let imageBase64 = '';
         if (info.picture) {
-            imageBase64 = new Buffer(info.picture, 'base64').toString('binary');
+            imageBase64 = new Buffer.from(info.picture, 'base64').toString('binary');
         }
         this.setState({
             user_id: info.user_id,
@@ -152,6 +183,7 @@ this.props.getRole();
     }
 
     render() {
+        let {  userInfo } = this.props;
 
         let users = this.state.userArr;
 
@@ -188,6 +220,7 @@ this.props.getRole();
                                 />
                             </div>
                             
+                                                        {userInfo.roleId === USER_ROLE.ADMIN  ?( 
                             
                             <div className='col-3'>
                                 <label><FormattedMessage id='user' /></label>
@@ -203,7 +236,7 @@ this.props.getRole();
                                     }
 
                                 </select>
-                            </div>
+                            </div> ): ''}
                            <div className='col-3'>
                                <label><FormattedMessage id='Avatar' /></label>
                                <div className='preview-image-container'>
@@ -256,7 +289,9 @@ this.props.getRole();
 const mapStateToProps = state => {
     return {
         userRedux: state.admin.users,
-        listInfos: state.admin.infos
+        listInfos: state.admin.infos,
+        userInfo: state.user.userInfo,
+
     };
 };
 
@@ -265,7 +300,9 @@ const mapDispatchToProps = dispatch => {
         getRole: () => dispatch(actions.getRoleStart()),
         createNewInfo: (data) => dispatch(actions.createNewInfo(data)),
         fetchInfoRedux: () => dispatch(actions.fetchAllInfosStart()),
-        editAInfoRedux: (data) => dispatch(actions.editAInfo(data))
+        editAInfoRedux: (data) => dispatch(actions.editAInfo(data)),
+                editAInfo: (data) => dispatch(actions.editAInfoo(data))
+
 
     };
 };

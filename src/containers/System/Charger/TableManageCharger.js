@@ -14,13 +14,12 @@ class TableManageCharger extends Component {
     }
     componentDidMount() {
         const {  userInfo } = this.props;
-                            if(userInfo.roleId === USER_ROLE.ADMIN){
-                                this.props.fetchChargerRedux();
-                            }
-                            if(userInfo.roleId === USER_ROLE.OWNER){
-                                this.props.fetchChargerReduxx(userInfo.id);
-                
-                            }
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.fetchChargerRedux();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.fetchChargerReduxx(userInfo.id)
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -59,8 +58,28 @@ class TableManageCharger extends Component {
                                     <tr key={index}>
                                         <td>{item.charger_name}</td>
                                         <td>{item.capacity}</td>
-                                        <td>{item.installation_date}</td>
-                                        <td>{item.last_maintence_date}</td>
+                                        <td>
+                                            {(() => {
+                                            const date = new Date(item.installation_date);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+                                        </td>
+                                        <td>
+                                            {(() => {
+                                            const date = new Date(item.last_maintence_date);
+                                            const year = date.getFullYear();
+                                            const month = String(date.getMonth() + 1).padStart(2, '0');
+                                            const day = String(date.getDate()).padStart(2, '0');
+                                            const hours = String(date.getHours()).padStart(2, '0');
+                                            const minutes = String(date.getMinutes()).padStart(2, '0');
+                                            return `${year}/${month}/${day} ${hours}:${minutes}`;
+                                            })()}
+                                        </td>
                                         <td>{item.location.location_name}</td>
                                         <td>
                                             <button onClick={() => this.handleEditCharger(item)} className='btn-edit' ><i className='fas fa-pencil-alt'></i> </button>

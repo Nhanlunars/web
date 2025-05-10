@@ -143,12 +143,32 @@ const adminReducer = (state = initialState, action) => {
                 return {
                     ...state
                 }
+    case actionTypes.FETCH_ALL_TYPE_BY_USERID_SUCCESS:
+                state.types = action.types;
+                return {
+                    ...state
+                }
+            case actionTypes.FETCH_ALL_TYPE_BY_USERID_FAILED:
+                state.types = [];
+                return {
+                    ...state
+                }  
         case actionTypes.FETCH_ALL_RESERVATIONS_SUCCESS:
             state.reservations = action.reservations;
             return {
                 ...state
             }
         case actionTypes.FETCH_ALL_RESERVATIONS_FAILED:
+            state.reservations = [];
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_RESERVATIONS_BY_USERID_SUCCESS:
+            state.reservations = action.reservations;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_RESERVATIONS_BY_USERID_FAILED:
             state.reservations = [];
             return {
                 ...state
@@ -163,6 +183,16 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case actionTypes.FETCH_ALL_HISTORYS_BY_USERID_SUCCESS:
+            state.historys = action.historys;
+            return {
+                ...state
+            }
+        case actionTypes.FETCH_ALL_HISTORYS_BY_USERID_FAILED:
+            state.historys = [];
+            return {
+                ...state
+            }
         case actionTypes.FETCH_ALL_INFOS_SUCCESS:
                 state.infos = action.infos;
                 return {
@@ -173,7 +203,16 @@ const adminReducer = (state = initialState, action) => {
                 return {
                     ...state
             }
-
+case actionTypes.FETCH_ALL_INFOS_BY_USERID_SUCCESS:
+                state.infos = action.infos;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_INFOS_BY_USERID_FAILED:
+                state.infos = [];
+                return {
+                    ...state
+            }
 
 
         case actionTypes.FETCH_ALL_FEEDBACKS_SUCCESS:
@@ -186,6 +225,17 @@ const adminReducer = (state = initialState, action) => {
                 return {
                     ...state
             }
+case actionTypes.FETCH_ALL_FEEDBACKS_BY_USREID_SUCCESS:
+                state.feedbacks = action.feedbacks;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_FEEDBACKS_BY_USREID_FAILED:
+                state.feedbacks = [];
+                return {
+                    ...state
+            }
+        
         case actionTypes.FETCH_ALL_DEVICES_SUCCESS:
                 state.devices = action.devices;
                 return {
@@ -196,6 +246,18 @@ const adminReducer = (state = initialState, action) => {
             return {
                 ...state
             }
+        case actionTypes.FETCH_ALL_DEVICES_BY_USERID_SUCCESS:
+                state.devices = action.devices;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_DEVICES_BY_USERID_FAILED:
+            state.devices = [];
+            return {
+                ...state
+            }
+
+
         case actionTypes.FETCH_ALL_MAINTENANCES_SUCCESS:
                 state.maintenances = action.maintenances;
                 return {
@@ -206,6 +268,19 @@ const adminReducer = (state = initialState, action) => {
                 return {
                     ...state
             } 
+
+        case actionTypes.FETCH_ALL_MAINTENANCES_BY_USERID_SUCCESS:
+                state.maintenances = action.maintenances;
+                return {
+                    ...state
+            }
+        case actionTypes.FETCH_ALL_MAINTENANCES_BY_USERID_FAILED:
+                state.maintenances = [];
+                return {
+                    ...state
+            } 
+
+        
         case actionTypes.FETCH_ALL_NOTIFICATIONS_SUCCESS:
                 state.notifications = action.notifications;
                 return {

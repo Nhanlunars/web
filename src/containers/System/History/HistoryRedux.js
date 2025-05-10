@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./HistoryRedux.scss";
 import TableManageHistory from './TableManageHistory';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/material_orange.css';
+
 class HistoryRedux extends Component {
 
     constructor(props) {
@@ -30,7 +33,13 @@ class HistoryRedux extends Component {
 
     async componentDidMount() {
         this.props.getUserStart();
-        this.props.getChargerStart();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }
         this.props.getTypeStart();
         this.props.getStatusStart();
     }
@@ -75,7 +84,7 @@ class HistoryRedux extends Component {
             let arrStatus = this.props.statusRedux;
             this.setState({
                 statusArr: arrStatus,
-                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
                 a:'4'
             })
         }
@@ -97,7 +106,7 @@ class HistoryRedux extends Component {
                 user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : '',
                 charger_id: arrChargers && arrChargers.length > 0 ? arrChargers[0].id : '',
                 type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : '',
-                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].id : '',
+                status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : '',
 
                 action: CRUD_ACTIONS.CREATE,
 a:'6'
@@ -112,6 +121,7 @@ a:'6'
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
+        const {  userInfo } = this.props;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
@@ -128,6 +138,8 @@ a:'6'
                 
             })
         }
+                if(userInfo.roleId === USER_ROLE.ADMIN){
+        
         if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
             this.props.editAHistoryRedux({
@@ -144,6 +156,25 @@ a:'6'
             })
             console.log(this.state.status);
         }
+    }
+            if(userInfo.roleId === USER_ROLE.OWNER){
+    if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editAHistory({
+                id: this.state.historyEditId,
+                user_id: this.state.user_id,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                start_time: this.state.start_time,
+                end_time: this.state.end_time,
+                number_start: this.state.number_start,
+                number_end: this.state.number_end,
+                cost: this.state.cost,
+                status: this.state.status,
+                userId: userInfo.id
+            })
+        }
+            }
 
 
     }
@@ -205,16 +236,33 @@ console.log('state', this.state)
 
                             <div className='col-3'>
                                 <label><FormattedMessage id='Time start' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={start_time}
                                     onChange={(event) => { this.onChangeInput(event, 'start_time') }}
+                                />*/}
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                placeholder = 'Choose time'
+                                format = 'yyyy/MM/dd HH:mm'
+                                value={start_time}  
+                                step={1}
+                                onChange={start_time =>  this.setState({start_time}) }
                                 />
                             </div>
                             <div className='col-3'>
                                 <label><FormattedMessage id='Time end' /></label>
-                                <input className='form-control' type='text'
+                                {/*<input className='form-control' type='text'
                                     value={end_time}
                                     onChange={(event) => { this.onChangeInput(event, 'end_time') }}
+                                />*/}
+                                <Flatpickr  
+                                data-enable-time        
+                                className='form-control'                                                                         
+                                    placeholder = 'Choose time'
+                                    format = 'yyyy/MM/dd HH:mm'
+                                    value={end_time}  
+                                    onChange={end_time =>  this.setState({end_time}) }
                                 />
                             </div>
                             <div className='col-3'>
@@ -334,7 +382,9 @@ const mapStateToProps = state => {
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
         statusRedux: state.admin.statuss,
-        listHistorys: state.admin.historys
+        listHistorys: state.admin.historys,
+        userInfo: state.user.userInfo,
+
     };
 };
 
@@ -342,12 +392,15 @@ const mapDispatchToProps = dispatch => {
     return {
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+        getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         getStatusStart: () => dispatch(actions.fetchStatusStart()),
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewHistory: (data) => dispatch(actions.createNewHistory(data)),
-        fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
-        editAHistoryRedux: (data) => dispatch(actions.editAHistory(data))
+        //fetchHistoryRedux: () => dispatch(actions.fetchAllHistorysStart()),
+        editAHistoryRedux: (data) => dispatch(actions.editAHistory(data)),
+                editAHistory: (data) => dispatch(actions.editAHistoryy(data)),
+
 
     };
 };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { CRUD_ACTIONS } from '../../../utils';
+import { CRUD_ACTIONS, USER_ROLE } from '../../../utils';
 import * as actions from "../../../store/actions";
 import "./FeedbackRedux.scss";
 import TableManageFeedback from './TableManageFeedback';
@@ -25,7 +25,13 @@ class FeedbackRedux extends Component {
 
     async componentDidMount() {
         this.props.getUserStart();
-        this.props.getChargerStart();
+        const {  userInfo } = this.props;
+        if(userInfo.roleId === USER_ROLE.ADMIN){
+            this.props.getChargerStart();
+        }
+        if(userInfo.roleId === USER_ROLE.OWNER){
+            this.props.getCharger(userInfo.id)
+        }
         this.props.getTypeStart();
         //this.state.getTypeStart();
     }
@@ -87,6 +93,7 @@ class FeedbackRedux extends Component {
         let isValid = this.checkValidateInput();
         if (isValid === false) return;
         let { action } = this.state;
+        const {  userInfo } = this.props;
 
         if (action === CRUD_ACTIONS.CREATE) {
             //fire redux create location
@@ -98,7 +105,8 @@ class FeedbackRedux extends Component {
                 comment: this.state.comment,
             })
         }
-        if (action === CRUD_ACTIONS.EDIT) {
+            if(userInfo.roleId === USER_ROLE.ADMIN){
+                if (action === CRUD_ACTIONS.EDIT) {
             //fire redux edit location
             this.props.editAFeedbackRedux({
                 id: this.state.feedbackEditId,
@@ -110,6 +118,23 @@ class FeedbackRedux extends Component {
 
             })
         }
+                }
+                        if(userInfo.roleId === USER_ROLE.OWNER){
+                
+        if (action === CRUD_ACTIONS.EDIT) {
+            //fire redux edit location
+            this.props.editAFeedback({
+                id: this.state.feedbackEditId,
+                user_id: this.state.user_id,
+                charger_id: this.state.charger_id,
+                type_id: this.state.type_id,
+                rating: this.state.rating,
+                comment: this.state.comment,
+userId: userInfo.id
+
+            })
+        }
+    }
 
 
     }
@@ -219,7 +244,7 @@ console.log("state", this.state);
                                     {types && types.length > 0 &&
                                         types.map((item, index) => {
                                             return (
-                                            <option key={index} value={item.id} selected="selected">{item.type_name}</option>
+                                            <option key={index} value={item.id}>{item.type_name}</option>
                                         )
                                         })
                                     }
@@ -262,6 +287,7 @@ const mapStateToProps = state => {
         userRedux: state.admin.users,
         chargerRedux: state.admin.chargers,
         typeRedux: state.admin.types,
+        userInfo: state.user.userInfo,
 
         listFeedbacks: state.admin.feedbacks
     };
@@ -272,11 +298,12 @@ const mapDispatchToProps = dispatch => {
         
         getUserStart: () => dispatch(actions.fetchAllUsersStart()),
         getChargerStart: () => dispatch(actions.fetchAllChargersStart()),
+        getCharger: (userId) => dispatch(actions.fetchAllChargerByUserIdStart(userId)),
         getTypeStart: (charger_id) => dispatch(actions.fetchAllTypeByChargerIdStart(charger_id)),
 
         createNewFeedback: (data) => dispatch(actions.createNewFeedback(data)),
         fetchFeedbackRedux: () => dispatch(actions.fetchAllFeedbacksStart()),
-        editAFeedbackRedux: (data) => dispatch(actions.editAFeedback(data))
+                editAFeedback: (data) => dispatch(actions.editAFeedbackk(data))
 
     };
 
