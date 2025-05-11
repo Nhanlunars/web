@@ -32,7 +32,14 @@ class TableManageFeedback extends Component {
     }
 
     handleDeleteFeedback = (feedback) => {
-        this.props.deleteAFeedbackRedux(feedback.id);
+        //this.props.deleteAFeedbackRedux(feedback.id);
+        const { userInfo } = this.props;
+            if (userInfo.roleId === USER_ROLE.ADMIN) {
+              this.props.deleteAFeedbackRedux(feedback.id);
+            }
+            if (userInfo.roleId === USER_ROLE.OWNER) {
+              this.props.deleteAFeedback({ id: feedback.id, userId: userInfo.id });
+            }
     }
 
     handleEditFeedback = (feedback) => {
@@ -99,7 +106,9 @@ const mapDispatchToProps = dispatch => {
         fetchFeedbackRedux: () => dispatch(actions.fetchAllFeedbacksStart()),
         fetchFeedback: (userId) => dispatch(actions.fetchAllFeedbacksByUserIdStart(userId)),
 
-        deleteAFeedbackRedux: (id) => dispatch(actions.deleteAFeedback(id))
+        deleteAFeedbackRedux: (id) => dispatch(actions.deleteAFeedback(id)),
+                deleteAFeedback: (id) => dispatch(actions.deleteAFeedbackk(id))
+
     };
 };
 

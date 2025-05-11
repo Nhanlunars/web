@@ -17,7 +17,7 @@ const getRole = (inputRole) => {
 
 const createNewUserService = (data) => {
     //console.log('check data from service: ', data)
-    return axios.post('/api/create-new-user1', data)
+    return axios.post('/api/create-new-user', data)
 }
 
 const deleteUserService = (userId) => {
@@ -47,6 +47,10 @@ const getAllLocationByUserId = (inputId) => {
     //tamplate string
     return axios.get(`/api/get-all-location-by-userId?user_id=${inputId}`)
 }
+
+const searchLocations = (keyword) => {
+    return axios.get(`/api/find-location?keyword=${keyword}`);
+};
 
 const createNewLocationService = (data) => {
     //console.log('check data from service: ', data)
@@ -323,7 +327,7 @@ export {
     createNewUserService, deleteUserService,
     editUserService, getAllCodeService,
     getAllLocations, createNewLocationService, getAllLocationByUserId, 
-    deleteLocationService, editLocationService,
+    deleteLocationService, editLocationService, searchLocations,
     getAllChargers, createNewChargerService, getAllChargerByUserId, 
     deleteChargerService, editChargerService,
     getAllTypes, createNewTypeService, getAllTypeByChargerId,
