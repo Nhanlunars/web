@@ -211,11 +211,10 @@ class LocationRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-location.add" />
               </div> <Search />
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="location_name" />
+                  Location name
                 </label>
                 <input
                   className="form-control"
@@ -228,7 +227,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="city" />
+                  City
                 </label>
                 <input
                   className="form-control"
@@ -241,7 +240,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="district" />
+                  District
                 </label>
                 <input
                   className="form-control"
@@ -254,7 +253,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="ward" />
+                  Ward
                 </label>
                 <input
                   className="form-control"
@@ -267,7 +266,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="lng" />
+                  Lng
                 </label>
                 <input
                   className="form-control"
@@ -280,7 +279,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="lat" />
+                  Lat
                 </label>
                 <input
                   className="form-control"
@@ -293,7 +292,7 @@ class LocationRedux extends Component {
               </div>
               <div className="col-9">
                 <label>
-                  <FormattedMessage id="Address" />
+                  Address
                 </label>
                 <input
                   className="form-control"
@@ -307,7 +306,7 @@ class LocationRedux extends Component {
               {userInfo.roleId === USER_ROLE.ADMIN ? (
                 <div className="col-3">
                   <label>
-                    <FormattedMessage id="user" />
+                    User
                   </label>
                   <select
                     className="form-control"

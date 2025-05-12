@@ -57,14 +57,14 @@ class TableManageLocation extends Component {
             <tr>
               <th>Location name</th>
               {userInfo.roleId === USER_ROLE.ADMIN ? <th> User name </th> : ""}
-              <th>city</th>
+              <th>City</th>
               <th>Address</th>
               <th>District</th>
 
               <th>Ward</th>
-              <th>lat</th>
+              <th>Lat</th>
 
-              <th>lng</th>
+              <th>Lng</th>
               <th>Actions</th>
             </tr>
             {arrLocations &&

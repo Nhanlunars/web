@@ -183,12 +183,11 @@ class ChargerRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-charger.add" />
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="charger_name" />
+                  Charger name
                 </label>
                 <input
                   className="form-control"
@@ -201,7 +200,7 @@ class ChargerRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="capacity" />
+                  Capacity
                 </label>
                 <input
                   className="form-control"
