@@ -258,7 +258,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Password" />
+                  Password
                 </label>
                 <input
                   className="form-control"
@@ -274,7 +274,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="First name" />
+                  First name
                 </label>
                 <input
                   className="form-control"
@@ -293,7 +293,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Last name" />
+                  Last name
                 </label>
                 <input
                   className="form-control"
