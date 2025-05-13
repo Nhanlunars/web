@@ -96,13 +96,12 @@ class ChargerRedux extends Component {
           installation_date: this.state.installation_date,
           last_maintence_date: this.state.last_maintence_date,
           location_id: this.state.location,
-          
         });
       }
     }
-    
+
     if (USER_ROLE.OWNER === userInfo.roleId) {
-        if (action === CRUD_ACTIONS.CREATE) {
+      if (action === CRUD_ACTIONS.CREATE) {
         //fire redux create charger
         this.props.createNewCharger({
           charger_name: this.state.charger_name,
@@ -130,10 +129,7 @@ class ChargerRedux extends Component {
 
   checkValidateInput = () => {
     let isValid = true;
-    let arrCheck = [
-      "charger_name",
-      "capacity",
-    ];
+    let arrCheck = ["charger_name", "capacity"];
     for (let i = 0; i < arrCheck.length; i++) {
       if (!this.state[arrCheck[i]]) {
         isValid = false;
@@ -181,13 +177,10 @@ class ChargerRedux extends Component {
         <div className="charger-redux-body">
           <div className="container">
             <div className="row">
-              <div className="col-12 my-3">
-              </div>
+              <div className="col-12 my-3"></div>
 
               <div className="col-3">
-                <label>
-                  Charger name
-                </label>
+                <label>Charger name</label>
                 <input
                   className="form-control"
                   type="location_name"
@@ -198,9 +191,7 @@ class ChargerRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Capacity
-                </label>
+                <label>Capacity</label>
                 <input
                   className="form-control"
                   type="text"
@@ -212,9 +203,7 @@ class ChargerRedux extends Component {
               </div>
 
               <div className="col-3">
-                <label>
-                  Installation date
-                </label>
+                <label>Installation date</label>
                 {/*<input className='form-control' type='text'
                                     value={installation_date}
                                     onChange={(event) => { this.onChangeInput(event, 'installation_date') }}
@@ -232,9 +221,7 @@ class ChargerRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Last maintence date
-                </label>
+                <label>Last maintence date</label>
                 {/*<input className='form-control' type='text'
                                     value={last_maintence_date}
                                     onChange={(event) => { this.onChangeInput(event, 'last_maintence_date') }}
@@ -252,9 +239,7 @@ class ChargerRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Location
-                </label>
+                <label>Location</label>
                 <select
                   className="form-control"
                   value={location}
@@ -283,11 +268,9 @@ class ChargerRedux extends Component {
                   }
                   onClick={() => this.handlesaveCharger()}
                 >
-                  {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    "Edit               " 
-                  ) : (
-                    "Create    " 
-                  )}
+                  {this.state.action === CRUD_ACTIONS.EDIT
+                    ? "Edit               "
+                    : "Create    "}
                 </button>
               </div>
 
