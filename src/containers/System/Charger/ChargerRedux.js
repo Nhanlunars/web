@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
-import { CRUD_ACTIONS, CommonUtils, USER_ROLE } from "../../../utils";
+import { CRUD_ACTIONS, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
 import "./ChargerRedux.scss";
 import Lightbox from "react-image-lightbox";
@@ -285,9 +284,9 @@ class ChargerRedux extends Component {
                   onClick={() => this.handlesaveCharger()}
                 >
                   {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
+                    "Edit               " 
                   ) : (
-                    <FormattedMessage id="Save    " />
+                    "Create    " 
                   )}
                 </button>
               </div>

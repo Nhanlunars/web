@@ -15,6 +15,7 @@ import MaintenanceRedux from '../containers/System/Maintenance/MaintenanceRedux'
 import NotificationRedux from '../containers/System/Notification/NotificationRedux';
 import OtpRedux from '../containers/System/Otp/OtpRedux';
 import Header from '../containers/Header/Header';
+import Dashboard from '../containers/System/Dashboard/Dashboard';
 import "../styles/common.scss";
 
 
@@ -27,6 +28,7 @@ class System extends Component {
      <div className="system-container">
         <div className="system-list">
             <Switch>
+                <Route path="/system/dashboard" component={Dashboard} />
                 <Route path="/system/user-manage" component={UserManage} />
                 <Route path="/system/user-management" component={UserRedux} />
                 <Route path="/system/location-management" component={LocationRedux} />

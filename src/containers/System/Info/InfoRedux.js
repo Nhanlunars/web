@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, CommonUtils, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -178,7 +177,7 @@ class InfoRedux extends Component {
 
     let users = this.state.userArr;
 
-    let { user_id, bank_name, account_number, account_name, picture } =
+    let { user_id, bank_name, account_number, account_name } =
       this.state;
     return (
       <div className="info-redux-container">
@@ -258,7 +257,7 @@ class InfoRedux extends Component {
               )}
               <div className="col-3">
                 <label>
-                  Avatar
+                  QR picture
                 </label>
                 <div className="preview-image-container">
                   <input
@@ -290,9 +289,9 @@ class InfoRedux extends Component {
                   onClick={() => this.handlesaveInfo()}
                 >
                   {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
+                    "Edit               " 
                   ) : (
-                    <FormattedMessage id="Save    " />
+                    "Create    " 
                   )}
                 </button>
               </div>

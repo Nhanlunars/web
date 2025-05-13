@@ -2,6 +2,7 @@ import actionTypes from "./actionTypes";
 import { toast } from "react-toastify";
 import {
   getAllNotifications,
+  getAllNotificationsByOwwnerId,
   createNewNotificationService,
   deleteNotificationService,
   editNotificationService,
@@ -36,7 +37,7 @@ export const createNewNotificationn = (data) => {
       if (res && res.errCode === 0) {
         toast.success("create a new notification success!");
         dispatch(saveNotificationSuccess());
-        dispatch(fetchAllNotificationsStart());
+        dispatch(fetchAllNotificationsByOwnerIdStart(data.userId));
       } else {
         toast.error("create a new notification faild!!");
         dispatch(saveNotificationFailed());
@@ -85,6 +86,36 @@ export const fetchAllNotificationsFailed = () => ({
   type: actionTypes.FETCH_ALL_NOTIFICATIONS_FAILED,
 });
 
+export const fetchAllNotificationsByOwnerIdStart = (userId) => {
+  return async (dispatch, getstate) => {
+    try {
+      let res = await getAllNotificationsByOwwnerId(userId);
+      if (res && res.errCode === 0) {
+        dispatch(
+          fetchAllNotificationsByOwnerIdSuccess(res.notifications.reverse())
+        );
+      } else {
+        toast.error("fetch all notification by ownerid error!");
+        dispatch(fetchAllNotificationsByOwnerIdFailed());
+        console.log("fetchAllNotificationsByOwnerIdFailed", res);
+      }
+    } catch (e) {
+      toast.error("fetch all notification by ownerid error!!");
+      dispatch(fetchAllNotificationsByOwnerIdFailed());
+      console.log("fetchAllNotificationsByOwnerIdFailed!!", e);
+    }
+  };
+};
+
+export const fetchAllNotificationsByOwnerIdSuccess = (data) => ({
+  type: actionTypes.FETCH_ALL_NOTIFICATIONS_BY_USERID_SUCCESS,
+  notifications: data,
+});
+
+export const fetchAllNotificationsByOwnerIdFailed = () => ({
+  type: actionTypes.FETCH_ALL_NOTIFICATIONS_BY_USERID_FAILED,
+});
+
 export const deleteANotification = (notificationId) => {
   return async (dispatch, getstate) => {
     try {
@@ -106,15 +137,15 @@ export const deleteANotification = (notificationId) => {
   };
 };
 
-export const deleteANotificationn = (notificationId) => {
+export const deleteANotificationn = (data) => {
   return async (dispatch, getstate) => {
     try {
-      let res = await deleteNotificationService(notificationId);
+      let res = await deleteNotificationService(data.id);
       //console.log('check create user redux', res)
       if (res && res.errCode === 0) {
         toast.success("delete the notification success!");
         dispatch(deleteNotificationSuccess());
-        dispatch(fetchAllNotificationsStart());
+        dispatch(fetchAllNotificationsByOwnerIdStart(data.userId));
       } else {
         toast.error("delete the notification error!");
         dispatch(deleteNotificationFailed());
@@ -165,7 +196,7 @@ export const editANotificationn = (data) => {
       if (res && res.errCode === 0) {
         toast.success("Update the notification success!");
         dispatch(editNotificationSuccess());
-        dispatch(fetchAllNotificationsStart());
+        dispatch(fetchAllNotificationsByOwnerIdStart(data.userId));
       } else {
         toast.error("Update the notification error!");
         dispatch(editNotificationFailed());

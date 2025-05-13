@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -97,7 +96,6 @@ class ReservationRedux extends Component {
         start_time: "",
         end_time: "",
         note: "",
-        status: "",
         user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : "",
         charger_id:
           arrChargers && arrChargers.length > 0 ? arrChargers[0].id : "",
@@ -223,14 +221,10 @@ class ReservationRedux extends Component {
         <div className="reservation-redux-body">
           <div className="container">
             <div className="row">
-              <div className="col-12 my-3">
-                
-              </div>
+              <div className="col-12 my-3"></div>
 
               <div className="col-3">
-                <label>
-                  Time start
-                </label>
+                <label>Time start</label>
                 <Flatpickr
                   data-enable-time
                   className="form-control"
@@ -241,9 +235,7 @@ class ReservationRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Time end
-                </label>
+                <label>Time end</label>
                 {/*<input className='form-control' type='text'
                                     value={end_time}
                                     onChange={(event) => { this.onChangeInput(event, 'end_time') }}
@@ -258,9 +250,7 @@ class ReservationRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Note
-                </label>
+                <label>Note</label>
                 <input
                   className="form-control"
                   type="text"
@@ -271,9 +261,7 @@ class ReservationRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Status
-                </label>
+                <label>Status</label>
                 <select
                   className="form-control"
                   value={status}
@@ -293,9 +281,7 @@ class ReservationRedux extends Component {
                 </select>
               </div>
               <div className="col-3">
-                <label>
-                  User
-                </label>
+                <label>User</label>
                 <select
                   className="form-control"
                   value={user_id}
@@ -316,9 +302,7 @@ class ReservationRedux extends Component {
               </div>
 
               <div className="col-3">
-                <label>
-                  Charger
-                </label>
+                <label>Charger</label>
                 <select
                   className="form-control"
                   value={charger_id}
@@ -338,9 +322,7 @@ class ReservationRedux extends Component {
               </div>
 
               <div className="col-3">
-                <label>
-                  Type
-                </label>
+                <label>Type</label>
                 <select
                   className="form-control"
                   value={type_id /*?? types?.[0]?.id */}
@@ -369,11 +351,9 @@ class ReservationRedux extends Component {
                   }
                   onClick={() => this.handlesaveReservation()}
                 >
-                  {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
-                  ) : (
-                    <FormattedMessage id="Save    " />
-                  )}
+                  {this.state.action === CRUD_ACTIONS.EDIT
+                    ? "Edit               "
+                    : "Create    "}
                 </button>
               </div>
               <div className="col-12 mb-5">

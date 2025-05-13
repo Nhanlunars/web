@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -378,9 +377,9 @@ class MaintenanceRedux extends Component {
                   onClick={() => this.handlesaveMaintenance()}
                 >
                   {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
+                    "Edit               " 
                   ) : (
-                    <FormattedMessage id="Save    " />
+                    "Create    " 
                   )}
                 </button>
               </div>

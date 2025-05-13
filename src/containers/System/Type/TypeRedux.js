@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -174,14 +173,10 @@ class TypeRedux extends Component {
         <div className="type-redux-body">
           <div className="container">
             <div className="row">
-              <div className="col-12 my-3">
-                
-              </div>
+              <div className="col-12 my-3"></div>
 
               <div className="col-3">
-                <label>
-                  Type name
-                </label>
+                <label>Type name</label>
                 <input
                   className="form-control"
                   type="location_name"
@@ -192,9 +187,7 @@ class TypeRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Default price
-                </label>
+                <label>Default price</label>
                 <input
                   className="form-control"
                   type="text"
@@ -205,9 +198,7 @@ class TypeRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Describe
-                </label>
+                <label>Describe</label>
                 <input
                   className="form-control"
                   type="text"
@@ -218,9 +209,7 @@ class TypeRedux extends Component {
                 />
               </div>
               <div className="col-3">
-                <label>
-                  Status
-                </label>
+                <label>Status</label>
                 <select
                   className="form-control"
                   value={status}
@@ -241,9 +230,7 @@ class TypeRedux extends Component {
               </div>
 
               <div className="col-3">
-                <label>
-                  Charger
-                </label>
+                <label>Charger</label>
                 <select
                   className="form-control"
                   value={charger_id}
@@ -272,11 +259,9 @@ class TypeRedux extends Component {
                   }
                   onClick={() => this.handlesaveType()}
                 >
-                  {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
-                  ) : (
-                    <FormattedMessage id="Save    " />
-                  )}
+                  {this.state.action === CRUD_ACTIONS.EDIT
+                    ? "Edit               "
+                    : " Create"}
                 </button>
               </div>
               <div className="col-12 mb-5">

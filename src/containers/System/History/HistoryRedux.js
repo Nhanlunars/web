@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -53,7 +52,7 @@ class HistoryRedux extends Component {
       this.setState({
         userArr: arrUsers,
         user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : "",
-        a: "1",
+        
       });
     }
     if (prevProps.chargerRedux !== this.props.chargerRedux) {
@@ -62,13 +61,13 @@ class HistoryRedux extends Component {
         chargerArr: arrChargers,
         charger_id:
           arrChargers && arrChargers.length > 0 ? arrChargers[0].id : "",
-        a: "2",
+       
       });
     }
     if (prevState.charger_id !== this.state.charger_id) {
       this.props.getTypeStart(this.state.charger_id);
       this.setState({
-        a: "3",
+       
       });
     }
     if (prevProps.typeRedux !== this.props.typeRedux) {
@@ -76,7 +75,7 @@ class HistoryRedux extends Component {
       this.setState({
         typeArr: arrTypes,
         type_id: arrTypes && arrTypes.length > 0 ? arrTypes[0].id : "",
-        a: "4",
+        
       });
     }
 
@@ -85,7 +84,7 @@ class HistoryRedux extends Component {
       this.setState({
         statusArr: arrStatus,
         status: arrStatus && arrStatus.length > 0 ? arrStatus[0].keyMap : "",
-        a: "4",
+        
       });
     }
 
@@ -101,7 +100,6 @@ class HistoryRedux extends Component {
         number_start: "",
         number_end: "",
         cost: "",
-        status: "",
         user_id: arrUsers && arrUsers.length > 0 ? arrUsers[0].id : "",
         charger_id:
           arrChargers && arrChargers.length > 0 ? arrChargers[0].id : "",
@@ -427,9 +425,9 @@ class HistoryRedux extends Component {
                   onClick={() => this.handlesaveHistory()}
                 >
                   {this.state.action === CRUD_ACTIONS.EDIT ? (
-                    <FormattedMessage id="Edit               " />
+                    "Edit               " 
                   ) : (
-                    <FormattedMessage id="Save    " />
+                    "Create    " 
                   )}
                 </button>
               </div>

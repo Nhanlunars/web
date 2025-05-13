@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { FormattedMessage } from "react-intl";
 import { connect } from "react-redux";
 import { CRUD_ACTIONS, CommonUtils, USER_ROLE } from "../../../utils";
 import * as actions from "../../../store/actions";
@@ -312,7 +311,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Phone number" />
+                  Phone number
                 </label>
                 <input
                   className="form-control"
@@ -331,7 +330,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-9">
                 <label>
-                  <FormattedMessage id="Address" />
+                 Address
                 </label>
                 <input
                   className="form-control"
@@ -350,7 +349,7 @@ class UserRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Gender" />
+                  Gender
                 </label>
                 <select
                   className="form-control"
@@ -379,7 +378,7 @@ class UserRedux extends Component {
               {userInfo.roleId === USER_ROLE.ADMIN ? (
                 <div className="col-3">
                   <label>
-                    <FormattedMessage id="Role" />
+                    Role
                   </label>
                   <select
                     className="form-control"
@@ -405,7 +404,7 @@ class UserRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Avatar" />
+                  Avatar 
                 </label>
                 <div className="preview-image-container">
                   <input
@@ -444,9 +443,9 @@ class UserRedux extends Component {
                     onClick={() => this.handlesaveUser()}
                   >
                     {this.state.action === CRUD_ACTIONS.EDIT ? (
-                      <FormattedMessage id="Edit        " />
+                      "Edit        " 
                     ) : (
-                      <FormattedMessage id="Create    " />
+                      "Create    " 
                     )}
                   </button>
                 ) : (
@@ -461,7 +460,7 @@ class UserRedux extends Component {
                     {this.state.action === CRUD_ACTIONS.EDIT ? (
                       ""
                     ) : (
-                      <FormattedMessage id="Create    " />
+                      "Create    " 
                     )}
                   </button>
                 )}
