@@ -187,12 +187,12 @@ class InfoRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-info.add" />
+               
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="bank_name" />
+                  Bank name
                 </label>
                 <input
                   className="form-control"
@@ -205,7 +205,7 @@ class InfoRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="account_number" />
+                  Account number
                 </label>
                 <input
                   className="form-control"
@@ -218,7 +218,7 @@ class InfoRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="account_name" />
+                  Account name
                 </label>
                 <input
                   className="form-control"
@@ -233,7 +233,7 @@ class InfoRedux extends Component {
               {userInfo.roleId === USER_ROLE.ADMIN ? (
                 <div className="col-3">
                   <label>
-                    <FormattedMessage id="user" />
+                    User
                   </label>
                   <select
                     className="form-control"
@@ -258,7 +258,7 @@ class InfoRedux extends Component {
               )}
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Avatar" />
+                  Avatar
                 </label>
                 <div className="preview-image-container">
                   <input

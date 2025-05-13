@@ -248,12 +248,12 @@ class HistoryRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-location.add" />
+               
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Time start" />
+                  Time start
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={start_time}
@@ -271,7 +271,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Time end" />
+                  Time end
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={end_time}
@@ -288,7 +288,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="number_start" />
+                  Number start
                 </label>
                 <input
                   className="form-control"
@@ -301,7 +301,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="number_end" />
+                  Number end
                 </label>
                 <input
                   className="form-control"
@@ -314,7 +314,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="cost" />
+                  Cost
                 </label>
                 <input
                 disabled
@@ -328,7 +328,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Status" />
+                  Status
                 </label>
                 <select
                   className="form-control"
@@ -350,7 +350,7 @@ class HistoryRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="user" />
+                  User
                 </label>
                 <select
                   className="form-control"
@@ -373,7 +373,7 @@ class HistoryRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Charger" />
+                  Charger
                 </label>
                 <select
                   className="form-control"
@@ -396,7 +396,7 @@ class HistoryRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Type" />
+                  Type
                 </label>
                 <select
                   className="form-control"

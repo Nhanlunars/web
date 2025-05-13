@@ -186,12 +186,12 @@ class FeedbackRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-location.add" />
+              
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Comment" />
+                  Comment
                 </label>
                 <input
                   className="form-control"
@@ -204,7 +204,7 @@ class FeedbackRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Rating" />
+                  Rating
                 </label>
                 <input
                   className="form-control"
@@ -217,7 +217,7 @@ class FeedbackRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="User" />
+                  User
                 </label>
                 <select
                   className="form-control"
@@ -241,7 +241,7 @@ class FeedbackRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Charger" />
+                  Charger
                 </label>
                 <select
                   className="form-control"
@@ -264,7 +264,7 @@ class FeedbackRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Type" />
+                  Type
                 </label>
                 <select
                   className="form-control"

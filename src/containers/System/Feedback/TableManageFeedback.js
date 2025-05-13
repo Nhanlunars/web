@@ -53,11 +53,11 @@ class TableManageFeedback extends Component {
                 <table id="TableManageFeedback">
                     <tbody>
                         <tr>
-                            <th>User id</th>
-                            <th>Charger id</th>
-                            <th>Type id</th>
-                            <th>rating</th>
-                            <th>comment</th>
+                            <th>User name</th>
+                            <th>Charger name</th>
+                            <th>Type name</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
                             <th>Actions</th>
                         </tr>
                         {arrFeedbacks && arrFeedbacks.length > 0 &&

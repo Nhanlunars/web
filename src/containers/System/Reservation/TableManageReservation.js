@@ -58,9 +58,9 @@ class TableManageReservation extends Component {
         <table id="TableManageReservation">
           <tbody>
             <tr>
-              <th>User id</th>
-              <th>Charger id</th>
-              <th>Type id</th>
+              <th>User name</th>
+              <th>Charger name</th>
+              <th>Type name</th>
               <th>Time start</th>
               <th>Time end</th>
               <th>Note</th>
