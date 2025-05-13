@@ -218,12 +218,12 @@ class MaintenanceRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-location.add" />
+                
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="maintenance_date" />
+                  Maintenance date
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={maintenance_date}
@@ -243,7 +243,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="completion_date" />
+                  Completion date
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={completion_date}
@@ -263,7 +263,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="maintenance_type" />
+                  Maintenance type
                 </label>
                 <input
                   className="form-control"
@@ -276,7 +276,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="technician_name" />
+                  Technician name
                 </label>
                 <input
                   className="form-control"
@@ -289,7 +289,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="maintenance_cost" />
+                  Maintenance cost
                 </label>
                 <input
                   className="form-control"
@@ -302,7 +302,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Status" />
+                  Status
                 </label>
                 <select
                   className="form-control"
@@ -324,7 +324,7 @@ class MaintenanceRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Charger" />
+                  Charger
                 </label>
                 <select
                   className="form-control"
@@ -347,7 +347,7 @@ class MaintenanceRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Type" />
+                  Type
                 </label>
                 <select
                   className="form-control"

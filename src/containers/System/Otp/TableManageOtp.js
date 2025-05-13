@@ -38,10 +38,10 @@ class TableManageOtp extends Component {
                 <table id="TableManageOtp">
                     <tbody>
                         <tr>
-                            <th>User id</th>
-                            <th>code</th>
-                            <th>expiry_date</th>
-                            <th>is_used</th>
+                            <th>User name</th>
+                            <th>Code</th>
+                            <th>Expiry date</th>
+                            <th>Is used</th>
                             <th>Actions</th>
                         </tr>
                         {arrOtps && arrOtps.length > 0 &&

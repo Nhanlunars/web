@@ -38,10 +38,10 @@ class TableManageNotification extends Component {
                 <table id="TableManageNotification">
                     <tbody>
                         <tr>
-                            <th>User id</th>
-                            <th>title</th>
-                            <th>message</th>
-                            <th>is_read</th>
+                            <th>User name</th>
+                            <th>Title</th>
+                            <th>Message</th>
+                            <th>Is read</th>
                             <th>Actions</th>
                         </tr>
                         {arrNotifications && arrNotifications.length > 0 &&

@@ -56,9 +56,9 @@ class TableManageDevice extends Component {
           <tbody>
             <tr>
               {userInfo.roleId === USER_ROLE.ADMIN ? <th> User name </th> : ""}
-              <th>Charger id</th>
-              <th>Type id</th>
-              <th>fcm_token</th>
+              <th>Charger name</th>
+              <th>Type name</th>
+              <th>Fcm token</th>
               <th>Actions</th>
             </tr>
             {arrDevices &&

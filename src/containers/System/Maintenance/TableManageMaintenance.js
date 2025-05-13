@@ -56,13 +56,13 @@ class TableManageMaintenance extends Component {
         <table id="TableManageMaintenance">
           <tbody>
             <tr>
-              <th>Charger id</th>
-              <th>Type id</th>
-              <th>maintenance_date</th>
-              <th>completion_date</th>
-              <th>maintenance_type</th>
-              <th>technician_name</th>
-              <th>maintenance_cost</th>
+              <th>Charger name</th>
+              <th>Type name</th>
+              <th>Maintenance date</th>
+              <th>Completion date</th>
+              <th>Maintenance type</th>
+              <th>Technician name</th>
+              <th>Maintenance cost</th>
               <th>Actions</th>
             </tr>
             {arrMaintenances &&

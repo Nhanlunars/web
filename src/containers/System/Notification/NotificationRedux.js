@@ -129,25 +129,25 @@ this.props.getUserStart();
                 <div className='notification-redux-body'>
                     <div className='container'>
                         <div className='row'>
-                            <div className='col-12 my-3'><FormattedMessage id='manage.add' /></div>
+                            <div className='col-12 my-3'></div>
 
                             
                             <div className='col-3'>
-                                <label><FormattedMessage id='title' /></label>
+                                <label>Title</label>
                                 <input className='form-control' type='text'
                                     value={title}
                                     onChange={(event) => { this.onChangeInput(event, 'title') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='message' /></label>
+                                <label>Message</label>
                                 <input className='form-control' type='text'
                                     value={message}
                                     onChange={(event) => { this.onChangeInput(event, 'message') }}
                                 />
                             </div>
                             <div className='col-3'>
-                                <label><FormattedMessage id='is_read' /></label>
+                                <label>Is read </label>
                                 <input className='form-control' type="text"
                                     value={is_read}
                                     onChange={(event) => { this.onChangeInput(event, 'is_read') }}
@@ -155,7 +155,7 @@ this.props.getUserStart();
                             </div>
                             
                             <div className='col-3'>
-                                <label><FormattedMessage id='user' /></label>
+                                <label>User</label>
                                 <select className="form-control"
                                     value={user_id}
                                     onChange={(event) => { this.onChangeInput(event, 'user_id') }}
