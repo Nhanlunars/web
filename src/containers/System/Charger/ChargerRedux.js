@@ -214,7 +214,7 @@ class ChargerRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="installation_date" />
+                  Installation date
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={installation_date}
@@ -234,7 +234,7 @@ class ChargerRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="last_maintence_date" />
+                  Last maintence date
                 </label>
                 {/*<input className='form-control' type='text'
                                     value={last_maintence_date}
@@ -254,7 +254,7 @@ class ChargerRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="location" />
+                  Location
                 </label>
                 <select
                   className="form-control"

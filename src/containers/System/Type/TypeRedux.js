@@ -175,12 +175,12 @@ class TypeRedux extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 my-3">
-                <FormattedMessage id="manage-location.add" />
+                
               </div>
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="type_name" />
+                  Type name
                 </label>
                 <input
                   className="form-control"
@@ -193,7 +193,7 @@ class TypeRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="default_price" />
+                  Default price
                 </label>
                 <input
                   className="form-control"
@@ -206,7 +206,7 @@ class TypeRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="describe" />
+                  Describe
                 </label>
                 <input
                   className="form-control"
@@ -219,7 +219,7 @@ class TypeRedux extends Component {
               </div>
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Status" />
+                  Status
                 </label>
                 <select
                   className="form-control"
@@ -242,7 +242,7 @@ class TypeRedux extends Component {
 
               <div className="col-3">
                 <label>
-                  <FormattedMessage id="Charger" />
+                  Charger
                 </label>
                 <select
                   className="form-control"

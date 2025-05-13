@@ -53,10 +53,10 @@ class TableManageCharger extends Component {
           <tbody>
             <tr>
               <th>Charger name</th>
-              <th>capacity</th>
-              <th>installation_date</th>
-              <th>last_maintence_date</th>
-              <th>location name</th>
+              <th>Capacity</th>
+              <th>Installation date</th>
+              <th>Last maintence date</th>
+              <th>Location name</th>
               <th>Actions</th>
             </tr>
             {arrChargers &&
