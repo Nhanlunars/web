@@ -54,7 +54,7 @@ class TableManageType extends Component {
           <tbody>
             <tr>
               <th>Type name</th>
-              <th>Charger id</th>
+              <th>Charger name</th>
               <th>Describe</th>
               <th>Default price</th>
               <th>Status</th>
