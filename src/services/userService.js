@@ -169,15 +169,13 @@ const getAllHistorysbyUserId = (inputId) => {
 
 const getDashboardStats = (type) => {
   return axios.get(`/api/get-dashboard?type=${type}`);
-}; 
+};
 
 const getDashboardStatsByOwnerId = (data) => {
-  return axios.get(`/api/get-dashboard-by-owner`,{
+  return axios.get(`/api/get-dashboard-by-owner`, {
     params: data,
   });
 };
-
-
 
 const createNewHistoryService = (data) => {
   return axios.post("/api/create-history", data);

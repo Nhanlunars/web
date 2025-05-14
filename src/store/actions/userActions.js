@@ -103,7 +103,7 @@ export const fetchStatusSuccess = (statusData) => ({
 });
 
 export const fetchStatusFailed = () => ({
-  type: actionTypes.FETCH_STATUS_FAIDED,
+  type: actionTypes.FETCH_STATUS_FAILED,
 });
 
 export const createNewUser = (data) => {
