@@ -66,9 +66,6 @@ class HistoryRedux extends Component {
     }
     if (prevState.charger_id !== this.state.charger_id) {
       this.props.getTypeStart(this.state.charger_id);
-      this.setState({
-       
-      });
     }
     if (prevProps.typeRedux !== this.props.typeRedux) {
       let arrTypes = this.props.typeRedux;
