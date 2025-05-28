@@ -55,7 +55,7 @@ class TableManageType extends Component {
               <th>Type name</th>
               <th>Charger name</th>
               <th>Describe</th>
-              <th>Default price</th>
+              <th>Default price (VND)</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -67,7 +67,7 @@ class TableManageType extends Component {
                     <td>{item.type_name}</td>
                     <td>{item.charger.charger_name}</td>
                     <td>{item.describe}</td>
-                    <td>{item.default_price}</td>
+                    <td>{Number(item.default_price).toLocaleString('vi-VN')}</td>
                     <td>{item.status}</td>
                     <td>
                       <button

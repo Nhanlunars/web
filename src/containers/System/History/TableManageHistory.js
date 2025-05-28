@@ -60,7 +60,7 @@ class TableManageHistory extends Component {
               <th>Number start</th>
               <th>Number end</th>
               <th>Cost</th>
-              <th>Actions</th>
+              <th>Actions (VND)</th>
             </tr>
             {arrHistorys &&
               arrHistorys.length > 0 &&
@@ -110,7 +110,9 @@ class TableManageHistory extends Component {
                     <td>{item.number_start}</td>
 
                     <td>{item.number_end}</td>
-                    <td>{item.cost}</td>
+                    <td>
+                      {item.cost ? item.cost.toLocaleString("vi-VN") : "0"}
+                    </td>
                     <td>
                       <button
                         onClick={() => this.handleEditHistory(item)}
